@@ -1,0 +1,50 @@
+{
+  "name": "amazon-clone-nuxt-v4",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.864.0",
+    "@aws-sdk/lib-storage": "^3.864.0",
+    "algoliasearch": "^5.35.0",
+    "axios": "^1.11.0",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "express": "^5.1.0",
+    "h3": "^1.15.4",
+    "mongoose": "6.10.0",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "multer-s3": "^3.0.1",
+    "nuxt": "^4.0.3",
+    "nuxt-auth-utils": "0.5.23",
+    "stripe": "^18.4.0",
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1",
+    "vue-star-rating": "^2.1.0"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "devDependencies": {
+    "@bootstrap-vue-next/nuxt": "^0.30.4",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "bootstrap": "^5.3.7",
+    "bootstrap-vue-next": "^0.30.4",
+    "chokidar": "^4.0.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose-algolia": "^1.10.1",
+    "mongoose-deep-populate": "^3.2.0",
+    "sass": "^1.90.0",
+    "sass-embedded": "^1.90.0",
+    "vite-plugin-restart": "^1.0.0"
+  }
+}
