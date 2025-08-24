@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import Review from '../models/review.js'
-import Product from '../models/product.js'
+import Review from '../models/review'
+import Product from '../models/product'
 import verifyToken from '../middlewares/verify-token.js'
 import { upload } from '../middlewares/upload-photo.js'
 

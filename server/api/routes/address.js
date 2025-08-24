@@ -1,6 +1,6 @@
 import { Router } from "express";
-import Address from "../models/address.js";
-import User from "../models/user.js";
+import Address from "../models/address";
+import User from "../models/user";
 import verifyToken from "../middlewares/verify-token.js";
 import axios from "axios";
 
@@ -164,3 +164,16 @@ router.put("/addresses/set/default", verifyToken, async (req, res) => {
 });
 
 export default router;
+
+// server/api/addresses.ts
+
+
+// server/api/addresses/[id].ts
+
+
+// server/api/countries.ts
+
+
+
+// server/api/addresses/set/default.ts
+

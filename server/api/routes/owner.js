@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Owner from '../models/owner.js';
+import Owner from '../models/owner';
 import { upload } from '../middlewares/upload-photo.js';
 
 const router = Router();

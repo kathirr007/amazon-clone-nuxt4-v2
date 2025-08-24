@@ -28,13 +28,13 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'vercel',
   },
-  serverHandlers: [
+  /* serverHandlers: [
     {
       route: '/api/**',
       // middleware: true,
       handler: './server/api/index.js',
     }
-  ],
+  ], */
   modules: ['@bootstrap-vue-next/nuxt', 'nuxt-auth-utils'],
   css: ['bootstrap/dist/css/bootstrap.min.css'],
 })

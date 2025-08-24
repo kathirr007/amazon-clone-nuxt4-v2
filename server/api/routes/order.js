@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import Order from '../models/order.js'
+import Order from '../models/order'
 import verifyToken from '../middlewares/verify-token.js'
 
 const router = Router()

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import User from "../models/user.js";
+import User from "../models/user";
 import verifyToken from "../middlewares/verify-token.js";
 import jwt from "jsonwebtoken";
 

@@ -2,8 +2,8 @@ import { Router } from "express";
 import { add, format } from "date-fns";
 import Stripe from "stripe";
 import verifyToken from "../middlewares/verify-token.js";
-import User from "../models/user.js";
-import Order from "../models/order.js";
+import User from "../models/user";
+import Order from "../models/order";
 
 const router = Router();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);

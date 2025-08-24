@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 // import User from '../models/user.js';
@@ -23,20 +23,20 @@ import routes from './routes'
 // mongoose.set('useNewUrlParser', true);
 // mongoose.set('useCreateIndex', true);
 // mongoose.set('useUnifiedTopology', true);
-mongoose.set('strictQuery', true)
+// mongoose.set('strictQuery', true)
 
 dotenv.config();
 
 const app = express();
 
 // debugger
-mongoose.connect(process.env.DATABASEURI)
+/* mongoose.connect(process.env.DATABASEURI)
   .then(() => {
     console.log('Connected to the database..');
   })
   .catch(err => {
     console.log(err);
-  });
+  }); */
 
 // Middlewares
 app.use(morgan('dev'));
