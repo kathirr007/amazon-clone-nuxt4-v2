@@ -1,11 +1,25 @@
 import { H3Event } from 'h3'
 import Address from "~~/server/api/models/address"
-import User from "~~/server/api/models/user"
 import verifyToken  from "~~/server/api/middlewares/verifyToken"
-import axios from "axios"
+
+export default defineEventHandler(async (event: H3Event) => {
+  const method = event.method
+
+  switch (method) {
+    case 'GET':
+      return await getAllAddresses(event)
+    case 'POST':
+      return await createAddress(event) 
+    default:
+      throw createError({
+        statusCode: 405,
+        message: 'Method not allowed'
+      })
+  }
+})
 
 // Create new address
-export async function POST(event: H3Event) {
+async function createAddress(event: H3Event) {
   try {
     const body = await readBody(event)
     const decoded = await verifyToken(event)
@@ -35,7 +49,7 @@ export async function POST(event: H3Event) {
 }
 
 // Get all addresses
-export async function GET(event: H3Event) {
+async function getAllAddresses(event: H3Event) {
   try {
     const decoded = await verifyToken(event)
     const addresses = await Address.find({ user: (decoded as any)._id })

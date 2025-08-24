@@ -1,10 +1,27 @@
-import { H3Event, H3Error } from 'h3'
+import { H3Event } from 'h3'
 import Address from "~~/server/api/models/address"
-import User from "~~/server/api/models/user"
 import verifyToken  from "~~/server/api/middlewares/verify-token"
 
+export default defineEventHandler(async (event: H3Event) => {
+  const method = event.method
+
+  switch (method) {
+    case 'GET':
+      return await getSingleAddress(event)
+    case 'PUT':
+      return await updateAddress(event) 
+    case 'DELETE':
+      return await deleteAddress(event)
+    default:
+      throw createError({
+        statusCode: 405,
+        message: 'Method not allowed'
+      })
+  }
+})
+
 // Get single address
-export async function GET(event: H3Event) {
+async function getSingleAddress(event: H3Event) {
   try {
     const id = event.context.params?.id
     const address = await Address.findOne({ _id: id })
@@ -19,7 +36,7 @@ export async function GET(event: H3Event) {
 }
 
 // Update address
-export async function PUT(event: H3Event) {
+async function updateAddress(event: H3Event) {
   try {
     const id = event.context.params?.id
     const body = await readBody(event)
@@ -54,7 +71,7 @@ export async function PUT(event: H3Event) {
 }
 
 // Delete address
-export async function DELETE(event: H3Event) {
+async function deleteAddress(event: H3Event) {
   try {
     const id = event.context.params?.id
     const decoded = await verifyToken(event)
@@ -74,3 +91,5 @@ export async function DELETE(event: H3Event) {
     })
   }
 }
+
+
