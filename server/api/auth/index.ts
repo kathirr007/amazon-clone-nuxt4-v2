@@ -1,18 +1,40 @@
-
-// server/api/auth.ts
 import { H3Event } from 'h3'
 import jwt from 'jsonwebtoken'
-import User from '../models/user'
+import User from '~~/server/api/models/user'
 
-// Signup Route
-export const signupPOST = async (event: H3Event) => {
+export default defineEventHandler(async (event: H3Event) => {
+  const method = event.method
+  const url = getRequestURL(event)
+
+  if (url.pathname.endsWith('/auth/signup') && method === 'POST') {
+    return handleSignup(event)
+  }
+
+  if (url.pathname.endsWith('/auth/login') && method === 'POST') {
+    return handleLogin(event)
+  }
+
+  if (url.pathname.endsWith('/auth/user') && method === 'GET') {
+    return handleGetUser(event)
+  }
+
+  if (url.pathname.endsWith('/auth/user') && method === 'PUT') {
+    return handleUpdateUser(event)
+  }
+
+  throw createError({
+    statusCode: 405,
+    message: `Method ${method} Not Allowed`
+  })
+})
+
+/**
+ * ✅ SIGNUP
+ */
+async function handleSignup(event: H3Event) {
   const body = await readBody(event)
-  
   if (!body.email || !body.password) {
-    return {
-      success: false,
-      message: "Please enter email or password"
-    }
+    return { success: false, message: "Please enter email or password" }
   }
 
   try {
@@ -26,109 +48,86 @@ export const signupPOST = async (event: H3Event) => {
       expiresIn: 604800 // 1 week
     })
 
-    return {
-      success: true,
-      token,
-      message: "Successfully created new User"
-    }
+    return { success: true, token, message: "Successfully created new User" }
   } catch (err: any) {
-    return {
-      success: false,
-      message: err.message
-    }
+    return { success: false, message: err.message }
   }
 }
 
-// Get User Profile Route
-export const userGET = async (event: H3Event) => {
-  try {
-    const token = getHeader(event, 'authorization')?.replace('Bearer ', '')
-    if (!token) throw new Error('No token provided')
-
-    const decoded = jwt.verify(token, process.env.SECRET as string)
-    const foundUser = await User.findOne({ _id: (decoded as any)._id }).populate("address")
-
-    if (foundUser) {
-      return {
-        success: true,
-        user: foundUser
-      }
-    }
-  } catch (err: any) {
-    setResponseStatus(event, 500)
-    return {
-      success: false,
-      message: err.message
-    }
-  }
-}
-
-// Update Profile Route
-export const userPUT = async (event: H3Event) => {
-  try {
-    const token = getHeader(event, 'authorization')?.replace('Bearer ', '')
-    if (!token) throw new Error('No token provided')
-
-    const decoded = jwt.verify(token, process.env.SECRET as string)
-    const body = await readBody(event)
-    
-    const foundUser = await User.findOne({ _id: (decoded as any)._id })
-    
-    if (foundUser) {
-      if (body.name) foundUser.name = body.name
-      if (body.email) foundUser.email = body.email 
-      if (body.password) foundUser.password = body.password
-
-      await foundUser.save()
-      
-      return {
-        success: true,
-        message: `Successfully updated ${body.name} Profile`
-      }
-    }
-  } catch (err: any) {
-    setResponseStatus(event, 500)
-    return {
-      success: false, 
-      message: err.message
-    }
-  }
-}
-
-// Login Route
-export const loginPOST = async (event: H3Event) => {
+/**
+ * ✅ LOGIN
+ */
+async function handleLogin(event: H3Event) {
   try {
     const body = await readBody(event)
     const foundUser = await User.findOne({ email: body.email })
 
     if (!foundUser) {
-      return {
-        success: false,
-        message: "Authentication failed, User not found"
-      }
+      return { success: false, message: "Authentication failed, User not found" }
     }
 
     if (foundUser.comparePassword(body.password)) {
       const token = jwt.sign(foundUser.toJSON(), process.env.SECRET as string, {
-        expiresIn: 604800 // 1 week
+        expiresIn: 604800
       })
 
-      return {
-        success: true,
-        token
-      }
+      return { success: true, token }
     } else {
-      return {
-        success: false,
-        message: "Authentication failed, password is wrong!"
-      }
+      return { success: false, message: "Authentication failed, password is wrong!" }
     }
   } catch (err: any) {
     setResponseStatus(event, 500)
-    return {
-      success: false,
-      message: err.message
-    }
+    return { success: false, message: err.message }
   }
 }
 
+/**
+ * ✅ GET USER PROFILE
+ */
+async function handleGetUser(event: H3Event) {
+  try {
+    const token = getHeader(event, 'authorization')?.replace('Bearer ', '')
+    if (!token) throw new Error('No token provided')
+
+    const decoded = jwt.verify(token, process.env.SECRET as string)
+    const foundUser = await User.findOne({ _id: (decoded as any)._id }).populate('address')
+
+    if (foundUser) {
+      return { success: true, user: foundUser }
+    }
+
+    return { success: false, message: "User not found" }
+  } catch (err: any) {
+    setResponseStatus(event, 500)
+    return { success: false, message: err.message }
+  }
+}
+
+/**
+ * ✅ UPDATE USER PROFILE
+ */
+async function handleUpdateUser(event: H3Event) {
+  try {
+    const token = getHeader(event, 'authorization')?.replace('Bearer ', '')
+    if (!token) throw new Error('No token provided')
+
+    const decoded = jwt.verify(token, process.env.SECRET as string)
+    const body = await readBody(event)
+
+    const foundUser = await User.findOne({ _id: (decoded as any)._id })
+    if (foundUser) {
+      if (body.name) foundUser.name = body.name
+      if (body.email) foundUser.email = body.email
+      if (body.password) foundUser.password = body.password
+
+      await foundUser.save()
+
+      return { success: true, message: `Successfully updated ${body.name} Profile` }
+    }
+
+    return { success: false, message: "User not found" }
+  } catch (err: any) {
+    setResponseStatus(event, 500)
+    return { success: false, message: err.message }
+  }
+}
