@@ -9,8 +9,6 @@ const s3 = new S3Client({
   }
 });
 
-console.log(typeof multerS3)
-
 // debugger
 const upload = multer({
   storage: multerS3({

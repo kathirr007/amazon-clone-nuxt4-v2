@@ -1,5 +1,5 @@
 import { H3Event } from "h3"
-import verifyToken from "~~/server/api/middlewares/verify-token"
+import { verifyUser } from "~~/server/api/auth/utils"
 import User from "~~/server/api/models/user"
 
 
@@ -22,17 +22,18 @@ export default defineEventHandler(async (event: H3Event) => {
 async function setDefaultAddress(event: H3Event) {
   try {
     const body = await readBody(event)
-    const decoded = await verifyToken(event)
+    const { auth } = await verifyUser(event)
+
 
     const updatedAddressUser = await User.findOneAndUpdate(
-      { _id: (decoded as any)._id },
+      { _id: auth._id },
       { $set: { address: body.id } }
     )
 
     if (updatedAddressUser) {
       return { success: true, message: "Default Address has been set successfully" }
     }
-  } catch (err:any) {
+  } catch (err: any) {
     throw createError({
       statusCode: 500,
       message: err.message

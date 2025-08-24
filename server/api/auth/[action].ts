@@ -4,30 +4,17 @@ import User from '~~/server/api/models/user'
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
-  const url = getRequestURL(event)
+  const action = getRouterParam(event, 'action')
 
-  console.log(method)
-  console.log(url.pathname)
 
-  if (url.pathname.endsWith('/auth/signup') && method === 'POST') {
-    return handleSignup(event)
-  }
-
-  if (url.pathname.endsWith('/auth/login') && method === 'POST') {
-    return handleLogin(event)
-  }
-
-  if (url.pathname.endsWith('/auth/user') && method === 'GET') {
-    return handleGetUser(event)
-  }
-
-  if (url.pathname.endsWith('/auth/user') && method === 'PUT') {
-    return handleUpdateUser(event)
-  }
+  if (action === 'login' && method === 'POST') return handleLogin(event)
+  if (action === 'signup' && method === 'POST') return handleSignup(event)
+  if (action === 'getUser' && method === 'GET') return handleGetUser(event)
+  if (action === 'updateUser' && method === 'PUT') return handleGetUser(event)
 
   throw createError({
-    statusCode: 405,
-    message: `Method ${method} Not Allowed`
+    statusCode: 404,
+    message: `Not Found api router`
   })
 })
 

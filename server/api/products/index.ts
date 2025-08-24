@@ -3,9 +3,9 @@ import { H3Event } from 'h3'
 import {Product} from '~~/server/api/models/product'
 
 export default defineEventHandler(async (event: H3Event) => {
-//   const method = getMethod(event)
+  const method = event.method
 
-  switch (event.method) {
+  switch (method) {
     case 'GET': {
       return await handleGetProducts(event)
     }
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event: H3Event) => {
     default:
       throw createError({
         statusCode: 405,
-        message: `Method ${event.method} Not Allowed`
+        message: `Method ${method} Not Allowed`
       })
   }
 })

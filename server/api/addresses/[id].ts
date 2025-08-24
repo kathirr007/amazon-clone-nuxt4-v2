@@ -1,6 +1,6 @@
 import { H3Event } from 'h3'
 import Address from "~~/server/api/models/address"
-import verifyToken  from "~~/server/api/middlewares/verify-token"
+import { verifyUser } from '~~/server/api/auth/utils'
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
@@ -9,7 +9,7 @@ export default defineEventHandler(async (event: H3Event) => {
     case 'GET':
       return await getSingleAddress(event)
     case 'PUT':
-      return await updateAddress(event) 
+      return await updateAddress(event)
     case 'DELETE':
       return await deleteAddress(event)
     default:
@@ -25,12 +25,12 @@ async function getSingleAddress(event: H3Event) {
   try {
     const id = event.context.params?.id
     const address = await Address.findOne({ _id: id })
-    
+
     return { success: true, address }
   } catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message 
+      message: err.message
     })
   }
 }
@@ -40,10 +40,11 @@ async function updateAddress(event: H3Event) {
   try {
     const id = event.context.params?.id
     const body = await readBody(event)
-    const decoded = await verifyToken(event)
+
+    const { auth } = await verifyUser(event)
 
     const foundAddress = await Address.findOne({
-      user: (decoded as any)._id,
+      user: auth._id,
       _id: id
     })
 
@@ -62,7 +63,7 @@ async function updateAddress(event: H3Event) {
     }
 
     return { success: true, message: "Successfully updated the address" }
-  } catch (err:any) {
+  } catch (err: any) {
     throw createError({
       statusCode: 500,
       message: err.message
@@ -74,17 +75,18 @@ async function updateAddress(event: H3Event) {
 async function deleteAddress(event: H3Event) {
   try {
     const id = event.context.params?.id
-    const decoded = await verifyToken(event)
+    const { auth } = await verifyUser(event)
+
 
     const deleteAddress = await Address.deleteOne({
-      user: (decoded as any)._id,
+      user: auth._id,
       _id: id
     })
 
     if (deleteAddress) {
       return { success: true, message: "Address has been deleted" }
     }
-  } catch (err:any) {
+  } catch (err: any) {
     throw createError({
       statusCode: 500,
       message: err.message

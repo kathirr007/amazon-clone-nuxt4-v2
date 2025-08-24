@@ -7,8 +7,27 @@ interface CategoryType {
   type: string
 }
 
+export default defineEventHandler(async (event: H3Event) => {
+  const method = event.method
+
+  switch (method) {
+    case 'GET':
+      return await getAllCategories()
+    case 'POST':
+      return await createCategory(event) 
+    case 'DELETE':
+      return await deletedCategoryById(event)
+      
+    default:
+      throw createError({
+        statusCode: 405,
+        message: 'Method not allowed'
+      })
+  }
+})
+
 // Create category
-export const POST = async (event: H3Event) => {
+const createCategory = async (event: H3Event) => {
   try {
     const body = await readBody<CategoryType>(event)
     const category = new Category()
@@ -30,7 +49,7 @@ export const POST = async (event: H3Event) => {
 }
 
 // Get all categories
-export const GET = async () => {
+const getAllCategories = async () => {
   try {
     const categories = await Category.find()
     return {
@@ -46,7 +65,7 @@ export const GET = async () => {
 }
 
 // Delete category by ID
-export const DELETE = async (event: H3Event) => {
+const deletedCategoryById = async (event: H3Event) => {
   try {
     const id = getRouterParam(event, 'id')
     const deletedCategory = await Category.findOneAndDelete({ _id: id })
@@ -64,3 +83,4 @@ export const DELETE = async (event: H3Event) => {
     })
   }
 }
+

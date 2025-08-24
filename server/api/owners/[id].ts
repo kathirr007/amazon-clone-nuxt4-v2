@@ -3,9 +3,26 @@
 import { H3Event } from 'h3'
 import Owner from '~~/server/api/models/owner'
 
+export default defineEventHandler(async (event: H3Event) => {
+  const method = event.method
+
+  switch (method) {
+    case 'GET':
+      return await getSingleOwner(event)
+    case 'PUT':
+      return await updateOwner(event) 
+    case 'DELETE':
+      return await deleteOwner(event)
+    default:
+      throw createError({
+        statusCode: 405,
+        message: 'Method not allowed'
+      })
+  }
+})
 
 // GET - Get single owner
-export const GET = defineEventHandler(async (event: H3Event) => {
+const getSingleOwner = async (event: H3Event) => {
   try {
     const id = getRouterParam(event, 'id')
     const owner = await Owner.findOne({ _id: id })
@@ -19,10 +36,10 @@ export const GET = defineEventHandler(async (event: H3Event) => {
       message: err.message
     })
   }
-})
+}
 
 // PUT - Update owner
-export const PUT = defineEventHandler(async (event: H3Event) => {
+const updateOwner = async (event: H3Event) => {
   try {
     const id = getRouterParam(event, 'id')
     const body = await readBody(event)
@@ -54,10 +71,10 @@ export const PUT = defineEventHandler(async (event: H3Event) => {
       message: err.message
     })
   }
-})
+}
 
 // DELETE - Delete owner
-export const DELETE = defineEventHandler(async (event: H3Event) => {
+const deleteOwner = async (event: H3Event) => {
   try {
     const id = getRouterParam(event, 'id')
     const deletedOwner = await Owner.findOneAndDelete({ _id: id })
@@ -74,4 +91,4 @@ export const DELETE = defineEventHandler(async (event: H3Event) => {
       message: err.message
     })
   }
-})
+}

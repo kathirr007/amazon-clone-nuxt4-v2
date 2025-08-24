@@ -1,7 +1,7 @@
 import jwt, { Secret } from 'jsonwebtoken'
 import { defineEventHandler, getHeaders } from 'h3'
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
   const headers = getHeaders(event)
   let token = headers['x-access-token'] || headers['authorization']
   const checkBearer = "Bearer "

@@ -14,6 +14,8 @@ export default defineEventHandler(async (event) => {
       })
     }
 
+    console.log(session)
+
     // @ts-ignore
     const products = await Order.find({ owner: session.user.id })
     // @ts-ignore
@@ -25,10 +27,10 @@ export default defineEventHandler(async (event) => {
       products
     }
 
-  } catch (err:any) {
+  } catch (err) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err instanceof Error ? err.message : "Internal server error"
     })
   }
 })

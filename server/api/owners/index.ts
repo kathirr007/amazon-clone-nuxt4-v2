@@ -3,8 +3,25 @@
 import { H3Event } from 'h3'
 import Owner from '~~/server/api/models/owner'
 
+export default defineEventHandler(async (event: H3Event) => {
+  const method = event.method
+
+  switch (method) {
+    case 'GET':
+      return await getAllOwners()
+    case 'POST':
+      return await createOwner(event) 
+
+    default:
+      throw createError({
+        statusCode: 405,
+        message: 'Method not allowed'
+      })
+  }
+})
+
 // POST - Create owner
-export const POST = defineEventHandler(async (event: H3Event) => {
+export const createOwner = async (event: H3Event) => {
   try {
     const body = await readBody(event)
     const formData = await readMultipartFormData(event)
@@ -28,10 +45,10 @@ export const POST = defineEventHandler(async (event: H3Event) => {
       message: err.message
     })
   }
-})
+}
 
 // GET - Get all owners
-export const GET = defineEventHandler(async () => {
+export const getAllOwners = async () => {
   try {
     const owners = await Owner.find()
     return {
@@ -44,5 +61,5 @@ export const GET = defineEventHandler(async () => {
       message: err.message
     })
   }
-})
+}
 
