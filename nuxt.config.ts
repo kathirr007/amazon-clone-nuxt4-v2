@@ -5,6 +5,9 @@ import VitePluginRestart from 'vite-plugin-restart'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  devServer: {
+    port: 4500,
+  },
   app: {
     head: {
       // title: process.env.npm_package_name || "",
@@ -25,6 +28,12 @@ export default defineNuxtConfig({
       ]
     },
   },
+  pinia: {
+    storesDirs: [
+      "~/stores/**",
+      // "./custom-folder/stores/**",
+    ],
+  },
   nitro: {
     preset: 'vercel',
   },
@@ -35,6 +44,14 @@ export default defineNuxtConfig({
       handler: './server/api/index.js',
     }
   ], */
-  modules: ['@bootstrap-vue-next/nuxt', 'nuxt-auth-utils'],
-  css: ['bootstrap/dist/css/bootstrap.min.css'],
+  modules: [
+    '@bootstrap-vue-next/nuxt',
+    'nuxt-auth-utils',
+    "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
+  ],
+  /*
+   ** Global CSS
+   */
+  css: ['bootstrap/dist/css/bootstrap.min.css', "@/assets/scss/main.scss"],
 })

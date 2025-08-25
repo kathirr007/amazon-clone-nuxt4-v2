@@ -29,9 +29,7 @@ const handleRefreshProduct = async () => {
     
     <div v-else>
       <pre>{{ products }}</pre>
-      <button type="button" @click="handleRefreshProduct" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-        Refresh Products
-      </button>
+      
     </div>
   </div>
 </template>
