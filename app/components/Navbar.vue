@@ -26,12 +26,12 @@
                 <div class="nav-sprite" id="nav-packard-glow-loc-icon"></div>
                 <div id="glow-ingress-block">
                   <span class="nav-line-1" id="glow-ingress-line1">Deliver to</span>
-                  <span
+                  <!-- <span
                     v-if="$auth.$state.user !== null && $auth.$state.user?.address !== undefined"
                     class="nav-line-2"
                     id="glow-ingress-line2"
                   >{{$auth.$state.user?.address.city}}</span>
-                  <span v-else class="nav-line-2" id="glow-ingress-line2">India</span>
+                  <span v-else class="nav-line-2" id="glow-ingress-line2">India</span> -->
                 </div>
               </nuxt-link>
             </div>
@@ -122,8 +122,8 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
+<!-- <script>
+import { mapState } from "pinia";
 import Search from "~/components/Search";
 
 export default {
@@ -136,9 +136,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getCartLength", "isAuthenticated", "authUser"]),
+    ...mapState(["getCartLength", "isAuthenticated", "authUser"]),
   }
 };
+</script> -->
+
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useCartStore } from '~/stores/useCartStore'
+import Search from "~/components/Search"
+
+const { user } = useUserSession()
+
+const cartStore = useCartStore()
+const { getCartLength, isAuthenticated, authUser } = storeToRefs(cartStore)
 </script>
 
 <style lang="scss" scoped>

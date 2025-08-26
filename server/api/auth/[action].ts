@@ -1,6 +1,8 @@
 import { H3Event } from 'h3'
 import jwt from 'jsonwebtoken'
 import User from '~~/server/api/models/user'
+import type { User as IUser } from "#auth-utils";
+
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
@@ -8,7 +10,9 @@ export default defineEventHandler(async (event: H3Event) => {
 
 
   if (action === 'login' && method === 'POST') return handleLogin(event)
+  if (action === 'authLogin' && method === 'POST') return handleAuthLogin(event)
   if (action === 'signup' && method === 'POST') return handleSignup(event)
+  if (action === 'authSignup' && method === 'POST') return handleAuthSignup(event)
   if (action === 'getUser' && method === 'GET') return handleGetUser(event)
   if (action === 'updateUser' && method === 'PUT') return handleGetUser(event)
 
@@ -45,12 +49,62 @@ async function handleSignup(event: H3Event) {
 }
 
 /**
+ * ✅ Auth SIGNUP
+ */
+async function handleAuthSignup(event: H3Event) {
+  // Clear the current user session
+  await clearUserSession(event);
+
+  const storage = useStorage("data");
+
+  // get email, password, name from the post body
+  const body = await readBody(event);
+  const { email, password, name } = body;
+  // check if email already exists in storage
+  const existingUser = await storage.getItem(email);
+  if (existingUser) {
+    return createError({
+      statusCode: 400,
+      statusMessage: "User already exists",
+    });
+  }
+
+  const user = {
+    name,
+    email,
+    createdAt: new Date(),
+  };
+
+  // if it doesn't, create a new user
+  await storage.setItem(email, {
+    ...user,
+    // make sure to has the password for security!
+    // never store plain text passwords!
+    password: await hashPassword(password),
+  });
+
+  await setUserSession(event, {
+    user,
+    loggedInAt: new Date(),
+  });
+
+  return {
+    email,
+    password,
+  };
+}
+
+/**
  * ✅ LOGIN
  */
 async function handleLogin(event: H3Event) {
   try {
+    const storage = useStorage("data");
     const body = await readBody(event)
+    console.log(body)
     const foundUser = await User.findOne({ email: body.email })
+    const user = await storage.getItem<IUser & { password?: string }>(body.email);
+
 
     if (!foundUser) {
       return { success: false, message: "Authentication failed, User not found" }
@@ -61,6 +115,11 @@ async function handleLogin(event: H3Event) {
         expiresIn: 604800
       })
 
+      await setUserSession(event, {
+        user: foundUser.toJSON(),
+        loggedInAt: new Date(),
+      });
+
       return { success: true, token }
     } else {
       return { success: false, message: "Authentication failed, password is wrong!" }
@@ -70,6 +129,39 @@ async function handleLogin(event: H3Event) {
     return { success: false, message: err.message }
   }
 }
+
+/**
+ * ✅ Auth LOGIN
+ */
+async function handleAuthLogin(event: H3Event) {
+  const storage = useStorage("data");
+  const { email, password } = await readBody(event);
+  const user = await storage.getItem<IUser & { password?: string }>(email);
+  if (!user) {
+    return createError({
+      statusCode: 400,
+      statusMessage: "Please check your email and password.",
+    });
+  }
+
+  const isPasswordValid = await verifyPassword(user?.password || "", password);
+
+  if (!isPasswordValid) {
+    return createError({
+      statusCode: 400,
+      statusMessage: "Please check your email and password.",
+    });
+  }
+
+  delete user.password;
+  await setUserSession(event, {
+    user,
+    loggedInAt: new Date(),
+  });
+
+  return await getUserSession(event);
+}
+
 
 /**
  * ✅ GET USER PROFILE

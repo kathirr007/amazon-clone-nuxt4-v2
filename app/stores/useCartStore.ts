@@ -88,11 +88,6 @@ export const useCartStore = defineStore('cart', () => {
 
   const getEstimatedDelivery = computed(() => shippingEstimatedDelivery.value)
 
-  const authUser = computed(() => null) // Placeholder, adjust as needed
-
-  const isAuthenticated = computed(() => null) // Placeholder, adjust as needed
-
-  const isAdmin = computed(() => false) // Placeholder, adjust as needed
 
   return {
     cart,
@@ -110,8 +105,5 @@ export const useCartStore = defineStore('cart', () => {
     getCartTotalPrice,
     getCartTotalPriceWithShipping,
     getEstimatedDelivery,
-    authUser,
-    isAuthenticated,
-    isAdmin
   }
 })

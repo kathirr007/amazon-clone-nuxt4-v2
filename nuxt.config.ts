@@ -49,6 +49,8 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
+    "vue3-carousel-nuxt",
+    "nuxt-rating",
   ],
   /*
    ** Global CSS
