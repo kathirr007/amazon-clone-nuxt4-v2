@@ -107,7 +107,7 @@ async function handleLogin(event: H3Event) {
     const storage = useStorage("data");
     const body = await readBody(event)
     console.log(body)
-    const foundUser = await User.findOne({ email: body.email })
+    const foundUser = await User.findOne({ email: body.email }).populate('address')
     const user = await storage.getItem<IUser & { password?: string }>(body.email);
 
 

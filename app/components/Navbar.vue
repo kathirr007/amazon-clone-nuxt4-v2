@@ -145,11 +145,34 @@ export default {
 import { storeToRefs } from 'pinia'
 import { useCartStore } from '~/stores/useCartStore'
 import Search from "~/components/Search"
+// import type { OrchestratedToast } from 'bootstrap-vue-next'
 
 const { user } = useUserSession()
+// const toast = useToastController()
 
 const cartStore = useCartStore()
 const { getCartLength, isAuthenticated, authUser } = storeToRefs(cartStore)
+/* 
+const firstRef = ref<OrchestratedToast>({
+  body: `${Math.random()}`,
+})
+
+const showToast = () => {
+  toast.create({
+    body: firstRef.value.body,
+    slots: {default: () => h('div', null, {default: () => `custom! ${firstRef.value.body}`})},
+  })
+  // Demonstration psuedocode, you can also import a component and use it
+  // const importedComponent () => {
+  //   create({
+  //     component: import('./MyToastComponent.vue'),
+  //   })
+  // }
+}
+
+onMounted(() => {
+  showToast()
+}) */
 </script>
 
 <style lang="scss" scoped>

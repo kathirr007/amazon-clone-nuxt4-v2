@@ -27,6 +27,8 @@ export default defineNuxtConfig({
         { rel: "stylesheet", href: "/css/default.css" }
       ]
     },
+    pageTransition: { name: 'slide-left', mode: 'out-in' },
+    layoutTransition: { name: 'slide-down', mode: 'out-in' }
   },
   pinia: {
     storesDirs: [

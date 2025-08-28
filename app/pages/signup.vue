@@ -190,17 +190,7 @@ useHead({
 definePageMeta({
   layout: 'admin',
   middleware: 'is-guest',
-  pageTransition: {
-    name: 'slide',
-    mode: 'out-in',
-    onBeforeEnter(el) {
-      if (!from) {
-        el.classList.add('slide-left')
-      } else {
-        el.classList.add('slide-right') 
-      }
-    }
-  }
+  
 })
 
 // Signup method
@@ -218,21 +208,32 @@ const onSignup = async () => {
     if (response.value.success) {
       await fetch()
 
-      toast.show({
+      const vNodeMessage = h('div', [
+              'Welcome ',
+              h('strong', `${userName}`)
+            ])
+
+      toast.create({
         title: 'Login',
-        content: `Welcome ${name.value}`,
+        body: '', // Optional, since we will use slots
+        slots: {
+          default: () => vNodeMessage
+        },
         variant: 'success',
-        autoHideDelay: 2000,
-        solid: true
+        progressProps: {
+          variant: 'success'
+        },
       })
 
-      router.push('/')
+      router.go('/')
     } else {
-      toast.show({
-        title: 'Signup Error',
-        content: response.value.message,
+      toast.create({
+        title: 'SignIn Error',
+        body: response.value.message,
         variant: 'danger',
-        solid: true
+        progressProps: {
+          variant: 'danger'
+        }
       })
     }
   } catch (err) {

@@ -16,29 +16,23 @@
                 <h1 class="a-spacing-small">Sign In</h1>
                 <!-- Email -->
                 <div class="a-row a-spacing-base">
-                  <label for="ap_customer_email" class="a-form-label"
-                    >Email</label
-                  >
+                  <label for="ap_customer_email" class="a-form-label">Email</label>
                   <input
                     type="email"
                     id="ap_customer_email"
                     v-model="email"
                     @keyup.enter.stop="onLogin"
-                    class="a-input-text form-control auth-atofocus auth-required-field auth-verification-request-info"
-                  />
+                    class="a-input-text form-control auth-atofocus auth-required-field auth-verification-request-info" />
                 </div>
                 <!-- Password -->
                 <div class="a-row a-spacing-base">
-                  <label for="ap_customer_password" class="a-form-label"
-                    >Password</label
-                  >
+                  <label for="ap_customer_password" class="a-form-label">Password</label>
                   <input
                     type="password"
                     id="ap_customer_password"
                     v-model="password"
                     @keyup.enter.stop="onLogin"
-                    class="a-input-text form-control auth-atofocus auth-required-field auth-verification-request-info"
-                  />
+                    class="a-input-text form-control auth-atofocus auth-required-field auth-verification-request-info" />
                   <div class="a-alert-container pl-0">
                     <div class="a-alert-content">
                       Password must be at least 6 characters
@@ -49,14 +43,11 @@
                 <div class="a-row a-spacing-extra-large mb-4">
                   <span class="a-button-primary">
                     <span class="a-button-inner">
-                      <span class="a-button-text" @click="onLogin"
-                        >Continue</span
-                      >
+                      <span class="a-button-text" @click="onLogin">Continue</span>
                     </span>
                   </span>
                   <div
-                    class="a-row a-spacing-top-medium a-size-small text-center"
-                  >
+                    class="a-row a-spacing-top-medium a-size-small text-center">
                     <b>
                       By creating an account, you agree to Amazon's
                       <a href="#">Conditions of use</a> and
@@ -68,9 +59,7 @@
                 <div class="a-row text-center">
                   <b>
                     Don't have account?
-                    <nuxt-link to="/signup" class="a-link-emphasis"
-                      >Signup</nuxt-link
-                    >
+                    <nuxt-link to="/signup" class="a-link-emphasis">Signup</nuxt-link>
                   </b>
                 </div>
               </div>
@@ -187,18 +176,6 @@ import { useToastController } from 'bootstrap-vue-next'
 definePageMeta({
   layout: 'admin',
   middleware: 'is-guest',
-  pageTransition: {
-    name: 'slide',
-    mode: 'out-in',
-    onBeforeEnter: (el, done) => {
-      if (!from) {
-        el.classList.add('slide-left')
-      } else {
-        el.classList.add('slide-right') 
-      }
-      done()
-    }
-  }
 })
 
 useHead({
@@ -235,19 +212,39 @@ const onLogin = async () => {
       await fetch()
 
       const userName = user.value.name
-      toast.show(`Welcome back ${userName}`, {
+      /* toast.show(`Welcome back ${userName}`, {
         title: 'Successful Login',
         variant: 'success',
         autoHideDelay: 2000,
         solid: true
+      }) */
+
+      const vNodeMessage = h('div', [
+        'Welcome back ',
+        h('strong', `${userName}`)
+      ])
+
+      toast.create({
+        title: 'Successful Login',
+        body: '', // Optional, since we will use slots
+        slots: {
+          default: () => vNodeMessage
+        },
+        variant: 'success',
+        progressProps: {
+          variant: 'success'
+        }
       })
 
-      router.push('/')
+      router.go('/')
     } else {
-      toast.show(response.message, {
+      toast.create({
         title: 'SignIn Error',
+        body: response.message,
         variant: 'danger',
-        solid: true
+        progressProps: {
+          variant: 'danger'
+        }
       })
     }
   } catch (err) {
@@ -257,5 +254,4 @@ const onLogin = async () => {
 
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

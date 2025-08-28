@@ -17,7 +17,6 @@ export default defineNuxtRouteMiddleware(() => {
   const isLoggedIn = auth.loggedIn */
 
   const { user, loggedIn } = useUserSession();
-  console.log('User in isGuest middleware:', user, loggedIn);
   if (user.value !== null || Boolean(loggedIn.value)) {
     return navigateTo('/')
   }
