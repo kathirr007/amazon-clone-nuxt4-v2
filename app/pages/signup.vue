@@ -166,10 +166,10 @@ export default {
 
 <script setup>
 import { ref } from 'vue'
-import { useToast } from 'bootstrap-vue-next'
+import { useToastController } from 'bootstrap-vue-next'
 import { useRouter } from 'vue-router'
-import { useAuth } from 'nuxt-auth-utils/client'
-import infoToastMixin from "~/mixins/infoToast"
+// import { useAuth } from 'nuxt-auth-utils/client'
+// import infoToastMixin from "~/mixins/infoToast"
 
 // Define reactive refs
 const name = ref('')
@@ -177,8 +177,9 @@ const email = ref('')
 const password = ref('')
 
 const router = useRouter()
-const toast = useToast()
-const auth = useAuth()
+const toast = useToastController()
+const { fetch, user } = useUserSession()
+
 
 // Page metadata
 useHead({
@@ -188,7 +189,7 @@ useHead({
 // Define page transition
 definePageMeta({
   layout: 'admin',
-  middleware: 'guest',
+  middleware: 'is-guest',
   pageTransition: {
     name: 'slide',
     mode: 'out-in',
@@ -215,10 +216,7 @@ const onSignup = async () => {
     })
 
     if (response.value.success) {
-      await auth.login({
-        email: email.value,
-        password: password.value
-      })
+      await fetch()
 
       toast.show({
         title: 'Login',

@@ -180,14 +180,13 @@ export default {
 </script> -->
 
 <script setup>
-import { useAuth } from 'nuxt-auth-utils'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useToast } from 'bootstrap-vue'
+import { useToastController } from 'bootstrap-vue-next'
 
 definePageMeta({
   layout: 'admin',
-  middleware: 'isGuest',
+  middleware: 'is-guest',
   pageTransition: {
     name: 'slide',
     mode: 'out-in',
@@ -206,9 +205,9 @@ useHead({
   title: 'Sign In'
 })
 
-const auth = useAuth()
+
 const router = useRouter()
-const toast = useToast()
+const toast = useToastController()
 
 const email = ref('')
 const password = ref('')

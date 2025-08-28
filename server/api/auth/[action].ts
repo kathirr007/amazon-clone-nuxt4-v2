@@ -42,6 +42,11 @@ async function handleSignup(event: H3Event) {
       expiresIn: 604800 // 1 week
     })
 
+    await setUserSession(event, {
+        user: newUser.toJSON(),
+        loggedInAt: new Date(),
+      });
+
     return { success: true, token, message: "Successfully created new User" }
   } catch (err: any) {
     return { success: false, message: err.message }

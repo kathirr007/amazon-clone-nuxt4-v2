@@ -26,12 +26,12 @@
                 <div class="nav-sprite" id="nav-packard-glow-loc-icon"></div>
                 <div id="glow-ingress-block">
                   <span class="nav-line-1" id="glow-ingress-line1">Deliver to</span>
-                  <!-- <span
-                    v-if="$auth.$state.user !== null && $auth.$state.user?.address !== undefined"
+                  <span
+                    v-if="user !== null && user?.address !== undefined"
                     class="nav-line-2"
                     id="glow-ingress-line2"
-                  >{{$auth.$state.user?.address.city}}</span>
-                  <span v-else class="nav-line-2" id="glow-ingress-line2">India</span> -->
+                  >{{user?.address.city}}</span>
+                  <span v-else class="nav-line-2" id="glow-ingress-line2">India</span>
                 </div>
               </nuxt-link>
             </div>
@@ -74,7 +74,7 @@
                 </span>
               </a>
               <span class="icp-nav-link-border"></span>
-              <template v-if="isAuthenticated">
+              <template v-if="user">
                 <nuxt-link
                   to="/profile"
                   class="nav-a nav-a-2"
@@ -82,7 +82,7 @@
                   tabindex="0"
                 >
                   <span class="nav-line-1">Hello,</span>
-                  <span class="nav-line-2">{{ authUser.name }}</span>
+                  <span class="nav-line-2">{{ user.name }}</span>
                 </nuxt-link>
               </template>
 
