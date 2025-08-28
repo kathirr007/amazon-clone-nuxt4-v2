@@ -207,6 +207,7 @@ const onSignup = async () => {
 
     if (response.value.success) {
       await fetch()
+      const userName = user.value.name
 
       const vNodeMessage = h('div', [
               'Welcome ',
