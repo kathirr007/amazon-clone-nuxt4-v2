@@ -106,4 +106,6 @@ export const useCartStore = defineStore('cart', () => {
     getCartTotalPriceWithShipping,
     getEstimatedDelivery,
   }
+}, {
+  persist: true,
 })

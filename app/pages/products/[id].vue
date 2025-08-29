@@ -140,7 +140,6 @@
                     :border-width="5"
                     :rating-size="16"
                     :rating-value="product.averageRating"
-                    @rating-selected="logRating"
                     @rating-hovered="event => (rating = event)" />
               </div>
               <!-- A tags Dummy data -->
