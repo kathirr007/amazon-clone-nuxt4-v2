@@ -1,5 +1,4 @@
 <template>
-  <!--MAIN-->
   <main>
     <!--SHOPPING CART-->
     <div class="shopping-cart mt-3">
@@ -115,7 +114,7 @@
                <!-- Cart Subtotal -->
                <p class="a-spacing-none a-spacing-top-mini">
                  <span class="a-size-medium"
-                   >Subtotal ({{ getCartLength }} item)</span
+                   >Subtotal ({{ cartLength }} item)</span
                  >
                  <span class="a-color-price a-text-bold">
                    <!-- Cart Total Price -->
@@ -148,7 +147,7 @@
                     <p class="a-spacing-none a-spacing-top-none">
                       <!-- Cart Subtotal -->
                       <span class="a-size-medium">
-                        <span>Subtotal ({{ getCartLength }} item):</span>
+                        <span>Subtotal ({{ cartLength }} item):</span>
                         <span class="a-color-price a-text-bold">
                           <!-- Cart Total Price  -->
                           <span class="a-size-medium a-color-price"
@@ -244,47 +243,7 @@
     </div>
     <!--/SHOPPING CART-->
   </main>
-  <!--/MAIN-->
 </template>
-
-<!-- <script>
-import { mapGetters } from "vuex";
-export default {
-  transition(to, from) {
-    if (!from) {
-      return "slide-left";
-    }
-    return "slide-right";
-  },
-  auth: false,
-  head() {
-    return {
-      title: `${
-        this.$auth.$state.user !== null
-          ? `${this.$auth.$state.user.name} | Shopping Cart`
-          : `Shoppint Cart`
-      }`,
-    };
-  },
-  computed: {
-    ...mapGetters(["getCart", "getCartTotalPrice", "getCartLength"]),
-  },
-  methods: {
-    onChangeQuantity(event, product) {
-      let qty = parseInt(event.target.value);
-      // debugger
-      this.$store.commit("changeQty", { product, qty });
-    },
-    checkQty(prodQty, qty) {
-      if (parseInt(prodQty) === parseInt(qty)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-  },
-};
-</script> -->
 
 <script setup>
 import { useCartStore } from '@/stores/useCartStore'
@@ -295,7 +254,7 @@ const auth = useAuth()
 const cartStore = useCartStore()
 
 // Destructure store refs
-const { cart, cartTotalPrice, cartLength } = storeToRefs(cartStore)
+const { cart, cartLength, getCartTotalPrice } = storeToRefs(cartStore)
 
 // Page transition
 definePageMeta({
