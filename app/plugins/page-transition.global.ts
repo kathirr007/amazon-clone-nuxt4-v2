@@ -8,20 +8,19 @@
 })
  */
 
-import type { RuntimeNuxtHooks } from "#app";
-
 // const hookKeys:HookKeys<RuntimeNuxtHooks> = 'page:transition'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('page:transition:finish', (to, from) => {
-    if (!from) return { name: 'fade', mode: 'out-in' };
+    if (!from)
+      return { name: 'fade', mode: 'out-in' }
 
-    const toDepth = to.fullPath.split('/').length;
-    const fromDepth = from.fullPath.split('/').length;
+    const toDepth = to.fullPath.split('/').length
+    const fromDepth = from.fullPath.split('/').length
 
     return {
       name: toDepth > fromDepth ? 'slide-left' : 'slide-right',
-      mode: 'out-in'
-    };
-  });
-});
+      mode: 'out-in',
+    }
+  })
+})

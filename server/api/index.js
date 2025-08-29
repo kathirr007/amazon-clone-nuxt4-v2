@@ -1,11 +1,11 @@
-import express from 'express';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
+import bodyParser from 'body-parser'
+import cors from 'cors'
 // import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import cors from 'cors';
+import dotenv from 'dotenv'
+import express from 'express'
 // import User from '../models/user.js';
 import { fromNodeMiddleware } from 'h3'
+import morgan from 'morgan'
 import routes from './routes'
 
 // import healthCheckRoutes from './routes/api-routes.js';
@@ -25,9 +25,9 @@ import routes from './routes'
 // mongoose.set('useUnifiedTopology', true);
 // mongoose.set('strictQuery', true)
 
-dotenv.config();
+dotenv.config()
 
-const app = express();
+const app = express()
 
 // debugger
 /* mongoose.connect(process.env.DATABASEURI)
@@ -39,12 +39,12 @@ const app = express();
   }); */
 
 // Middlewares
-app.use(morgan('dev'));
-app.use(cors());
+app.use(morgan('dev'))
+app.use(cors())
 app.set('json spaces', 2)
 app.use(express.json())
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // app.use(healthCheckRoutes);
 // app.use(productRoutes);

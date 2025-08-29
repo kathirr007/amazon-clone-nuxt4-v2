@@ -1,4 +1,4 @@
-import { H3Event } from 'h3'
+import type { H3Event } from 'h3'
 import jwt from 'jsonwebtoken'
 import User from '~~/server/api/models/user'
 
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
   throw createError({
     statusCode: 405,
-    message: `Method ${method} Not Allowed`
+    message: `Method ${method} Not Allowed`,
   })
 })
 
@@ -37,7 +37,7 @@ export default defineEventHandler(async (event: H3Event) => {
 async function handleSignup(event: H3Event) {
   const body = await readBody(event)
   if (!body.email || !body.password) {
-    return { success: false, message: "Please enter email or password" }
+    return { success: false, message: 'Please enter email or password' }
   }
 
   try {
@@ -48,11 +48,12 @@ async function handleSignup(event: H3Event) {
     newUser = await newUser.save()
 
     const token = jwt.sign(newUser.toJSON(), process.env.SECRET as string, {
-      expiresIn: 604800 // 1 week
+      expiresIn: 604800, // 1 week
     })
 
-    return { success: true, token, message: "Successfully created new User" }
-  } catch (err: any) {
+    return { success: true, token, message: 'Successfully created new User' }
+  }
+  catch (err: any) {
     return { success: false, message: err.message }
   }
 }
@@ -66,19 +67,21 @@ async function handleLogin(event: H3Event) {
     const foundUser = await User.findOne({ email: body.email })
 
     if (!foundUser) {
-      return { success: false, message: "Authentication failed, User not found" }
+      return { success: false, message: 'Authentication failed, User not found' }
     }
 
     if (foundUser.comparePassword(body.password)) {
       const token = jwt.sign(foundUser.toJSON(), process.env.SECRET as string, {
-        expiresIn: 604800
+        expiresIn: 604800,
       })
 
       return { success: true, token }
-    } else {
-      return { success: false, message: "Authentication failed, password is wrong!" }
     }
-  } catch (err: any) {
+    else {
+      return { success: false, message: 'Authentication failed, password is wrong!' }
+    }
+  }
+  catch (err: any) {
     setResponseStatus(event, 500)
     return { success: false, message: err.message }
   }
@@ -90,7 +93,8 @@ async function handleLogin(event: H3Event) {
 async function handleGetUser(event: H3Event) {
   try {
     const token = getHeader(event, 'authorization')?.replace('Bearer ', '')
-    if (!token) throw new Error('No token provided')
+    if (!token)
+      throw new Error('No token provided')
 
     const decoded = jwt.verify(token, process.env.SECRET as string)
     const foundUser = await User.findOne({ _id: (decoded as any)._id }).populate('address')
@@ -99,8 +103,9 @@ async function handleGetUser(event: H3Event) {
       return { success: true, user: foundUser }
     }
 
-    return { success: false, message: "User not found" }
-  } catch (err: any) {
+    return { success: false, message: 'User not found' }
+  }
+  catch (err: any) {
     setResponseStatus(event, 500)
     return { success: false, message: err.message }
   }
@@ -112,24 +117,29 @@ async function handleGetUser(event: H3Event) {
 async function handleUpdateUser(event: H3Event) {
   try {
     const token = getHeader(event, 'authorization')?.replace('Bearer ', '')
-    if (!token) throw new Error('No token provided')
+    if (!token)
+      throw new Error('No token provided')
 
     const decoded = jwt.verify(token, process.env.SECRET as string)
     const body = await readBody(event)
 
     const foundUser = await User.findOne({ _id: (decoded as any)._id })
     if (foundUser) {
-      if (body.name) foundUser.name = body.name
-      if (body.email) foundUser.email = body.email
-      if (body.password) foundUser.password = body.password
+      if (body.name)
+        foundUser.name = body.name
+      if (body.email)
+        foundUser.email = body.email
+      if (body.password)
+        foundUser.password = body.password
 
       await foundUser.save()
 
       return { success: true, message: `Successfully updated ${body.name} Profile` }
     }
 
-    return { success: false, message: "User not found" }
-  } catch (err: any) {
+    return { success: false, message: 'User not found' }
+  }
+  catch (err: any) {
     setResponseStatus(event, 500)
     return { success: false, message: err.message }
   }

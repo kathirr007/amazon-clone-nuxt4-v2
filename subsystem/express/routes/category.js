@@ -5,56 +5,59 @@ const router = Router()
 
 // POST request - create a new category
 router.post('/categories', async (req, res) => {
-    try {
-        let category = new Category()
-        category.type = req.body.type
+  try {
+    const category = new Category()
+    category.type = req.body.type
 
-        let newCategory = await category.save()
+    const newCategory = await category.save()
 
-        res.json({
-            status: true,
-            catAdded: newCategory,
-            message: 'Category is created Successfully...'
-        })
-    } catch(err) {
-        res.status(500).json({
-            success: false,
-            message: err.message
-        })
-    }
+    res.json({
+      status: true,
+      catAdded: newCategory,
+      message: 'Category is created Successfully...',
+    })
+  }
+  catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    })
+  }
 })
 
 // GET request - get categories
-router.get('/categories', async(req,res) => {
-    try {
-        let categories = await Category.find()
-        res.json({
-            success: true,
-            categories: categories
-        })
-    } catch(err) {
-        res.status(500).json({
-            success: false,
-            message: err.message
-        })
-    }
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = await Category.find()
+    res.json({
+      success: true,
+      categories,
+    })
+  }
+  catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    })
+  }
 })
 
 // DELETE request - delete a single category
-router.delete('/categories/:id', async(req,res) => {
+router.delete('/categories/:id', async (req, res) => {
   try {
-      let deletedCategory = await Category.findOneAndDelete({ _id: req.params.id })
-      if(deletedCategory) {
-          res.json({
-              status: true,
-              message: "Category is successfully deleted..."
-          })
-      }
-  } catch(err) {
-      res.status(500).json({
-          success: false,
-          message: err.message
+    const deletedCategory = await Category.findOneAndDelete({ _id: req.params.id })
+    if (deletedCategory) {
+      res.json({
+        status: true,
+        message: 'Category is successfully deleted...',
       })
+    }
+  }
+  catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    })
   }
 })
 

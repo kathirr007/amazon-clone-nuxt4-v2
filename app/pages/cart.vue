@@ -1,6 +1,48 @@
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useAuth } from '@/composables/useAuth'
+import { useCartStore } from '@/stores/useCartStore'
+
+const auth = useAuth()
+const cartStore = useCartStore()
+
+// Destructure store refs
+const { cart, cartLength, getCartTotalPrice } = storeToRefs(cartStore)
+
+// Page transition
+definePageMeta({
+  pageTransition: {
+    name: (to, from) => {
+      if (!from)
+        return 'slide-left'
+      return 'slide-right'
+    },
+    mode: 'out-in',
+
+  },
+})
+
+// Page meta
+useHead({
+  title: computed(() =>
+    auth.user ? `${auth.user.name} | Shopping Cart` : 'Shopping Cart',
+  ),
+})
+
+// Methods
+function onChangeQuantity(event, product) {
+  const qty = Number.parseInt(event.target.value)
+  cartStore.changeQty(product, qty)
+}
+
+function checkQty(prodQty, qty) {
+  return Number.parseInt(prodQty) === Number.parseInt(qty)
+}
+</script>
+
 <template>
   <main>
-    <!--SHOPPING CART-->
+    <!-- SHOPPING CART -->
     <div class="shopping-cart mt-3">
       <div class="container-fluid c-section">
         <div class="row">
@@ -15,11 +57,11 @@
                     <span class="a-color-secondary">Price</span>
                   </div>
                 </div>
-                  <!-- List of the item -->
+                <!-- List of the item -->
                 <div
-                  class="sc-list-body"
                   v-for="product in cart"
                   :key="product._id"
+                  class="sc-list-body"
                 >
                   <div class="sc-list-item-border">
                     <div class="a-row a-spacing-top-base a-spacing-base">
@@ -27,7 +69,7 @@
                         <!-- Product's Image -->
                         <div class="col-sm-2 col-2">
                           <a href="#" class="a-link-normal" :aria-label="product.title">
-                            <img :src="product.photo" class="img-fluid w-100" :alt="product.title" />
+                            <img :src="product.photo" class="img-fluid w-100" :alt="product.title">
                           </a>
                         </div>
                         <div class="col-sm-8 col-8">
@@ -36,30 +78,27 @@
                             <nuxt-link
                               :to="`/products/${product._id}`"
                               class="a-link-normal a-size-medium a-text-bold"
-                              >{{ product.title }}</nuxt-link
                             >
+                              {{ product.title }}
+                            </nuxt-link>
                             <!-- Product's Owner name -->
-                            <span class="a-size-base sc-product-creator"
-                              >by {{ product.owner.name }}</span
-                            >
+                            <span class="a-size-base sc-product-creator">by {{ product.owner.name }}</span>
                           </div>
                           <div>
                             <span
                               class="a-size-small a-color-secondary sc-product-binding"
-                              >Paperback</span
-                            >
+                            >Paperback</span>
                           </div>
                           <div>
                             <span
                               class="a-size-small a-color-success sc-product-availability"
-                              >In Stock</span
-                            >
+                            >In Stock</span>
                           </div>
                           <div
                             class="a-checkbox a-align-top a-size-small a-spacing-top-micro"
                           >
                             <label>
-                              <input type="checkbox" name value />
+                              <input type="checkbox" name value>
                               <span class="a-checkbox-label">
                                 This is a gift
                                 <span class="a-size-small">
@@ -91,8 +130,7 @@
                                 @click.prevent="
                                   $store.commit('removeProduct', product)
                                 "
-                                >Delete</a
-                              >
+                              >Delete</a>
                             </span>
                             &nbsp; &nbsp;
                           </div>
@@ -102,8 +140,7 @@
                           <p class="a-spacing-small">
                             <span
                               class="a-size-medium a-color-price sc-price sc-white-space-nowrap sc-product-price sc-price-sign a-text-bold"
-                              >${{ product.price * product.quantity }}</span
-                            >
+                            >${{ product.price * product.quantity }}</span>
                           </p>
                         </div>
                       </div>
@@ -111,32 +148,26 @@
                   </div>
                 </div>
                 <div class="text-right">
-               <!-- Cart Subtotal -->
-               <p class="a-spacing-none a-spacing-top-mini">
-                 <span class="a-size-medium"
-                   >Subtotal ({{ cartLength }} item)</span
-                 >
-                 <span class="a-color-price a-text-bold">
-                   <!-- Cart Total Price -->
-                   <span class="a-size-medium a-color-price"
-                     >${{ getCartTotalPrice }}</span
-                   >
-                 </span>
-               </p>
-             </div>
+                  <!-- Cart Subtotal -->
+                  <p class="a-spacing-none a-spacing-top-mini">
+                    <span class="a-size-medium">Subtotal ({{ cartLength }} item)</span>
+                    <span class="a-color-price a-text-bold">
+                      <!-- Cart Total Price -->
+                      <span class="a-size-medium a-color-price">${{ getCartTotalPrice }}</span>
+                    </span>
+                  </p>
+                </div>
                 <!-- List of the item -->
-                 <!-- No items in cart -->                
-                 
-                </form>
-                <BAlert
-                 :model-value="true"
-                 variant="info" 
-                 v-else
-                 class="mt-4"
-                 >
-                 No items in your cart. Add items to your cart to place order.
-                 
-                 </BAlert>
+                <!-- No items in cart -->
+              </form>
+              <BAlert
+                v-else
+                :model-value="true"
+                variant="info"
+                class="mt-4"
+              >
+                No items in your cart. Add items to your cart to place order.
+              </BAlert>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-5">
@@ -150,27 +181,21 @@
                         <span>Subtotal ({{ cartLength }} item):</span>
                         <span class="a-color-price a-text-bold">
                           <!-- Cart Total Price  -->
-                          <span class="a-size-medium a-color-price"
-                            >${{ getCartTotalPrice }}</span
-                          >
+                          <span class="a-size-medium a-color-price">${{ getCartTotalPrice }}</span>
                         </span>
                       </span>
                     </p>
                   </div>
                   <div class="a-spacing-base mt-1">
-                    <input type="checkbox" name="checkbox" />
-                    <span class="a-label a-checkbox-label"
-                      >This order contains a gift</span
-                    >
+                    <input type="checkbox" name="checkbox">
+                    <span class="a-label a-checkbox-label">This order contains a gift</span>
                   </div>
                   <div>
                     <span
                       class="a-spacing-small a-button-primary a-button-icon"
                     >
                       <span class="a-button-inner">
-                        <nuxt-link to="/placeorder" class="a-button-text"
-                          >Proceed to checkout</nuxt-link
-                        >
+                        <nuxt-link to="/placeorder" class="a-button-text">Proceed to checkout</nuxt-link>
                       </span>
                     </span>
                   </div>
@@ -182,49 +207,43 @@
             <div class="a-spacing-large">
               <div class="a-box">
                 <div class="a-box-inner">
-                  <h5 class="a-spacing-base">Your recently viewed items</h5>
+                  <h5 class="a-spacing-base">
+                    Your recently viewed items
+                  </h5>
                   <div class="a-spacing-micro">
                     <ul class="a-unordered-list recently-viewed">
-                      <li class="a-spacing-medium" v-for="i in 4" :key="i">
+                      <li v-for="i in 4" :key="i" class="a-spacing-medium">
                         <span class="a-list-item">
                           <div class="row">
                             <div class="col-md-4 col-sm-3 col-3 pl-0">
                               <a href="#" :aria-label="`cart-recent-item-${i}`">
-                                <img src="/img/cartRecent4.png" class alt="" />
+                                <img src="/img/cartRecent4.png" class alt="">
                               </a>
                             </div>
                             <div class="col-md-8 col-sm-9 col-9">
-                              <a href="#" class="a-link-normal"
-                                >The Everything Store:…</a
-                              >
+                              <a href="#" class="a-link-normal">The Everything Store:…</a>
                               <div class="a-size-small">
-                                <a href="#" class="a-size-small a-link-child"
-                                  >Brad Stone</a
-                                >
+                                <a href="#" class="a-size-small a-link-child">Brad Stone</a>
                               </div>
                               <div class="a-icon-row a-spacing-none">
                                 <a href="#" aria-label="star-rating">
-                                  <i class="fas fa-star"></i>
-                                  <i class="fas fa-star"></i>
-                                  <i class="fas fa-star"></i>
-                                  <i class="fas fa-star"></i>
-                                  <i class="fas fa-star-half-alt"></i>
+                                  <i class="fas fa-star" />
+                                  <i class="fas fa-star" />
+                                  <i class="fas fa-star" />
+                                  <i class="fas fa-star" />
+                                  <i class="fas fa-star-half-alt" />
                                 </a>
                                 <a href="#">155</a>
                               </div>
                               <div class="a-size-small">
-                                <span class="a-size-small a-color-secondary"
-                                  >Kindle Edition</span
-                                >
+                                <span class="a-size-small a-color-secondary">Kindle Edition</span>
                               </div>
                               <div class="a-spacing-top-micro">
                                 <span
                                   class="a-button-inspired a-spacing-top-none a-button-base a-button-small"
                                 >
                                   <span class="a-button-inner">
-                                    <a href="#" class="a-button-text"
-                                      >See all buying options</a
-                                    >
+                                    <a href="#" class="a-button-text">See all buying options</a>
                                   </span>
                                 </span>
                               </div>
@@ -241,47 +260,6 @@
         </div>
       </div>
     </div>
-    <!--/SHOPPING CART-->
+    <!-- /SHOPPING CART -->
   </main>
 </template>
-
-<script setup>
-import { useCartStore } from '@/stores/useCartStore'
-import { storeToRefs } from 'pinia'
-import { useAuth } from '@/composables/useAuth'
-
-const auth = useAuth()
-const cartStore = useCartStore()
-
-// Destructure store refs
-const { cart, cartLength, getCartTotalPrice } = storeToRefs(cartStore)
-
-// Page transition
-definePageMeta({
-  pageTransition: {
-    name: (to, from) => {
-      if (!from) return "slide-left"
-      return "slide-right"
-    },
-    mode: 'out-in',
-    
-  }
-})
-
-// Page meta
-useHead({
-  title: computed(() => 
-    auth.user ? `${auth.user.name} | Shopping Cart` : 'Shopping Cart'
-  )
-})
-
-// Methods
-const onChangeQuantity = (event, product) => {
-  const qty = parseInt(event.target.value)
-  cartStore.changeQty(product, qty)
-}
-
-const checkQty = (prodQty, qty) => {
-  return parseInt(prodQty) === parseInt(qty)
-}
-</script>

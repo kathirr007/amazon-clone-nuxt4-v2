@@ -1,6 +1,6 @@
 // server/api/owners/index.ts
 
-import { H3Event } from 'h3'
+import type { H3Event } from 'h3'
 import Owner from '~~/server/api/models/owner'
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -10,18 +10,18 @@ export default defineEventHandler(async (event: H3Event) => {
     case 'GET':
       return await getAllOwners()
     case 'POST':
-      return await createOwner(event) 
+      return await createOwner(event)
 
     default:
       throw createError({
         statusCode: 405,
-        message: 'Method not allowed'
+        message: 'Method not allowed',
       })
   }
 })
 
 // POST - Create owner
-export const createOwner = async (event: H3Event) => {
+export async function createOwner(event: H3Event) {
   try {
     const body = await readBody(event)
     const formData = await readMultipartFormData(event)
@@ -30,36 +30,37 @@ export const createOwner = async (event: H3Event) => {
     const owner = new Owner({
       name: body.name,
       about: body.about,
-      photo: photoFile ? photoFile.filename : ''
+      photo: photoFile ? photoFile.filename : '',
     })
 
     await owner.save()
 
     return {
       status: true,
-      message: 'Owner is created Successfully...'
+      message: 'Owner is created Successfully...',
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }
 
 // GET - Get all owners
-export const getAllOwners = async () => {
+export async function getAllOwners() {
   try {
     const owners = await Owner.find()
     return {
       success: true,
-      owners
+      owners,
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }
-

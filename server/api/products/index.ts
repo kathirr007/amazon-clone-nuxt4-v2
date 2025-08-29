@@ -1,13 +1,13 @@
 // server/api/products.ts
-import { H3Event } from 'h3'
-import {Product} from '~~/server/api/models/product'
+import type { H3Event } from 'h3'
+import { Product } from '~~/server/api/models/product'
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
 
   switch (method) {
     case 'GET': {
-      return await handleGetProducts(event)
+      return await handleGetProducts()
     }
 
     case 'POST': {
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event: H3Event) => {
     default:
       throw createError({
         statusCode: 405,
-        message: `Method ${method} Not Allowed`
+        message: `Method ${method} Not Allowed`,
       })
   }
 })
@@ -31,18 +31,18 @@ async function handleCreateProduct(event: H3Event) {
     const prodImages = files?.map(file => ({
       location: file.filename,
       size: file.data.length,
-      originalname: file.filename
+      originalname: file.filename,
     })) || []
 
     const product = new Product({
       owner: body.ownerID,
-      category: body.categoryID, 
+      category: body.categoryID,
       price: body.price,
       title: body.title,
       description: body.description,
       stockQuantity: body.stockQuantity,
       photo: files?.length ? files[0].filename : '',
-      prodImages: files?.length ? prodImages : []
+      prodImages: files?.length ? prodImages : [],
     })
 
     await product.save()
@@ -50,18 +50,19 @@ async function handleCreateProduct(event: H3Event) {
     return {
       status: true,
       message: 'Product is Successfully saved..',
-      prodImages
+      prodImages,
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }
 
 // GET - Get all products
-async function handleGetProducts(event: H3Event) {
+async function handleGetProducts() {
   try {
     const products = await Product.find()
       .populate('owner category')
@@ -70,12 +71,13 @@ async function handleGetProducts(event: H3Event) {
 
     return {
       success: true,
-      products
+      products,
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }

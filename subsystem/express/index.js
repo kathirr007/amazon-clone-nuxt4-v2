@@ -1,14 +1,14 @@
-import express from 'express';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import cors from 'cors';
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express from 'express'
 // import User from '../models/user.js';
 import { fromNodeMiddleware } from 'h3'
+import mongoose from 'mongoose'
+import morgan from 'morgan'
 
-import healthCheckRoutes from './routes/api-routes.js';
-import productRoutes from './routes/product.js';
+import healthCheckRoutes from './routes/api-routes.js'
+import productRoutes from './routes/product.js'
 // import categoryRoutes from './category.js';
 // import ownerRoutes from './owner.js';
 // import userRoutes from './auth.js';
@@ -24,28 +24,28 @@ import productRoutes from './routes/product.js';
 // mongoose.set('useUnifiedTopology', true);
 mongoose.set('strictQuery', true)
 
-dotenv.config();
+dotenv.config()
 
-const app = express();
+const app = express()
 
 // debugger
 mongoose.connect(process.env.DATABASEURI)
   .then(() => {
-    console.log('Connected to the database..');
+    console.log('Connected to the database..')
   })
-  .catch(err => {
-    console.log(err);
-  });
+  .catch((err) => {
+    console.log(err)
+  })
 
 // Middlewares
-app.use(morgan('dev'));
-app.use(cors());
+app.use(morgan('dev'))
+app.use(cors())
 app.use(express.json())
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use(healthCheckRoutes);
-app.use(productRoutes);
+app.use(healthCheckRoutes)
+app.use(productRoutes)
 /* app.use(categoryRoutes);
 app.use(ownerRoutes);
 app.use(userRoutes);

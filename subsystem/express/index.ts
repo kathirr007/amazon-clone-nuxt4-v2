@@ -1,14 +1,13 @@
-import express from 'express';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import { fromNodeMiddleware } from 'h3';
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express from 'express'
+import { fromNodeMiddleware } from 'h3'
+import mongoose from 'mongoose'
+import morgan from 'morgan'
 
-// @ts-ignore
-import routes from '~~/subsystem/express/routes/index.js';
-
+// @ts-expect-error no types
+import routes from '~~/subsystem/express/routes/index.js'
 
 // mongoose.set('useFindAndModify', false);
 // mongoose.set('useNewUrlParser', true);
@@ -16,26 +15,26 @@ import routes from '~~/subsystem/express/routes/index.js';
 // mongoose.set('useUnifiedTopology', true);
 mongoose.set('strictQuery', true)
 
-dotenv.config();
+dotenv.config()
 
-const app = express();
+const app = express()
 
 // debugger
 mongoose.connect(process.env.DATABASEURI as string)
   .then(() => {
-    console.log('Connected to the database..');
+    console.log('Connected to the database..')
   })
-  .catch(err => {
-    console.log(err);
-  });
+  .catch((err) => {
+    console.log(err)
+  })
 
 // Middlewares
-app.use(morgan('dev'));
-app.use(cors());
+app.use(morgan('dev'))
+app.use(cors())
 app.use(express.json())
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use(routes); // Attach routes (e.g., /products)
+app.use(routes) // Attach routes (e.g., /products)
 
-export default fromNodeMiddleware(app);
+export default fromNodeMiddleware(app)

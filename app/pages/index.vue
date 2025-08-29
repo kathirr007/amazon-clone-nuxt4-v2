@@ -1,3 +1,24 @@
+<script setup>
+import { definePageMeta, useAsyncData, useHead } from '#imports'
+import FeaturedProduct from '@/components/FeaturedProduct'
+
+definePageMeta({
+  auth: false,
+  transition: (to, from) => {
+    if (!from)
+      return 'slide-left'
+    return 'slide-right'
+  },
+})
+
+useHead({
+  title: 'Client | Home',
+})
+
+const { data: products } = await useAsyncData('products', () =>
+  $fetch('/api/products').then(response => response.products))
+</script>
+
 <template>
   <main class="listingPage">
     <div class="container-fluid">
@@ -6,7 +27,7 @@
           <FeaturedProduct />
           <div class="mainResults">
             <ul class="s-result-list">
-              <li class="s-result-item celwidget" v-for="product in products" :key="product._id">
+              <li v-for="product in products" :key="product._id" class="s-result-item celwidget">
                 <div class="s-item-container">
                   <div class="bestSeller my-2">
                     <a href="#">Best Seller</a>
@@ -15,7 +36,7 @@
                     <div class="row">
                       <b-col col sm="3" class="text-center">
                         <a href="#">
-                          <b-img class="prodImage" :src="product.photo" fluid></b-img>
+                          <b-img class="prodImage" :src="product.photo" fluid />
                         </a>
                       </b-col>
                       <b-col col sm="9">
@@ -23,9 +44,9 @@
                           <b-col>
                             <nuxt-link :to="`/products/${product._id}`" class="a-link-normal">
                               <h2 class="a-size-medium">
-                                {{product.title}}
-                                <span class="a-letter-space"></span>
-                                <span class="a-letter-space"></span>
+                                {{ product.title }}
+                                <span class="a-letter-space" />
+                                <span class="a-letter-space" />
                                 <span class="a-size-small a-color-secondary">Sep 3, 2020</span>
                               </h2>
                             </nuxt-link>
@@ -35,7 +56,7 @@
                           <b-col>
                             <span class="a-size-small a-color-secondary">by</span>
                             <span class="a-size-small a-color-secondary">
-                              <a href="#" class="a-link-normal a-text-normal">{{ product.owner ? product.owner.name: 'N/A' }}</a>
+                              <a href="#" class="a-link-normal a-text-normal">{{ product.owner ? product.owner.name : 'N/A' }}</a>
                             </span>
                           </b-col>
                         </b-row>
@@ -60,7 +81,7 @@
                                   </span>
                                 </span>
                               </a>
-                              <span class="a-letter-space"></span>
+                              <span class="a-letter-space" />
                               <span class="a-size-base-plus a-color-secondary a-text-strike">$28.00</span>
                             </div>
                             <div>
@@ -69,7 +90,7 @@
                               </b-col>
                               <b-col cols="12" class="pt-1 px-0 a-size-small a-color-secondary">
                                 Other Formats:
-                                <span class="a-letter-space"></span>
+                                <span class="a-letter-space" />
                                 <a href="#" class="a-size-small a-link-normal a-text-normal">Audio CD</a>
                               </b-col>
                             </div>
@@ -98,7 +119,8 @@
                                 :border-width="5"
                                 :rating-size="16"
                                 :rating-value="product.averageRating"
-                                @rating-hovered="event => (rating = event)" />
+                                @rating-hovered="event => (rating = event)"
+                              />
                             </div>
                           </b-col>
                         </b-row>
@@ -114,27 +136,6 @@
     </div>
   </main>
 </template>
-
-<script setup>
-import { definePageMeta, useAsyncData, useHead } from '#imports'
-import FeaturedProduct from "@/components/FeaturedProduct"
-
-definePageMeta({
-  auth: false,
-  transition: (to, from) => {
-    if (!from) return "slide-left"
-    return "slide-right"
-  }
-})
-
-useHead({
-  title: 'Client | Home'
-})
-
-const { data: products } = await useAsyncData('products', () => 
-  $fetch('/api/products').then(response => response.products)
-)
-</script>
 
 <style lang="scss" scoped>
 .celwidget {

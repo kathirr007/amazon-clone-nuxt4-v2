@@ -1,16 +1,16 @@
+import { add, format } from 'date-fns'
 // server/api/shipment.post.ts
 import { defineEventHandler, readBody } from 'h3'
-import { add, format } from 'date-fns'
 
 const SHIPMENT = {
   normal: {
     price: 13.98,
-    days: 7
+    days: 7,
   },
   fast: {
     price: 49.98,
-    days: 3
-  }
+    days: 3,
+  },
 } as const
 
 interface ShipmentOption {
@@ -21,29 +21,30 @@ interface ShipmentOption {
 function shipmentPrice(shipmentOption: ShipmentOption) {
   const estimated = format(
     add(new Date(), {
-      days: shipmentOption.days
+      days: shipmentOption.days,
     }),
-    "LLLL dd, yyyy hh:mm aa"
+    'LLLL dd, yyyy hh:mm aa',
   )
 
   return {
     estimated,
-    price: shipmentOption.price
+    price: shipmentOption.price,
   }
 }
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   let shipment
-  
-  if (body.shipment === "normal") {
+
+  if (body.shipment === 'normal') {
     shipment = shipmentPrice(SHIPMENT.normal)
-  } else {
+  }
+  else {
     shipment = shipmentPrice(SHIPMENT.fast)
   }
 
   return {
     success: true,
-    shipment
+    shipment,
   }
 })

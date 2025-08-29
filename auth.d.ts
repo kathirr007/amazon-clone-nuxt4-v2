@@ -1,13 +1,13 @@
 // auth.d.ts
-declare module "#auth-utils" {
+declare module '#auth-utils' {
   interface User {
-    name: string;
-    email: string;
-    createdAt: Date;
+    name: string
+    email: string
+    createdAt: Date
   }
 
   interface UserSession {
-    loggedInAt: Date;
+    loggedInAt: Date
   }
 
   interface SecureSessionData {
@@ -15,4 +15,4 @@ declare module "#auth-utils" {
   }
 }
 
-export {};
+export {}

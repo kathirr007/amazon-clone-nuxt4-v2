@@ -1,75 +1,88 @@
-<template>
-  <div class="registerPage">
-    <div class="container">
-      <div class="row">
-        <!-- <b-col col sm="4"></b-col> -->
-        <b-col col md="6" offset-md="3">
-          <div class="text-center">
-            <nuxt-link to="/">
-              <b-img src="/img/logo-black.png"></b-img>
-            </nuxt-link>
-          </div>
+<script setup>
+import { useToastController } from 'bootstrap-vue-next'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-          <b-form class="mt-3">
-            <div class="a-box a-spacing-extra-large">
-              <div class="a-box-inner">
-                <h1 class="a-spacing-small">Sign In</h1>
-                <!-- Email -->
-                <div class="a-row a-spacing-base">
-                  <label for="ap_customer_email" class="a-form-label">Email</label>
-                  <input
-                    type="email"
-                    id="ap_customer_email"
-                    v-model="email"
-                    @keyup.enter.stop="onLogin"
-                    class="a-input-text form-control auth-atofocus auth-required-field auth-verification-request-info" />
-                </div>
-                <!-- Password -->
-                <div class="a-row a-spacing-base">
-                  <label for="ap_customer_password" class="a-form-label">Password</label>
-                  <input
-                    type="password"
-                    id="ap_customer_password"
-                    v-model="password"
-                    @keyup.enter.stop="onLogin"
-                    class="a-input-text form-control auth-atofocus auth-required-field auth-verification-request-info" />
-                  <div class="a-alert-container pl-0">
-                    <div class="a-alert-content">
-                      Password must be at least 6 characters
-                    </div>
-                  </div>
-                </div>
-                <!-- Button -->
-                <div class="a-row a-spacing-extra-large mb-4">
-                  <span class="a-button-primary">
-                    <span class="a-button-inner">
-                      <span class="a-button-text" @click="onLogin">Continue</span>
-                    </span>
-                  </span>
-                  <div
-                    class="a-row a-spacing-top-medium a-size-small text-center">
-                    <b>
-                      By creating an account, you agree to Amazon's
-                      <a href="#">Conditions of use</a> and
-                      <a href="#">Privacy notice</a>
-                    </b>
-                  </div>
-                </div>
-                <hr />
-                <div class="a-row text-center">
-                  <b>
-                    Don't have account?
-                    <nuxt-link to="/signup" class="a-link-emphasis">Signup</nuxt-link>
-                  </b>
-                </div>
-              </div>
-            </div>
-          </b-form>
-        </b-col>
-      </div>
-    </div>
-  </div>
-</template>
+definePageMeta({
+  layout: 'admin',
+  middleware: 'is-guest',
+})
+
+useHead({
+  title: 'Sign In',
+})
+
+const router = useRouter()
+const toast = useToastController()
+
+const email = ref('')
+const password = ref('')
+
+const { fetch, user } = useUserSession()
+
+async function onLogin() {
+  try {
+    const data = {
+      email: email.value,
+      password: password.value,
+    }
+
+    const response = await $fetch('/api/auth/login', {
+      method: 'POST',
+      body: data,
+    })
+
+    if (response.success) {
+      /* await auth.login({
+        email: email.value,
+        password: password.value
+      }) */
+
+      await fetch()
+
+      const userName = user.value.name
+      /* toast.show(`Welcome back ${userName}`, {
+        title: 'Successful Login',
+        variant: 'success',
+        autoHideDelay: 2000,
+        solid: true
+      }) */
+
+      const vNodeMessage = h('div', [
+        'Welcome back ',
+        h('strong', `${userName}`),
+      ])
+
+      toast.create({
+        title: 'Successful Login',
+        body: '', // Optional, since we will use slots
+        slots: {
+          default: () => vNodeMessage,
+        },
+        variant: 'success',
+        progressProps: {
+          variant: 'success',
+        },
+      })
+
+      router.go('/')
+    }
+    else {
+      toast.create({
+        title: 'SignIn Error',
+        body: response.message,
+        variant: 'danger',
+        progressProps: {
+          variant: 'danger',
+        },
+      })
+    }
+  }
+  catch (err) {
+    console.log(err)
+  }
+}
+</script>
 
 <!-- <script>
 export default {
@@ -168,90 +181,82 @@ export default {
 };
 </script> -->
 
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useToastController } from 'bootstrap-vue-next'
+<template>
+  <div class="registerPage">
+    <div class="container">
+      <div class="row">
+        <!-- <b-col col sm="4"></b-col> -->
+        <b-col col md="6" offset-md="3">
+          <div class="text-center">
+            <nuxt-link to="/">
+              <b-img src="/img/logo-black.png" />
+            </nuxt-link>
+          </div>
 
-definePageMeta({
-  layout: 'admin',
-  middleware: 'is-guest',
-})
-
-useHead({
-  title: 'Sign In'
-})
-
-
-const router = useRouter()
-const toast = useToastController()
-
-const email = ref('')
-const password = ref('')
-
-const { fetch, user } = useUserSession()
-
-const onLogin = async () => {
-  try {
-    const data = {
-      email: email.value,
-      password: password.value
-    }
-
-    const response = await $fetch('/api/auth/login', {
-      method: 'POST',
-      body: data
-    })
-
-    if (response.success) {
-      /* await auth.login({
-        email: email.value,
-        password: password.value
-      }) */
-
-      await fetch()
-
-      const userName = user.value.name
-      /* toast.show(`Welcome back ${userName}`, {
-        title: 'Successful Login',
-        variant: 'success',
-        autoHideDelay: 2000,
-        solid: true
-      }) */
-
-      const vNodeMessage = h('div', [
-        'Welcome back ',
-        h('strong', `${userName}`)
-      ])
-
-      toast.create({
-        title: 'Successful Login',
-        body: '', // Optional, since we will use slots
-        slots: {
-          default: () => vNodeMessage
-        },
-        variant: 'success',
-        progressProps: {
-          variant: 'success'
-        }
-      })
-
-      router.go('/')
-    } else {
-      toast.create({
-        title: 'SignIn Error',
-        body: response.message,
-        variant: 'danger',
-        progressProps: {
-          variant: 'danger'
-        }
-      })
-    }
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-</script>
+          <b-form class="mt-3">
+            <div class="a-box a-spacing-extra-large">
+              <div class="a-box-inner">
+                <h1 class="a-spacing-small">
+                  Sign In
+                </h1>
+                <!-- Email -->
+                <div class="a-row a-spacing-base">
+                  <label for="ap_customer_email" class="a-form-label">Email</label>
+                  <input
+                    id="ap_customer_email"
+                    v-model="email"
+                    type="email"
+                    class="a-input-text form-control auth-atofocus auth-required-field auth-verification-request-info"
+                    @keyup.enter.stop="onLogin"
+                  >
+                </div>
+                <!-- Password -->
+                <div class="a-row a-spacing-base">
+                  <label for="ap_customer_password" class="a-form-label">Password</label>
+                  <input
+                    id="ap_customer_password"
+                    v-model="password"
+                    type="password"
+                    class="a-input-text form-control auth-atofocus auth-required-field auth-verification-request-info"
+                    @keyup.enter.stop="onLogin"
+                  >
+                  <div class="a-alert-container pl-0">
+                    <div class="a-alert-content">
+                      Password must be at least 6 characters
+                    </div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="a-row a-spacing-extra-large mb-4">
+                  <span class="a-button-primary">
+                    <span class="a-button-inner">
+                      <span class="a-button-text" @click="onLogin">Continue</span>
+                    </span>
+                  </span>
+                  <div
+                    class="a-row a-spacing-top-medium a-size-small text-center"
+                  >
+                    <b>
+                      By creating an account, you agree to Amazon's
+                      <a href="#">Conditions of use</a> and
+                      <a href="#">Privacy notice</a>
+                    </b>
+                  </div>
+                </div>
+                <hr>
+                <div class="a-row text-center">
+                  <b>
+                    Don't have account?
+                    <nuxt-link to="/signup" class="a-link-emphasis">Signup</nuxt-link>
+                  </b>
+                </div>
+              </div>
+            </div>
+          </b-form>
+        </b-col>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped></style>

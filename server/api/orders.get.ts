@@ -10,27 +10,27 @@ export default defineEventHandler(async (event) => {
     if (!session) {
       throw createError({
         statusCode: 401,
-        message: 'Unauthorized'
+        message: 'Unauthorized',
       })
     }
 
     console.log(session)
 
-    // @ts-ignore
+    // @ts-expect-error no type
     const products = await Order.find({ owner: session.user.id })
-    // @ts-ignore
+    // @ts-expect-error no type
       .deepPopulate('owner products.productID.owner')
       .exec()
 
     return {
       success: true,
-      products
+      products,
     }
-
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : "Internal server error"
+      message: err instanceof Error ? err.message : 'Internal server error',
     })
   }
 })

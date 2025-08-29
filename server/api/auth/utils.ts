@@ -1,10 +1,10 @@
-import { H3Event } from "h3"
-import verifyToken from "~~/server/api/middlewares/verifyToken"
+import type { H3Event } from 'h3'
+import verifyToken from '~~/server/api/middlewares/verifyToken'
 
-export const verifyUser = async (event: H3Event) => {
-    await verifyToken(event)
-    
-    const {auth} = event.context
+export async function verifyUser(event: H3Event) {
+  await verifyToken(event)
 
-    return {auth}
+  const { auth } = event.context
+
+  return { auth }
 }

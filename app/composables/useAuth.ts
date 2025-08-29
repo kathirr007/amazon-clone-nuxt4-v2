@@ -1,15 +1,15 @@
 // composables/useAuth.ts
-import { useRuntimeConfig } from 'nuxt/app'
 
-export const useAuth = () => {
+export function useAuth() {
   const signup = async (userData: { name: string, email: string, password: string }) => {
     try {
       const { data } = await useFetch('/api/auth/signup', {
         method: 'POST',
-        body: userData
+        body: userData,
       })
       return data.value
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Signup error:', error)
       return { success: false, message: 'Signup failed' }
     }
@@ -19,10 +19,11 @@ export const useAuth = () => {
     try {
       const { data } = await useFetch('/api/auth/login', {
         method: 'POST',
-        body: credentials
+        body: credentials,
       })
       return data.value
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Login error:', error)
       return { success: false, message: 'Login failed' }
     }
@@ -33,11 +34,12 @@ export const useAuth = () => {
       const token = localStorage.getItem('token')
       const { data } = await useFetch('/api/auth/user', {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       return data.value
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Get profile error:', error)
       return { success: false, message: 'Failed to get profile' }
     }
@@ -50,11 +52,12 @@ export const useAuth = () => {
         method: 'PUT',
         body: updates,
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       return data.value
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Update profile error:', error)
       return { success: false, message: 'Failed to update profile' }
     }
@@ -64,6 +67,6 @@ export const useAuth = () => {
     signup,
     login,
     getProfile,
-    updateProfile
+    updateProfile,
   }
 }

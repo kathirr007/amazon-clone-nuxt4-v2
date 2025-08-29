@@ -4,7 +4,6 @@ import Category from './category.js'
 import Owner from './owner.js'
 import Review from './review.js'
 
-
 const Schema = mongoose.Schema
 
 const ProductSchema = new Schema({
@@ -25,7 +24,7 @@ const ProductSchema = new Schema({
 ProductSchema.virtual('averageRating').get(function() {
     if(this.reviews.length > 0) {
         let sum = this.reviews.reduce((total, review) => {
-            return total + review.rating  
+            return total + review.rating
         }, 0)
         return sum / this.reviews.length
     }
@@ -53,12 +52,10 @@ Product.SetAlgoliaSettings({
 
 export default Product */
 
-import mongoose, { Schema, Document } from 'mongoose'
-// @ts-ignore
+import type { Document } from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
+// @ts-expect-error no type
 import mongooseAlgolia from 'mongoose-algolia'
-import Category from './category'
-import Owner from './owner'
-import Review from './review'
 
 interface IProduct extends Document {
   category: Schema.Types.ObjectId
@@ -74,51 +71,51 @@ interface IProduct extends Document {
 }
 
 const ProductSchema = new Schema({
-    category: { type: Schema.Types.ObjectId, ref: 'Category'},
-    owner: { type: Schema.Types.ObjectId, ref: 'Owner'},
-    title: String,
-    description: String,
-    photo: String,
-    prodImages: Array,
-    price: Number,
-    stockQuantity: Number,
-    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
+  category: { type: Schema.Types.ObjectId, ref: 'Category' },
+  owner: { type: Schema.Types.ObjectId, ref: 'Owner' },
+  title: String,
+  description: String,
+  photo: String,
+  prodImages: Array,
+  price: Number,
+  stockQuantity: Number,
+  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
 }, {
-    toObject: { virtuals: true },
-    toJSON: { virtuals: true }
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true },
 })
 
-ProductSchema.virtual('averageRating').get(function(this: IProduct): number {
-    if(this.reviews.length > 0) {
-        let sum = this.reviews.reduce((total: number, review: any): number => {
-            return total + review.rating
-        }, 0)
-        return sum / this.reviews.length
-    }
-    return 0
+ProductSchema.virtual('averageRating').get(function (this: IProduct): number {
+  if (this.reviews.length > 0) {
+    const sum = this.reviews.reduce((total: number, review: any): number => {
+      return total + review.rating
+    }, 0)
+    return sum / this.reviews.length
+  }
+  return 0
 })
 
 ProductSchema.plugin(mongooseAlgolia, {
-    appId: process.env.ALGOLIA_APP_ID,
-    apiKey: process.env.ALGOLIA_SECRET,
-    indexName: process.env.ALGOLIA_INDEX,
+  appId: process.env.ALGOLIA_APP_ID,
+  apiKey: process.env.ALGOLIA_SECRET,
+  indexName: process.env.ALGOLIA_INDEX,
 
-    selector: 'title _id photo description price rating averageRating owner category',
-    populate: {
-        path: 'owner reviews category',
-    },
-    debug: true
+  selector: 'title _id photo description price rating averageRating owner category',
+  populate: {
+    path: 'owner reviews category',
+  },
+  debug: true,
 })
 
 interface ProductModel extends mongoose.Model<IProduct> {
-    SyncToAlgolia(): void
-    SetAlgoliaSettings(settings: object): void
+  SyncToAlgolia: () => void
+  SetAlgoliaSettings: (settings: object) => void
 }
 
 const Product = mongoose.model<IProduct, ProductModel>('Product', ProductSchema)
 Product.SyncToAlgolia()
 Product.SetAlgoliaSettings({
-    searchableAttributes: ['title', 'category', 'averageRating', 'price']
+  searchableAttributes: ['title', 'category', 'averageRating', 'price'],
 })
 
 export default Product

@@ -1,6 +1,3 @@
-import VitePluginRestart from 'vite-plugin-restart'
-
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -12,27 +9,27 @@ export default defineNuxtConfig({
     head: {
       // title: process.env.npm_package_name || "",
       titleTemplate: 'Amazon Clone - Nuxt V4',
-      script: [{ src: "https://js.stripe.com/v3" }],
+      script: [{ src: 'https://js.stripe.com/v3' }],
       meta: [
-        { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
-          name: "description",
-          content: process.env.npm_package_description || ""
-        }
+          name: 'description',
+          content: process.env.npm_package_description || '',
+        },
       ],
       link: [
-        { rel: "icon", type: "image/png", href: "/icon.png" },
-        { rel: "stylesheet", href: "/css/font-awesome/css/all.css" },
-        { rel: "stylesheet", href: "/css/default.css" }
-      ]
+        { rel: 'icon', type: 'image/png', href: '/icon.png' },
+        { rel: 'stylesheet', href: '/css/font-awesome/css/all.css' },
+        { rel: 'stylesheet', href: '/css/default.css' },
+      ],
     },
     pageTransition: { name: 'slide-left', mode: 'out-in' },
-    layoutTransition: { name: 'slide-down', mode: 'out-in' }
+    layoutTransition: { name: 'slide-down', mode: 'out-in' },
   },
   pinia: {
     storesDirs: [
-      "~/stores/**",
+      '~/stores/**',
       // "./custom-folder/stores/**",
     ],
   },
@@ -49,13 +46,13 @@ export default defineNuxtConfig({
   modules: [
     '@bootstrap-vue-next/nuxt',
     'nuxt-auth-utils',
-    "@pinia/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
-    "vue3-carousel-nuxt",
-    "nuxt-rating",
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    'vue3-carousel-nuxt',
+    'nuxt-rating',
   ],
   /*
    ** Global CSS
    */
-  css: ['bootstrap/dist/css/bootstrap.min.css', "@/assets/scss/main.scss"],
+  css: ['bootstrap/dist/css/bootstrap.min.css', '@/assets/scss/main.scss'],
 })

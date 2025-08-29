@@ -1,10 +1,10 @@
 // composables/useProducts.ts
-export const useProducts = () => {
+export function useProducts() {
   const createProduct = async (productData: FormData) => {
     try {
       const { data, error } = await useFetch('/api/products', {
         method: 'POST',
-        body: productData
+        body: productData,
       })
 
       if (error.value) {
@@ -12,7 +12,8 @@ export const useProducts = () => {
       }
 
       return data.value
-    } catch (err) {
+    }
+    catch (err) {
       console.error('Error creating product:', err)
       throw err
     }
@@ -21,7 +22,7 @@ export const useProducts = () => {
   const getProducts = async () => {
     try {
       const { data, error } = await useFetch('/api/products', {
-        method: 'GET'
+        method: 'GET',
       })
 
       if (error.value) {
@@ -29,7 +30,8 @@ export const useProducts = () => {
       }
 
       return data.value
-    } catch (err) {
+    }
+    catch (err) {
       console.error('Error fetching products:', err)
       throw err
     }
@@ -37,6 +39,6 @@ export const useProducts = () => {
 
   return {
     createProduct,
-    getProducts
+    getProducts,
   }
 }

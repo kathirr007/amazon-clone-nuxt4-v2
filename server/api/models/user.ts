@@ -4,7 +4,7 @@ import { genSalt, hash, compareSync } from "bcryptjs";
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  name: String, 
+  name: String,
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   address: { type: Schema.Types.ObjectId, ref: "Address" },
@@ -39,54 +39,61 @@ const User = mongoose.model("User", UserSchema);
 
 export default User; */
 
-import mongoose, { Document, Model } from "mongoose";
-import { genSalt, hash, compareSync } from "bcryptjs";
+import type { Document, Model } from 'mongoose'
+import { compareSync, genSalt, hash } from 'bcryptjs'
+import mongoose from 'mongoose'
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 interface IUser extends Document {
-  name?: string;
-  email: string;
-  password: string;
-  address?: mongoose.Types.ObjectId;
-  admin: boolean;
-  comparePassword(password: string): boolean;
+  name?: string
+  email: string
+  password: string
+  address?: mongoose.Types.ObjectId
+  admin: boolean
+  comparePassword: (password: string) => boolean
 }
 
 const UserSchema = new Schema<IUser>({
   name: String,
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  address: { type: Schema.Types.ObjectId, ref: "Address" },
+  address: { type: Schema.Types.ObjectId, ref: 'Address' },
   admin: { type: Boolean, default: false },
-});
+})
 
-UserSchema.pre("save", function(next) {
-  const user = this;
+UserSchema.pre('save', async function (next) {
+  try {
+    // const user = this
+    const salt = await new Promise<string>((resolve, reject) => {
+      genSalt(10, (err, salt) => {
+        if (err)
+          reject(err)
+        resolve(salt as string)
+      })
+    })
 
-  genSalt(10, function(err: Error | null, salt: string) {
-    if (err) {
-      return next(err);
-    }
+    const hashedPassword = await new Promise<string>((resolve, reject) => {
+      hash(this.password, salt, (err, hash) => {
+        if (err)
+          reject(err)
+        resolve(hash as string)
+      })
+    })
 
-    hash(user.password, salt, function(err: Error | null, hash: string) {
-      if (err) {
-        return next(err);
-      }
+    this.password = hashedPassword
+    next()
+  }
+  catch (error) {
+    next(error as Error)
+  }
+})
 
-      user.password = hash;
-      next();
-    } as any);
-  } as any);
-});
+UserSchema.methods.comparePassword = function (password: string): boolean {
+  return compareSync(password, this.password)
+}
 
-UserSchema.methods.comparePassword = function(password: string): boolean {
-  let user = this;
-  return compareSync(password, user.password);
-};
+const User: Model<IUser> = mongoose.model<IUser>('User', UserSchema)
 
-const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);
-
-export default User;
-
-export { IUser, UserSchema, User }
+export { IUser, User, UserSchema }
+export default User

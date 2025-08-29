@@ -1,6 +1,6 @@
-import { H3Event } from 'h3'
-import Address from "~~/server/api/models/address"
+import type { H3Event } from 'h3'
 import { verifyUser } from '~~/server/api/auth/utils'
+import Address from '~~/server/api/models/address'
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event: H3Event) => {
     default:
       throw createError({
         statusCode: 405,
-        message: 'Method not allowed'
+        message: 'Method not allowed',
       })
   }
 })
@@ -34,16 +34,17 @@ async function createAddress(event: H3Event) {
       zipCode: body.zipCode,
       phoneNumber: body.phoneNumber,
       deliveryInstructions: body.deliveryInstructions,
-      securityCode: body.securityCode
+      securityCode: body.securityCode,
     })
 
     await address.save()
 
-    return { success: true, message: "Address is added Successfully..." }
-  } catch (err: any) {
+    return { success: true, message: 'Address is added Successfully...' }
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }
@@ -56,10 +57,11 @@ async function getAllAddresses(event: H3Event) {
     const addresses = await Address.find({ user: auth._id })
 
     return { success: true, addresses }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: (err instanceof Error) ? err.message : 'Internal server error'
+      message: (err instanceof Error) ? err.message : 'Internal server error',
     })
   }
 }

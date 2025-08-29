@@ -1,9 +1,29 @@
+<script>
+export default {
+  data() {
+    return {
+      query: '',
+    }
+  },
+  methods: {
+    onSearch() {
+      this.$router.push({
+        path: '/search',
+        query: {
+          title: this.query,
+        },
+      })
+    },
+  },
+}
+</script>
+
 <template>
   <div>
     <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
       <symbol
-        xmlns="http://www.w3.org/2000/svg"
         id="sbx-icon-search-11"
+        xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 40 40"
       >
         <path
@@ -12,8 +32,8 @@
         />
       </symbol>
       <symbol
-        xmlns="http://www.w3.org/2000/svg"
         id="sbx-icon-clear-2"
+        xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
       >
         <path
@@ -30,14 +50,14 @@
     >
       <div role="search" class="sbx-amazon__wrapper">
         <input
+          v-model="query"
           type="search"
           name="search"
           placeholder="Search your favourite product"
           autocomplete="off"
           required="required"
           class="sbx-amazon__input"
-          v-model="query"
-        />
+        >
         <button
           type="submit"
           title="Submit your search query."
@@ -46,7 +66,7 @@
           @keydown.enter="onSearch"
         >
           <svg role="img" aria-label="Search">
-            <use xlink:href="#sbx-icon-search-11"></use>
+            <use xlink:href="#sbx-icon-search-11" />
           </svg>
         </button>
         <button
@@ -55,32 +75,12 @@
           class="sbx-amazon__reset"
         >
           <svg role="img" aria-label="Reset">
-            <use xlink:href="#sbx-icon-clear-2"></use>
+            <use xlink:href="#sbx-icon-clear-2" />
           </svg>
         </button>
       </div>
     </form>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      query: ''
-    }
-  },
-  methods: {
-    onSearch() {
-      this.$router.push({
-        path: '/search',
-        query: {
-          title: this.query
-        }
-      })
-    }
-  }
-};
-</script>
 
 <style lang="scss" scoped></style>

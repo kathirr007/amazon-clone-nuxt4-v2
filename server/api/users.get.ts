@@ -1,19 +1,17 @@
-import { H3Event } from "h3"
-import User from "~~/server/api/models/user"
+import User from '~~/server/api/models/user'
 
-export default defineEventHandler(async (event: H3Event) => {
-
+export default defineEventHandler(async () => {
   try {
     const users = await User.find()
     return {
       success: true,
-      users
+      users,
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
-
 })

@@ -1,3 +1,40 @@
+<script setup>
+import { ref } from 'vue'
+// import StarRating from 'vue-star-rating'
+
+const route = useRoute()
+const products = ref([])
+
+definePageMeta({
+  auth: false,
+  layout: 'default',
+  transition: {
+    name: (route) => {
+      return !route.from ? 'slide-left' : 'slide-right'
+    },
+  },
+})
+
+useHead({
+  title: 'Client | Search',
+})
+
+const { data } = await useFetch('/api/search', {
+  method: 'POST',
+  body: { title: route.query.title },
+})
+
+products.value = data.value || []
+
+watch(() => route.query.title, async () => {
+  const { data } = await useFetch('/api/search', {
+    method: 'POST',
+    body: { title: route.query.title },
+  })
+  products.value = data.value || []
+})
+</script>
+
 <template>
   <main class="listingPage">
     <div class="container-fluid">
@@ -10,7 +47,7 @@
           <div class="mainResults">
             <ul class="s-result-list">
               <template v-if="products.length !== 0">
-                <li class="s-result-item celwidget" v-for="product in products" :key="product._id">
+                <li v-for="product in products" :key="product._id" class="s-result-item celwidget">
                   <div class="s-item-container">
                     <!-- Best Seller -->
                     <div class="bestSeller my-2">
@@ -30,9 +67,9 @@
                             <div class="col">
                               <NuxtLink :to="`/products/${product.objectID}`" class="a-link-normal">
                                 <h2 class="a-size-medium">
-                                  {{product.title}}
-                                  <span class="a-letter-space"></span>
-                                  <span class="a-letter-space"></span>
+                                  {{ product.title }}
+                                  <span class="a-letter-space" />
+                                  <span class="a-letter-space" />
                                   <span class="a-size-small a-color-secondary">Sep 3, 2020</span>
                                 </h2>
                               </NuxtLink>
@@ -69,7 +106,7 @@
                                     </span>
                                   </span>
                                 </a>
-                                <span class="a-letter-space"></span>
+                                <span class="a-letter-space" />
                                 <span class="a-size-base-plus a-color-secondary a-text-strike">
                                   $28.00
                                 </span>
@@ -83,27 +120,27 @@
                                 <!-- Other Formats -->
                                 <div class="col-12 pt-1 px-0 a-size-small a-color-secondary">
                                   Other Formats:
-                                  <span class="a-letter-space"></span>
+                                  <span class="a-letter-space" />
                                   <a href="#" class="a-size-small a-link-normal a-text-normal">Audio CD</a>
                                 </div>
                               </div>
-
                             </div>
                             <!-- Ratings -->
                             <div class="col-sm-5">
                               <div class="a-row a-spacing-mini">
                                 <!-- Star Ratings -->
                                 <NuxtRating
-                                border-color="#db8403"
-                                active-color="#ffa41c"
-                                inactive-color="#fff"
-                                :rating-step="0.5"
-                                :rounded-corners="true"
-                                :border-width="5"
-                                :rating-size="16"
-                                :rating-value="product.averageRating"
-                                @rating-selected="logRating"
-                                @rating-hovered="event => (rating = event)" />
+                                  border-color="#db8403"
+                                  active-color="#ffa41c"
+                                  inactive-color="#fff"
+                                  :rating-step="0.5"
+                                  :rounded-corners="true"
+                                  :border-width="5"
+                                  :rating-size="16"
+                                  :rating-value="product.averageRating"
+                                  @rating-selected="logRating"
+                                  @rating-hovered="event => (rating = event)"
+                                />
                               </div>
                             </div>
                           </div>
@@ -120,9 +157,9 @@
                       <div class="row">
                         <div class="col-12 col-sm-5 offset-sm-2 text-center text-dark">
                           <h3>
-                            Sorry <strong><i class="far fa-frown h3"></i></strong>
+                            Sorry <strong><i class="far fa-frown h3" /></strong>
                           </h3>
-                          No Results found for the search term <strong class="text-warning h5">{{$route.query.title}}</strong> <br>
+                          No Results found for the search term <strong class="text-warning h5">{{ $route.query.title }}</strong> <br>
                           Please try with other search terms.
                         </div>
                       </div>
@@ -137,43 +174,6 @@
     </div>
   </main>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-// import StarRating from 'vue-star-rating'
-
-const route = useRoute()
-const products = ref([])
-
-definePageMeta({
-  auth: false,
-  layout: 'default',
-  transition: {
-    name: (route) => {
-      return !route.from ? 'slide-left' : 'slide-right'
-    }
-  }
-})
-
-useHead({
-  title: 'Client | Search'
-})
-
-const { data } = await useFetch('/api/search', {
-  method: 'POST',
-  body: { title: route.query.title }
-})
-
-products.value = data.value || []
-
-watch(() => route.query.title, async () => {
-  const { data } = await useFetch('/api/search', {
-    method: 'POST',
-    body: { title: route.query.title }
-  })
-  products.value = data.value || []
-})
-</script>
 
 <style lang="scss" scoped>
 .celwidget {

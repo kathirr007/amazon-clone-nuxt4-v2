@@ -1,7 +1,7 @@
 // server/api/reviews/[productID].ts
-import { H3Event } from 'h3'
-import { Review } from '~~/server/api/models/review'
+import type { H3Event } from 'h3'
 import { Product } from '~~/server/api/models/product'
+import { Review } from '~~/server/api/models/review'
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event: H3Event) => {
     default:
       throw createError({
         statusCode: 405,
-        message: 'Method not allowed'
+        message: 'Method not allowed',
       })
   }
 })
@@ -35,24 +35,25 @@ async function createReview(event: H3Event) {
       rating: body.rating,
       photo,
       user: user._id,
-      productID
+      productID,
     })
 
     await Product.updateOne(
       { _id: review.productID },
-      { $push: { reviews: review._id } }
+      { $push: { reviews: review._id } },
     )
 
     await review.save()
 
     return {
       success: true,
-      message: 'Successfully added Review'
+      message: 'Successfully added Review',
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }
@@ -63,17 +64,18 @@ async function getReview(event: H3Event) {
     const { productID } = event.context.params as Record<string, string>
 
     const productReviews = await Review.find({
-      productID
+      productID,
     }).populate('user')
 
     return {
       success: true,
-      reviews: productReviews
+      reviews: productReviews,
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }

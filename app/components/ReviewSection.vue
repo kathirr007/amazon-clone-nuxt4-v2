@@ -1,13 +1,24 @@
+<script>
+// import StarRating from 'vue-star-rating'
+
+export default {
+  components: {
+    // StarRating
+  },
+  props: ['product', 'reviews'],
+}
+</script>
+
 <template>
   <div>
-    <hr />
+    <hr>
     <div class="reviewsMedley">
       <div class="row">
         <div class="col-lg-4 col-md-5 col-sm-12">
           <!-- Total Customer reviews -->
           <a href="#" class="a-color-base">
             <h2>
-              {{product.reviews.length}}
+              {{ product.reviews.length }}
               customer reviews
             </h2>
           </a>
@@ -16,7 +27,7 @@
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>-->
+            <i class="fas fa-star-half-alt"></i> -->
             <span>
               <a href="#">
                 <client-only>
@@ -30,11 +41,11 @@
                     :rounded-corners="true"
                     :read-only="true"
                     :star-size="18"
-                    :star-points="[23,2,14,17,0,19,10,34,7,50,23,43,38,50,36,34,46,19,31,17]"
-                  ></star-rating>
+                    :star-points="[23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46, 19, 31, 17]"
+                  />
                 </client-only>
-                {{product.averageRating}} out of 5 stars
-                <i class="a-icon a-icon-popover"></i>
+                {{ product.averageRating }} out of 5 stars
+                <i class="a-icon a-icon-popover" />
               </a>
             </span>
           </div>
@@ -44,16 +55,16 @@
                 <div class="aok-nowrap">
                   <a href="#">
                     5
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star" />
                   </a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 64%;"></div>
+                      <div class="a-meter-bar a-meter-filled" style="width: 64%;" />
                     </div>
                   </a>
                 </div>
@@ -61,7 +72,7 @@
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap text-right">
                   <a href="#">64%</a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
             </div>
@@ -70,16 +81,16 @@
                 <div class="aok-nowrap">
                   <a href="#">
                     4
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star" />
                   </a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 14%;"></div>
+                      <div class="a-meter-bar a-meter-filled" style="width: 14%;" />
                     </div>
                   </a>
                 </div>
@@ -87,7 +98,7 @@
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap text-right">
                   <a href="#">14%</a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
             </div>
@@ -96,16 +107,16 @@
                 <div class="aok-nowrap">
                   <a href="#">
                     3
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star" />
                   </a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 4%;"></div>
+                      <div class="a-meter-bar a-meter-filled" style="width: 4%;" />
                     </div>
                   </a>
                 </div>
@@ -113,7 +124,7 @@
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap text-right">
                   <a href="#">4%</a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
             </div>
@@ -122,16 +133,16 @@
                 <div class="aok-nowrap">
                   <a href="#">
                     2
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star" />
                   </a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 0%;"></div>
+                      <div class="a-meter-bar a-meter-filled" style="width: 0%;" />
                     </div>
                   </a>
                 </div>
@@ -139,7 +150,7 @@
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap text-right">
                   <a href="#">0%</a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
             </div>
@@ -148,16 +159,16 @@
                 <div class="aok-nowrap">
                   <a href="#">
                     1
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star" />
                   </a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
                   <a href="#">
                     <div class="a-meter 5star">
-                      <div class="a-meter-bar a-meter-filled" style="width: 4%;"></div>
+                      <div class="a-meter-bar a-meter-filled" style="width: 4%;" />
                     </div>
                   </a>
                 </div>
@@ -165,18 +176,22 @@
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap text-right">
                   <a href="#">4%</a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                 </div>
               </div>
             </div>
           </div>
           <div class="clearfix">
             <div class="float-left">
-              <hr class="a-spacing-large" />
+              <hr class="a-spacing-large">
             </div>
           </div>
-          <h3 class="a-spacing-micro">Review this product</h3>
-          <div class="a-row a-spacing-large">Share your thoughts with other customers</div>
+          <h3 class="a-spacing-micro">
+            Review this product
+          </h3>
+          <div class="a-row a-spacing-large">
+            Share your thoughts with other customers
+          </div>
           <div class="a-row">
             <!-- Link to another Review page -->
             <span class="a-button-base writeReviewButton cm-cr-button-wide">
@@ -190,7 +205,7 @@
           </div>
           <div class="clearfix">
             <div class="float-left">
-              <hr class="mt-4 a-spacing-large" />
+              <hr class="mt-4 a-spacing-large">
             </div>
           </div>
         </div>
@@ -200,12 +215,12 @@
             <!-- Review Images -->
             <div class="a-spacing-small a-spacing-top-small">
               <img
-                class="img-fluid"
-                width="22.5%"
                 v-for="review in reviews"
                 :key="review._id"
+                class="img-fluid"
+                width="22.5%"
                 :src="review.photo"
-              />
+              >
             </div>
             <div>
               <a href="#">See all customer images</a>
@@ -229,7 +244,7 @@
                   <span class="cr-lighthouse-term">brad stone</span>
                 </a>
               </span>
-              <br />
+              <br>
               <span class="cr-lighthouse-span">
                 <a href="#">
                   <span class="cr-lighthouse-term">steve jobs</span>
@@ -245,7 +260,7 @@
                   <span class="cr-lighthouse-term">great read</span>
                 </a>
               </span>
-              <br />
+              <br>
               <span class="cr-lighthouse-span">
                 <a href="#">
                   <span class="cr-lighthouse-term">must read</span>
@@ -261,7 +276,7 @@
                   <span class="cr-lighthouse-term">highly recomended</span>
                 </a>
               </span>
-              <br />
+              <br>
               <span class="cr-lighthouse-span">
                 <a href="#">
                   <span class="cr-lighthouse-term">well searched</span>
@@ -290,7 +305,7 @@
                 <h3>
                   <span class="a-size-base">
                     Showing 1-8 of
-                    {{product.reviews.length}}
+                    {{ product.reviews.length }}
                     reviews
                   </span>
                 </h3>
@@ -302,24 +317,24 @@
                       <span class="a-button-text">
                         <span class="a-dropdown-prompt">Top Reviews</span>
                       </span>
-                      <i class="a-icon a-icon-dropdown"></i>
+                      <i class="a-icon a-icon-dropdown" />
                     </span>
                   </span>
                 </span>
               </div>
 
               <!-- Reviews -->
-              <div class="review-body" v-for="review in reviews" :key="review._id">
+              <div v-for="review in reviews" :key="review._id" class="review-body">
                 <div class="genome-widget">
                   <a href="#">
                     <div class="profile-avatar">
                       <img
                         src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png"
-                      />
+                      >
                     </div>
                     <!-- Review Owner -->
                     <div class="profile-content">
-                      <span class="a-profile-name">{{review.user.name}}</span>
+                      <span class="a-profile-name">{{ review.user.name }}</span>
                     </div>
                   </a>
                 </div>
@@ -337,25 +352,25 @@
                         :star-size="15"
                         :rounded-corners="true"
                         :padding="1"
-                      ></star-rating>
+                      />
                     </client-only>
                     <!-- <i class="fas fa-star" v-for="i in review.rating" :key="i"></i> -->
                   </a>
-                  <span class="a-letter-space"></span>
+                  <span class="a-letter-space" />
                   <!-- Review Headline -->
-                  <a href="#" class="review-title">{{review.headline}}</a>
+                  <a href="#" class="review-title">{{ review.headline }}</a>
                   <span class="review-date float-right">June 28, 2016</span>
                 </div>
                 <div class="review-data mt-2">
                   <span class="a-color-secondary">Format: Hardcover</span>
                   <div
                     style="width: 1px !important; height: 15px !important; background-color: #ddd; display: inline-block; margin: 0px 5px -3px 5px;"
-                  ></div>
+                  />
                   <span class="avp-badge a-color-state">Verified Purchase</span>
                 </div>
                 <!-- Review Body -->
                 <div class="review-body">
-                  <span>{{review.body}}</span>
+                  <span>{{ review.body }}</span>
                 </div>
                 <div class="review-comments">
                   <div class="a-spacing-small">
@@ -377,7 +392,7 @@
           </div>
           <div class="review-footer">
             <div class="a-row">
-              <span class="a-button a-button-base writeReviewButton" id="a-autoid-15">
+              <span id="a-autoid-15" class="a-button a-button-base writeReviewButton">
                 <span class="a-button-inner">
                   <nuxt-link
                     :to="`/reviews/${product._id}`"
@@ -389,22 +404,11 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-2 col-md-0 col-sm-0"></div>
+        <div class="col-lg-2 col-md-0 col-sm-0" />
       </div>
     </div>
   </div>
 </template>
-
-<script>
-// import StarRating from 'vue-star-rating'
-
-export default {
-  props: ["product", "reviews"],
-  components: {
-    // StarRating
-  },
-};
-</script>
 
 <style lang="scss">
 /* .vue-star-rating-inline {

@@ -1,17 +1,19 @@
-import mongoose, { Document } from 'mongoose';
-const { Schema } = mongoose;
+import type { Document } from 'mongoose'
+import mongoose from 'mongoose'
+
+const { Schema } = mongoose
 
 interface IAddress extends Document {
-  user: mongoose.Types.ObjectId;
-  country: string;
-  fullName: string;
-  streetAddress: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  phoneNumber: string;
-  deliveryInstructions?: string;
-  securityCode?: string;
+  user: mongoose.Types.ObjectId
+  country: string
+  fullName: string
+  streetAddress: string
+  city: string
+  state: string
+  zipCode: string
+  phoneNumber: string
+  deliveryInstructions?: string
+  securityCode?: string
 }
 
 const AddressSchema = new Schema<IAddress>({
@@ -25,9 +27,9 @@ const AddressSchema = new Schema<IAddress>({
   phoneNumber: String,
   deliveryInstructions: String,
   securityCode: String,
-});
+})
 
-const Address = mongoose.model<IAddress>('Address', AddressSchema);
+const Address = mongoose.model<IAddress>('Address', AddressSchema)
 
-export default Address;
-export { IAddress };
+export default Address
+export { IAddress }

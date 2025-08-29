@@ -1,6 +1,6 @@
-import { H3Event } from 'h3'
-import Address from "~~/server/api/models/address"
+import type { H3Event } from 'h3'
 import { verifyUser } from '~~/server/api/auth/utils'
+import Address from '~~/server/api/models/address'
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event: H3Event) => {
     default:
       throw createError({
         statusCode: 405,
-        message: 'Method not allowed'
+        message: 'Method not allowed',
       })
   }
 })
@@ -27,10 +27,11 @@ async function getSingleAddress(event: H3Event) {
     const address = await Address.findOne({ _id: id })
 
     return { success: true, address }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }
@@ -45,28 +46,38 @@ async function updateAddress(event: H3Event) {
 
     const foundAddress = await Address.findOne({
       user: auth._id,
-      _id: id
+      _id: id,
     })
 
     if (foundAddress) {
-      if (body.country) foundAddress.country = body.country
-      if (body.fullName) foundAddress.fullName = body.fullName
-      if (body.streetAddress) foundAddress.streetAddress = body.streetAddress
-      if (body.city) foundAddress.city = body.city
-      if (body.state) foundAddress.state = body.state
-      if (body.zipCode) foundAddress.zipCode = body.zipCode
-      if (body.phoneNumber) foundAddress.phoneNumber = body.phoneNumber
-      if (body.deliveryInstructions) foundAddress.deliveryInstructions = body.deliveryInstructions
-      if (body.securityCode) foundAddress.securityCode = body.securityCode
+      if (body.country)
+        foundAddress.country = body.country
+      if (body.fullName)
+        foundAddress.fullName = body.fullName
+      if (body.streetAddress)
+        foundAddress.streetAddress = body.streetAddress
+      if (body.city)
+        foundAddress.city = body.city
+      if (body.state)
+        foundAddress.state = body.state
+      if (body.zipCode)
+        foundAddress.zipCode = body.zipCode
+      if (body.phoneNumber)
+        foundAddress.phoneNumber = body.phoneNumber
+      if (body.deliveryInstructions)
+        foundAddress.deliveryInstructions = body.deliveryInstructions
+      if (body.securityCode)
+        foundAddress.securityCode = body.securityCode
 
       await foundAddress.save()
     }
 
-    return { success: true, message: "Successfully updated the address" }
-  } catch (err: any) {
+    return { success: true, message: 'Successfully updated the address' }
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }
@@ -77,21 +88,19 @@ async function deleteAddress(event: H3Event) {
     const id = event.context.params?.id
     const { auth } = await verifyUser(event)
 
-
     const deleteAddress = await Address.deleteOne({
       user: auth._id,
-      _id: id
+      _id: id,
     })
 
     if (deleteAddress) {
-      return { success: true, message: "Address has been deleted" }
+      return { success: true, message: 'Address has been deleted' }
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }
-
-

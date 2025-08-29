@@ -3,9 +3,9 @@
 </script>
 
 <template>
-    <div>
-About page updated
-    </div>
+  <div>
+    About page updated
+  </div>
 </template>
 
 <style lang="scss" scoped>

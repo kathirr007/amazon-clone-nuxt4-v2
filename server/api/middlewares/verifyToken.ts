@@ -1,10 +1,11 @@
-import jwt, { Secret } from 'jsonwebtoken'
+import type { Secret } from 'jsonwebtoken'
 import { defineEventHandler, getHeaders } from 'h3'
+import jwt from 'jsonwebtoken'
 
 export default defineEventHandler(async (event) => {
   const headers = getHeaders(event)
-  let token = headers['x-access-token'] || headers['authorization']
-  const checkBearer = "Bearer "
+  let token = headers['x-access-token'] || headers.authorization
+  const checkBearer = 'Bearer '
 
   if (token) {
     if (token.startsWith(checkBearer)) {
@@ -14,16 +15,19 @@ export default defineEventHandler(async (event) => {
     try {
       const decoded = jwt.verify(token, process.env.SECRET as Secret)
       event.context.auth = decoded
-    } catch (err) {
+    }
+    catch (err) {
+      console.log('Error verifying token:', err)
       return {
         success: false,
-        message: 'Failed to authenticate'
+        message: 'Failed to authenticate',
       }
     }
-  } else {
+  }
+  else {
     return {
       success: false,
-      message: 'No token Provided'
+      message: 'No token Provided',
     }
   }
 })

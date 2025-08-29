@@ -1,8 +1,8 @@
 <template>
-  <!--FOOTER-->
+  <!-- FOOTER -->
   <footer>
     <div class="navLeftFooter">
-      <a href="#" id="navBackToTop">
+      <a id="navBackToTop" href="#">
         <div class="navFooterBackToTop">
           <span class="navFooterBackToTopText">Back to top</span>
         </div>
@@ -12,7 +12,9 @@
           <div class="row">
             <div class="col-md-3 col-sm-6">
               <div class="navFooterCol">
-                <div class="navFooterColHead">Get to Know Us</div>
+                <div class="navFooterColHead">
+                  Get to Know Us
+                </div>
                 <ul>
                   <li>
                     <a href="#">Careers</a>
@@ -37,7 +39,9 @@
             </div>
             <div class="col-md-3 col-sm-6">
               <div class="navFooterCol">
-                <div class="navFooterColHead">Make Money with Us</div>
+                <div class="navFooterColHead">
+                  Make Money with Us
+                </div>
                 <ul>
                   <li>
                     <a href="#">Sell on Amazon</a>
@@ -62,7 +66,9 @@
             </div>
             <div class="col-md-3 col-sm-6">
               <div class="navFooterCol">
-                <div class="navFooterColHead">Amazon Payment Products</div>
+                <div class="navFooterColHead">
+                  Amazon Payment Products
+                </div>
                 <ul>
                   <li>
                     <a href="#">Sell on Amazon</a>
@@ -87,7 +93,9 @@
             </div>
             <div class="col-md-3 col-sm-6">
               <div class="navFooterCol">
-                <div class="navFooterColHead">Let Us Help You</div>
+                <div class="navFooterColHead">
+                  Let Us Help You
+                </div>
                 <ul>
                   <li>
                     <a href="#">Sell on Amazon</a>
@@ -112,13 +120,13 @@
             </div>
           </div>
         </div>
-        <div class="nav-footer-line"></div>
+        <div class="nav-footer-line" />
         <div class="container">
           <div class="navFooterPadItem row">
             <div class="col-md-4 col-sm-12 text-right">
               <div class="navFooterLogoLine">
                 <a href="#" aria-label="nav-logo">
-                  <div class="nav-logo-base nav-sprite"></div>
+                  <div class="nav-logo-base nav-sprite" />
                 </a>
               </div>
             </div>
@@ -126,9 +134,9 @@
               <span class="icp-container-desktop">
                 <div class="navFooterLine">
                   <a href="#" class="icp-button">
-                    <div class="icp-nav-globe-img-2 icp-button-globe-2 icp-nav-globe-curr-fix">​</div>
+                    <div class="icp-nav-globe-img-2 icp-button-globe-2 icp-nav-globe-curr-fix" />
                     <span class="icp-color-base">English</span>
-                    <span class="nav-arrow icp-up-down-arrow"></span>
+                    <span class="nav-arrow icp-up-down-arrow" />
                   </a>
                   <a href="#" class="icp-button">
                     <span class="icp-currency-symbol">$</span>
@@ -153,76 +161,76 @@
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Music
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Stream millions
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer" style="width: 4%" />
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer third" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer third" style="width: 4%" />
                   <td class="navFooterDescItem third">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer forth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer forth" style="width: 4%" />
                   <td class="navFooterDescItem forth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer fivth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer fivth" style="width: 4%" />
                   <td class="navFooterDescItem fivth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer sixth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer sixth" style="width: 4%" />
                   <td class="navFooterDescItem sixth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer svnth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer svnth" style="width: 4%" />
                   <td class="navFooterDescItem svnth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
@@ -234,76 +242,76 @@
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Music
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Stream millions
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer" style="width: 4%" />
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer third" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer third" style="width: 4%" />
                   <td class="navFooterDescItem third">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer forth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer forth" style="width: 4%" />
                   <td class="navFooterDescItem forth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer fivth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer fivth" style="width: 4%" />
                   <td class="navFooterDescItem fivth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer sixth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer sixth" style="width: 4%" />
                   <td class="navFooterDescItem sixth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer svnth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer svnth" style="width: 4%" />
                   <td class="navFooterDescItem svnth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
@@ -315,76 +323,76 @@
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Music
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Stream millions
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer" style="width: 4%" />
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer third" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer third" style="width: 4%" />
                   <td class="navFooterDescItem third">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer forth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer forth" style="width: 4%" />
                   <td class="navFooterDescItem forth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer fivth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer fivth" style="width: 4%" />
                   <td class="navFooterDescItem fivth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer sixth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer sixth" style="width: 4%" />
                   <td class="navFooterDescItem sixth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer svnth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer svnth" style="width: 4%" />
                   <td class="navFooterDescItem svnth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
@@ -396,76 +404,76 @@
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Music
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Stream millions
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer" style="width: 4%" />
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer third" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer third" style="width: 4%" />
                   <td class="navFooterDescItem third">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer forth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer forth" style="width: 4%" />
                   <td class="navFooterDescItem forth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer fivth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer fivth" style="width: 4%" />
                   <td class="navFooterDescItem fivth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer sixth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer sixth" style="width: 4%" />
                   <td class="navFooterDescItem sixth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer svnth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer svnth" style="width: 4%" />
                   <td class="navFooterDescItem svnth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
@@ -477,76 +485,76 @@
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Music
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Stream millions
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer" style="width: 4%" />
                   <td class="navFooterDescItem">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer third" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer third" style="width: 4%" />
                   <td class="navFooterDescItem third">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer forth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer forth" style="width: 4%" />
                   <td class="navFooterDescItem forth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer fivth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer fivth" style="width: 4%" />
                   <td class="navFooterDescItem fivth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer sixth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer sixth" style="width: 4%" />
                   <td class="navFooterDescItem sixth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
-                  <td class="navFooterDescSpacer svnth" style="width: 4%"></td>
+                  <td class="navFooterDescSpacer svnth" style="width: 4%" />
                   <td class="navFooterDescItem svnth">
                     <a href="#" class="nav_a">
                       Amazon Advertising
-                      <br />
+                      <br>
                       <span class="navFooterDescText">
                         Find, attract, and
-                        <br />of songs
+                        <br>of songs
                       </span>
                     </a>
                   </td>
@@ -567,10 +575,12 @@
           <li>
             <a href="#" class="nav_a">Internet-Based Ads</a>
           </li>
-          <li class="nav_last">© 1996-2019, Amazon.com, Inc. or its affiliates</li>
+          <li class="nav_last">
+            © 1996-2019, Amazon.com, Inc. or its affiliates
+          </li>
         </ul>
       </div>
     </div>
   </footer>
-  <!--/FOOTER-->
+  <!-- /FOOTER -->
 </template>

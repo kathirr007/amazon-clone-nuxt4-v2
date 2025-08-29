@@ -1,3 +1,45 @@
+<script setup>
+import { useAsyncData } from '#app'
+// import { useStore } from 'vuex'
+import ReviewSection from '~/components/ReviewSection'
+import { useCartStore } from '~/stores/useCartStore'
+
+const store = useCartStore()
+const route = useRoute()
+
+// Define auth
+definePageMeta({
+  auth: false,
+  transition: (to, from) => {
+    if (!from)
+      return 'slide-left'
+    return 'slide-right'
+  },
+})
+
+// Fetch data
+const { data: productData } = await useAsyncData('product', () =>
+  $fetch(`/api/products/${route.params.id}`))
+
+const { data: reviewsData } = await useAsyncData('reviews', () =>
+  $fetch(`/api/reviews/${route.params.id}`))
+
+const product = computed(() => productData.value?.product)
+const reviews = computed(() => reviewsData.value?.reviews)
+
+// Page meta
+useHead(() => ({
+  title: product.value?.title.replace(/\w\S*/g, w =>
+    w.replace(/^\w/, c => c.toUpperCase())),
+}))
+
+// Methods
+function addProductToCart(product) {
+//   store.dispatch('addProductToCart', product)
+  store.addProductToCart(product)
+}
+</script>
+
 <template>
   <main>
     <!-- Breadcrumbs -->
@@ -27,27 +69,29 @@
     <div class="container-fluid">
       <div class="dp-container">
         <div class="row">
-          <!-- First 3 grid - Product Image and Author's section-->
+          <!-- First 3 grid - Product Image and Author's section -->
           <b-col col sm="4" md="3" lg="3">
             <div class="leftCol">
               <!-- Image -->
               <div class="imgBlock">
                 <div class="eBooksimg">
-                  <b-img fluid :src="product.photo"></b-img>
+                  <b-img fluid :src="product.photo" />
                 </div>
               </div>
 
               <!-- Follow Author -->
               <div class="authorFollow">
-                <hr class="a-divider-normal" />
-                <h1 class="authorFollowHeading">Follow The Author</h1>
+                <hr class="a-divider-normal">
+                <h1 class="authorFollowHeading">
+                  Follow The Author
+                </h1>
                 <div class="mt-2">
                   <div class="row">
                     <!-- Author's Image -->
                     <b-col cols="3" sm="3" md="3" lg="3" xl="3">
                       <div class="smallAuthorImageContainer">
                         <a href="#">
-                          <b-img fluid :src="product.owner.photo"></b-img>
+                          <b-img fluid :src="product.owner.photo" />
                         </a>
                       </div>
                     </b-col>
@@ -91,8 +135,8 @@
                   {{ product.owner.name }}
                   <i
                     class="fas fa-chevron-down"
-                    :style="{fontSize: '8px', color: '#55555 !important'}"
-                  ></i>
+                    :style="{ fontSize: '8px', color: '#55555 !important' }"
+                  />
                 </a>
                 (Author)
               </div>
@@ -132,24 +176,23 @@
                   ></star-rating>
                 </client-only> -->
                 <NuxtRating
-                    border-color="#db8403"
-                    active-color="#ffa41c"
-                    inactive-color="#fff"
-                    :rating-step="0.5"
-                    :rounded-corners="true"
-                    :border-width="5"
-                    :rating-size="16"
-                    :rating-value="product.averageRating"
-                    @rating-hovered="event => (rating = event)" />
+                  border-color="#db8403"
+                  active-color="#ffa41c"
+                  inactive-color="#fff"
+                  :rating-step="0.5"
+                  :rounded-corners="true"
+                  :border-width="5"
+                  :rating-size="16"
+                  :rating-value="product.averageRating"
+                  @rating-hovered="event => (rating = event)"
+                />
               </div>
               <!-- A tags Dummy data -->
               <div class="mediaMatrix mt-2">
                 <div class="formats">
                   <a href="#" class="link-expander">
                     >
-                    <span class="tmmShowPrompt"
-                      >See all 18 formats and editions</span
-                    >
+                    <span class="tmmShowPrompt">See all 18 formats and editions</span>
                   </a>
                   <ul>
                     <!-- Kindle -->
@@ -159,12 +202,12 @@
                           <span class="a-button-inner">
                             <a href="#" class="a-button-text">
                               <span>Kindle</span>
-                              <br />
+                              <br>
                               <span class="a-color-secondary">-</span>
                             </a>
                           </span>
                         </span>
-                        <span class="tmm-olp-links"></span>
+                        <span class="tmm-olp-links" />
                         <span class="tmm-olp-links">
                           <a href="#" class="a-size-min">
                             <span class="kcpAppBox">
@@ -188,15 +231,14 @@
                                   src="/img/audiblelogo.png"
                                   fluid
                                   style="width: 20px"
-                                ></b-img
-                                >Audible
+                                />Audible
                               </span>
-                              <br />
+                              <br>
                               <span class="a-color-secondary">-</span>
                             </a>
                           </span>
                         </span>
-                        <span class="tmm-olp-links"></span>
+                        <span class="tmm-olp-links" />
                         <span class="tmm-olp-links">
                           <a href="#" class="a-size-min">
                             <span class="kcpAppBox">
@@ -216,7 +258,7 @@
                           <span class="a-button-inner">
                             <a href="#" class="a-button-text">
                               <span>Paperback</span>
-                              <br />
+                              <br>
                               <span class="a-color-secondary">-</span>
                             </a>
                           </span>
@@ -235,7 +277,7 @@
 
               <!-- Product Specification -->
               <div class="aboutEbooksFeature">
-                <hr />
+                <hr>
                 <div class="row">
                   <b-col col sm="4" mb-1>
                     <div class="a-declarative">
@@ -243,7 +285,7 @@
                       <span>
                         <a href="#">
                           386 pages
-                          <i class="a-icon a-icon-popover"></i>
+                          <i class="a-icon a-icon-popover" />
                         </a>
                       </span>
                     </div>
@@ -261,10 +303,10 @@
                     <div class="float-left">
                       <form>
                         <input
-                          type="radio"
                           id="test1"
+                          type="radio"
                           name="radio-group checked"
-                        />
+                        >
                         <label for="test1">Buy Now</label>
                       </form>
                     </div>
@@ -273,8 +315,7 @@
                     <div class="float-right">
                       <span
                         class="a-size-medium a-color-price offer-price a-text-normal"
-                        >${{ product.price }}</span
-                      >
+                      >${{ product.price }}</span>
                     </div>
                   </div>
                 </div>
@@ -282,17 +323,37 @@
                 <div class="a-section a-spacing-none">
                   <div class="row">
                     <b-col cols="5" sm="5">
-                      <select name id>
-                        <option value="1">Qty: 1</option>
-                        <option value="2">Qty: 2</option>
-                        <option value="3">Qty: 3</option>
-                        <option value="4">Qty: 4</option>
-                        <option value="5">Qty: 5</option>
-                        <option value="6">Qty: 6</option>
-                        <option value="7">Qty: 7</option>
-                        <option value="8">Qty: 8</option>
-                        <option value="9">Qty: 9</option>
-                        <option value="10">Qty: 10</option>
+                      <select id name>
+                        <option value="1">
+                          Qty: 1
+                        </option>
+                        <option value="2">
+                          Qty: 2
+                        </option>
+                        <option value="3">
+                          Qty: 3
+                        </option>
+                        <option value="4">
+                          Qty: 4
+                        </option>
+                        <option value="5">
+                          Qty: 5
+                        </option>
+                        <option value="6">
+                          Qty: 6
+                        </option>
+                        <option value="7">
+                          Qty: 7
+                        </option>
+                        <option value="8">
+                          Qty: 8
+                        </option>
+                        <option value="9">
+                          Qty: 9
+                        </option>
+                        <option value="10">
+                          Qty: 10
+                        </option>
                       </select>
                     </b-col>
                   </div>
@@ -300,7 +361,7 @@
 
                 <div class="a-section a-spacing-small a-spacing-top-micro">
                   <div class="row">
-                    <span class="a-color-base buyboxShippingLabel"></span>
+                    <span class="a-color-base buyboxShippingLabel" />
                   </div>
                 </div>
                 <div class="a-section a-spacing-small">
@@ -321,12 +382,12 @@
                       class="a-spacing-small a-button-primary a-button-icon"
                     >
                       <span class="a-button-inner">
-                        <i class="a-icon a-icon-cart"></i>
+                        <i class="a-icon a-icon-cart" />
                         <input
                           type="submit"
                           name="submit.add-to-card"
                           class="a-button-input"
-                        />
+                        >
                         <span class="a-button-text">Add to Cart</span>
                       </span>
                     </span>
@@ -337,12 +398,12 @@
                       class="a-spacing-small a-button-primary a-button-icon"
                     >
                       <span class="a-button-inner">
-                        <i class="a-icon a-icon-buynow"></i>
+                        <i class="a-icon a-icon-buynow" />
                         <input
                           type="submit"
                           name="submit.add-to-card"
                           class="a-button-input"
-                        />
+                        >
                         <span class="a-button-text">Buy Now</span>
                       </span>
                     </nuxt-link>
@@ -362,30 +423,28 @@
                   </div>
                 </div>
 
-                <hr />
+                <hr>
 
                 <span class="a-declarative">
                   <a href="#" class="a-link-normal">
                     <div class="a-row a-spacing-mini">
-                      <i class="fal fa-map-marked-alt"></i>
+                      <i class="fal fa-map-marked-alt" />
                       <span class="a-size-small">Deliver to India</span>
                     </div>
                   </a>
                 </span>
-                <br />
-                <hr />
+                <br>
+                <hr>
                 <div class="a-section">
                   <div class="clearfix">
                     <div class="float-left">
                       <form>
-                        <input type="radio" id="test2" name="radio-group" />
+                        <input id="test2" type="radio" name="radio-group">
                         <label for="test1">Buy Now</label>
                       </form>
                     </div>
                     <div class="flow-right">
-                      <span class="a-color-base offer-price a-text-normal"
-                        >${{ product.price }}</span
-                      >
+                      <span class="a-color-base offer-price a-text-normal">${{ product.price }}</span>
                     </div>
                   </div>
                 </div>
@@ -393,13 +452,13 @@
             </div>
 
             <div class="kcpAppBasebox text-center">
-              <b-img src="/img/readyondevice.png" fluid></b-img>
+              <b-img src="/img/readyondevice.png" fluid />
             </div>
           </b-col>
         </div>
 
-        <br />
-        <hr />
+        <br>
+        <hr>
         <div class="books-entity-tease">
           <div class="bucket">
             <h2>More about the author</h2>
@@ -410,12 +469,12 @@
                   <div class="authorContent">
                     <div class="authorImageSingle">
                       <a href="#">
-                        <b-img fluid :src="product.owner.photo"></b-img>
+                        <b-img fluid :src="product.owner.photo" />
                       </a>
                     </div>
                     <div class="authorFollow">
                       <button class="followButton" type="button">
-                        <span class="pr-fb-icon"></span>
+                        <span class="pr-fb-icon" />
                         <span class="pr-fb-text">Follow</span>
                       </button>
                     </div>
@@ -425,7 +484,9 @@
                 <b-col cols="8" sm="8" md="10" class="pl-0">
                   <div class="mainContent">
                     <h3>Biography</h3>
-                    <div id="authorBio">{{ product.owner.about }}</div>
+                    <div id="authorBio">
+                      {{ product.owner.about }}
+                    </div>
                   </div>
                 </b-col>
               </div>
@@ -433,58 +494,11 @@
           </div>
         </div>
 
-        <review-section :product="product" :reviews="reviews"></review-section>
+        <ReviewSection :product="product" :reviews="reviews" />
       </div>
     </div>
   </main>
 </template>
 
-<script setup>
-import { useAsyncData } from '#app'
-// import { useStore } from 'vuex'
-import ReviewSection from '~/components/ReviewSection'
-import { useCartStore } from '~/stores/useCartStore'
-
-const store = useCartStore()
-const route = useRoute()
-
-// Define auth
-definePageMeta({
-  auth: false,
-  transition: (to, from) => {
-    if (!from) return "slide-left"
-    return "slide-right"
-  }
-})
-
-// Fetch data
-const { data: productData } = await useAsyncData('product', () => 
-  $fetch(`/api/products/${route.params.id}`)
-)
-
-const { data: reviewsData } = await useAsyncData('reviews', () =>
-  $fetch(`/api/reviews/${route.params.id}`)
-)
-
-const product = computed(() => productData.value?.product)
-const reviews = computed(() => reviewsData.value?.reviews)
-
-// Page meta
-useHead(() => ({
-  title: product.value?.title.replace(/\w\S*/g, (w) =>
-    w.replace(/^\w/, (c) => c.toUpperCase())
-  )
-}))
-
-// Methods
-const addProductToCart = (product) => {
-//   store.dispatch('addProductToCart', product)
-    store.addProductToCart(product)
-}
-
-
-</script>
-
 <style lang="scss" scoped>
 </style>
-

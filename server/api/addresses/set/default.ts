@@ -1,7 +1,6 @@
-import { H3Event } from "h3"
-import { verifyUser } from "~~/server/api/auth/utils"
-import User from "~~/server/api/models/user"
-
+import type { H3Event } from 'h3'
+import { verifyUser } from '~~/server/api/auth/utils'
+import User from '~~/server/api/models/user'
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
@@ -14,7 +13,7 @@ export default defineEventHandler(async (event: H3Event) => {
     default:
       throw createError({
         statusCode: 405,
-        message: `Method ${method} Not Allowed`
+        message: `Method ${method} Not Allowed`,
       })
   }
 })
@@ -24,19 +23,19 @@ async function setDefaultAddress(event: H3Event) {
     const body = await readBody(event)
     const { auth } = await verifyUser(event)
 
-
     const updatedAddressUser = await User.findOneAndUpdate(
       { _id: auth._id },
-      { $set: { address: body.id } }
+      { $set: { address: body.id } },
     )
 
     if (updatedAddressUser) {
-      return { success: true, message: "Default Address has been set successfully" }
+      return { success: true, message: 'Default Address has been set successfully' }
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }

@@ -1,20 +1,20 @@
-import { ref, computed } from 'vue'
 import type { Product } from '~/types'
-
+import { computed, ref } from 'vue'
 
 export const useCartStore = defineStore('cart', () => {
   const cart = ref<Partial<Product>[]>([])
   const cartLength = ref(0)
   const shippingPrice = ref(0)
-  const shippingEstimatedDelivery = ref("")
+  const shippingEstimatedDelivery = ref('')
   const authenticated = ref<boolean | null>(null)
 
   function addProductToCart(product: Partial<Product>) {
     const cartProduct = cart.value.find((prod: Partial<Product>) => prod._id === product._id)
-    
+
     if (!cartProduct) {
       pushProductToCart(product)
-    } else {
+    }
+    else {
       incrementProductQty(cartProduct)
     }
 
@@ -28,7 +28,7 @@ export const useCartStore = defineStore('cart', () => {
 
   function incrementProductQty(product: Partial<Product>) {
     (product.quantity as number)++
-    let indexOfProduct = cart.value.indexOf(product)
+    const indexOfProduct = cart.value.indexOf(product)
     cart.value.splice(indexOfProduct, 1, product)
   }
 
@@ -40,7 +40,7 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   function changeQty(product: Partial<Product>, qty: number) {
-    let cartProduct = cart.value.find(prod => prod._id === product._id)
+    const cartProduct = cart.value.find(prod => prod._id === product._id)
     if (cartProduct) {
       cartProduct.quantity = qty
 
@@ -49,14 +49,14 @@ export const useCartStore = defineStore('cart', () => {
         cart.value.forEach(product => (cartLength.value += (product.quantity as number)))
       }
 
-      let indexOfProduct = cart.value.indexOf(cartProduct)
+      const indexOfProduct = cart.value.indexOf(cartProduct)
       cart.value.splice(indexOfProduct, 1, cartProduct)
     }
   }
 
   function removeProduct(product: Partial<Product>) {
     cartLength.value -= (product.quantity as number)
-    let indexOfProduct = cart.value.indexOf(product)
+    const indexOfProduct = cart.value.indexOf(product)
     cart.value.splice(indexOfProduct, 1)
   }
 
@@ -69,7 +69,7 @@ export const useCartStore = defineStore('cart', () => {
     cart.value = []
     cartLength.value = 0
     shippingPrice.value = 0
-    shippingEstimatedDelivery.value = ""
+    shippingEstimatedDelivery.value = ''
   }
 
   const getCartLength = computed(() => cartLength.value)
@@ -87,7 +87,6 @@ export const useCartStore = defineStore('cart', () => {
   })
 
   const getEstimatedDelivery = computed(() => shippingEstimatedDelivery.value)
-
 
   return {
     cart,

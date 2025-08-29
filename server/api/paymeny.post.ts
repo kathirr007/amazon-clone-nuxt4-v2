@@ -1,9 +1,9 @@
 // server/api/payment.post.ts
-import { defineEventHandler, readBody, createError } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import Stripe from 'stripe'
-import { User } from '~~/server/api/models/user'
-import { Order } from '~~/server/api/models/order'
 import { verifyUser } from '~~/server/api/auth/utils'
+import { Order } from '~~/server/api/models/order'
+import { User } from '~~/server/api/models/user'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 
@@ -14,11 +14,11 @@ interface CartItem {
 }
 
 export default defineEventHandler(async (event) => {
-  const {auth : user} = await verifyUser(event)
+  const { auth: user } = await verifyUser(event)
   if (!user) {
     throw createError({
       statusCode: 401,
-      message: 'Unauthorized'
+      message: 'Unauthorized',
     })
   }
 
@@ -36,31 +36,31 @@ export default defineEventHandler(async (event) => {
         line1: foundUser.address.streetAddress,
         city: foundUser.address.city,
         state: foundUser.address.state,
-        postal_code: foundUser.address.zipCode
-      }
+        postal_code: foundUser.address.zipCode,
+      },
     })
 
     const source = await stripe.customers.createSource(customer.id, {
-      source: 'tok_visa'
+      source: 'tok_visa',
     })
 
     await stripe.charges.create({
       amount: totalPrice,
       currency: 'inr',
-      // @ts-ignore
+      // @ts-expect-error no type
       customer: source.customer,
-      description: 'Software development services'
+      description: 'Software development services',
     })
 
     const order = new Order()
     const cart = body.cart as CartItem[]
 
-    cart.forEach(product => {
+    cart.forEach((product) => {
       order.products.push({
-        // @ts-ignore
+        // @ts-expect-error no type
         productID: product._id,
-        quantity: parseInt(product.quantity),
-        price: product.price
+        quantity: Number.parseInt(product.quantity),
+        price: product.price,
       })
     })
 
@@ -70,12 +70,13 @@ export default defineEventHandler(async (event) => {
 
     return {
       success: true,
-      message: 'Successfully made a payment'
+      message: 'Successfully made a payment',
     }
-  } catch (err:any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 })

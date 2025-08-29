@@ -1,6 +1,6 @@
 // server/api/owners/[id].ts
 
-import { H3Event } from 'h3'
+import type { H3Event } from 'h3'
 import Owner from '~~/server/api/models/owner'
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -10,36 +10,37 @@ export default defineEventHandler(async (event: H3Event) => {
     case 'GET':
       return await getSingleOwner(event)
     case 'PUT':
-      return await updateOwner(event) 
+      return await updateOwner(event)
     case 'DELETE':
       return await deleteOwner(event)
     default:
       throw createError({
         statusCode: 405,
-        message: 'Method not allowed'
+        message: 'Method not allowed',
       })
   }
 })
 
 // GET - Get single owner
-const getSingleOwner = async (event: H3Event) => {
+async function getSingleOwner(event: H3Event) {
   try {
     const id = getRouterParam(event, 'id')
     const owner = await Owner.findOne({ _id: id })
     return {
       success: true,
-      owner
+      owner,
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }
 
 // PUT - Update owner
-const updateOwner = async (event: H3Event) => {
+async function updateOwner(event: H3Event) {
   try {
     const id = getRouterParam(event, 'id')
     const body = await readBody(event)
@@ -48,7 +49,7 @@ const updateOwner = async (event: H3Event) => {
 
     const updateQuery: any = {
       name: body.name,
-      about: body.about
+      about: body.about,
     }
 
     if (photoFile) {
@@ -58,37 +59,39 @@ const updateOwner = async (event: H3Event) => {
     const owner = await Owner.findOneAndUpdate(
       { _id: id },
       { $set: updateQuery },
-      { upsert: true }
+      { upsert: true },
     )
 
     return {
       success: true,
-      updatedOwner: owner
+      updatedOwner: owner,
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }
 
 // DELETE - Delete owner
-const deleteOwner = async (event: H3Event) => {
+async function deleteOwner(event: H3Event) {
   try {
     const id = getRouterParam(event, 'id')
     const deletedOwner = await Owner.findOneAndDelete({ _id: id })
-    
+
     if (deletedOwner) {
       return {
         status: true,
-        message: "Owner is successfully deleted..."
+        message: 'Owner is successfully deleted...',
       }
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     throw createError({
       statusCode: 500,
-      message: err.message
+      message: err.message,
     })
   }
 }

@@ -1,13 +1,13 @@
 <script setup>
 definePageMeta({
-    middleware: ['admin']
+  middleware: ['admin'],
 })
 </script>
 
 <template>
-    <h1>
-        Address home page
-    </h1>
+  <h1>
+    Address home page
+  </h1>
 </template>
 
 <style lang="scss" scoped>

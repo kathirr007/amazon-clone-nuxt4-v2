@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 export default defineNitroPlugin(async () => {
   // ? Used To Skip DB Connecting While Building
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
-    const MONGO_URI = process.env.DATABASEURI;
+    const MONGO_URI = process.env.DATABASEURI
 
     mongoose.set('strictQuery', false)
 
@@ -26,6 +26,7 @@ export default defineNitroPlugin(async () => {
         console.log('✅ Successfully connected to MongoDB')
       }
       catch (error) {
+        console.log('Mongodb connection error', error)
         attempts++
         console.error(`❌ MongoDB connection attempt ${attempts} failed:`)
 
@@ -46,7 +47,8 @@ export default defineNitroPlugin(async () => {
     //   await mongoose.disconnect();
     //   console.log("✅ MongoDB connection closed");
     // });
-  } else {
-    console.log('⚠️ Skipping MongoDB connection during build phase');
   }
-});
+  else {
+    console.log('⚠️ Skipping MongoDB connection during build phase')
+  }
+})

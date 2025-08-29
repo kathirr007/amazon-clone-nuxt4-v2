@@ -1,6 +1,6 @@
 // api/categories.ts
 
-import { H3Event } from 'h3'
+import type { H3Event } from 'h3'
 import Category from '~~/server/api/models/category'
 
 interface CategoryType {
@@ -14,20 +14,20 @@ export default defineEventHandler(async (event: H3Event) => {
     case 'GET':
       return await getAllCategories()
     case 'POST':
-      return await createCategory(event) 
+      return await createCategory(event)
     case 'DELETE':
       return await deletedCategoryById(event)
-      
+
     default:
       throw createError({
         statusCode: 405,
-        message: 'Method not allowed'
+        message: 'Method not allowed',
       })
   }
 })
 
 // Create category
-const createCategory = async (event: H3Event) => {
+async function createCategory(event: H3Event) {
   try {
     const body = await readBody<CategoryType>(event)
     const category = new Category()
@@ -38,49 +38,51 @@ const createCategory = async (event: H3Event) => {
     return {
       status: true,
       catAdded: newCategory,
-      message: 'Category is created Successfully...'
+      message: 'Category is created Successfully...',
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }
 
 // Get all categories
-const getAllCategories = async () => {
+async function getAllCategories() {
   try {
     const categories = await Category.find()
     return {
       success: true,
-      categories
+      categories,
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }
 
 // Delete category by ID
-const deletedCategoryById = async (event: H3Event) => {
+async function deletedCategoryById(event: H3Event) {
   try {
     const id = getRouterParam(event, 'id')
     const deletedCategory = await Category.findOneAndDelete({ _id: id })
-    
+
     if (deletedCategory) {
       return {
         status: true,
-        message: "Category is successfully deleted..."
+        message: 'Category is successfully deleted...',
       }
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }
-

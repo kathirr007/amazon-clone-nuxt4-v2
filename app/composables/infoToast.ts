@@ -13,13 +13,13 @@
 //     },
 //     makeToast(type, title, status) {
 //       let statusUpdate = ((status) => {
-//         if (status == 'update') {
+//         if (status === 'update') {
 //           return 'updated'
-//         } else if (status == 'delete') {
+//         } else if (status === 'delete') {
 //           return 'deleted'
-//         } else if (status == 'add') {
+//         } else if (status === 'add') {
 //           return 'added'
-//         } else if (status == 'setdefault') {
+//         } else if (status === 'setdefault') {
 //           return 'setted as default'
 //         }
 //       })
@@ -47,29 +47,33 @@
 //   }
 // }
 
+import type { OrchestratedToast } from 'bootstrap-vue-next'
+import { useToastController } from 'bootstrap-vue-next'
 import { h } from 'vue'
-import { useToastController, type OrchestratedToast } from 'bootstrap-vue-next'
 
 export function useToastNotification() {
   const toast = useToastController()
 
   const capitalize = (string: string): string => {
-    return string.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
+    return string.replace(/\w\S*/g, w => (w.replace(/^\w/, c => c.toUpperCase())))
   }
 
   const makeToast = (type: string, title: string, status: string): void => {
-    const statusUpdate = ((status: string): string => {
-      if (status == 'update') {
+    const statusUpdate = (status: string): string => {
+      if (status === 'update') {
         return 'updated'
-      } else if (status == 'delete') {
+      }
+      else if (status === 'delete') {
         return 'deleted'
-      } else if (status == 'add') {
+      }
+      else if (status === 'add') {
         return 'added'
-      } else if (status == 'setdefault') {
+      }
+      else if (status === 'setdefault') {
         return 'setted as default'
       }
       return ''
-    })
+    }
 
     const firstRef = ref<OrchestratedToast>({
       body: `${Math.random()}`,
@@ -83,7 +87,7 @@ export function useToastNotification() {
         `The ${capitalize(type)} `,
         h('strong', `${title}`),
         ` ${statusUpdate(status)} successfully... `,
-        h('b-spinner', { props: { type: 'grow', small: true } })
+        h('b-spinner', { props: { type: 'grow', small: true } }),
       ],
     )
 
@@ -95,11 +99,11 @@ export function useToastNotification() {
     }) */
     toast.create({
       body: firstRef.value.body,
-      slots: {default: () => vNodesMsg},
+      slots: { default: () => vNodesMsg },
     })
   }
 
   return {
-    makeToast
+    makeToast,
   }
 }

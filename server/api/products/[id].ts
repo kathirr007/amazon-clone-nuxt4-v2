@@ -1,7 +1,7 @@
 // server/api/products/[id].ts
 
-import { H3Event } from "h3"
-import {Product} from "~~/server/api/models/product"
+import type { H3Event } from 'h3'
+import { Product } from '~~/server/api/models/product'
 
 export default defineEventHandler(async (event: H3Event) => {
   const method = event.method
@@ -10,13 +10,13 @@ export default defineEventHandler(async (event: H3Event) => {
     case 'GET':
       return await getProduct(event)
     case 'PUT':
-      return await updateProduct(event) 
+      return await updateProduct(event)
     case 'DELETE':
       return await deleteProduct(event)
     default:
       throw createError({
         statusCode: 405,
-        message: 'Method not allowed'
+        message: 'Method not allowed',
       })
   }
 })
@@ -32,12 +32,13 @@ async function getProduct(event: H3Event) {
 
     return {
       success: true,
-      product
+      product,
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }
@@ -52,7 +53,7 @@ async function updateProduct(event: H3Event) {
     const prodImages = files?.map(file => ({
       location: file.filename,
       size: file.data.length,
-      originalname: file.filename
+      originalname: file.filename,
     })) || []
 
     const updateQuery: any = {
@@ -61,7 +62,7 @@ async function updateProduct(event: H3Event) {
       price: body.price,
       stockQuantity: body.stockQuantity,
       category: body.categoryID,
-      owner: body.ownerID
+      owner: body.ownerID,
     }
 
     if (files?.length) {
@@ -72,17 +73,18 @@ async function updateProduct(event: H3Event) {
     const product = await Product.findOneAndUpdate(
       { _id: id },
       { $set: updateQuery },
-      { upsert: true }
+      { upsert: true },
     )
 
     return {
       success: true,
-      updatedProduct: product
+      updatedProduct: product,
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }
@@ -96,13 +98,14 @@ async function deleteProduct(event: H3Event) {
     if (deletedProduct) {
       return {
         status: true,
-        message: "Product is successfully deleted..."
+        message: 'Product is successfully deleted...',
       }
     }
-  } catch (err) {
+  }
+  catch (err) {
     throw createError({
       statusCode: 500,
-      message: err instanceof Error ? err.message : 'Internal Server Error'
+      message: err instanceof Error ? err.message : 'Internal Server Error',
     })
   }
 }
