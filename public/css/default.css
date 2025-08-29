@@ -2246,7 +2246,7 @@ a.kicsPopover span {
 }
 
 .pr-fb-icon {
-  background: url("../img/followIcons.png") -12px -3px;
+  /* background: url("../img/followIcons.png") -12px -3px; */
   width: 11px;
   height: 11px;
   position: relative;

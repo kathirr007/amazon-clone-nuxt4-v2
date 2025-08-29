@@ -98,7 +98,6 @@
                                 :border-width="5"
                                 :rating-size="16"
                                 :rating-value="product.averageRating"
-                                @rating-selected="logRating"
                                 @rating-hovered="event => (rating = event)" />
                             </div>
                           </b-col>

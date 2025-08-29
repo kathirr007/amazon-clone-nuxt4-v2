@@ -50,8 +50,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose-algolia": "^1.10.1",
     "mongoose-deep-populate": "^3.2.0",
-    "sass": "^1.90.0",
-    "sass-embedded": "^1.90.0",
+    "sass": "^1.91.0",
+    "sass-embedded": "^1.91.0",
     "vite-plugin-restart": "^1.0.0"
   }
 }
