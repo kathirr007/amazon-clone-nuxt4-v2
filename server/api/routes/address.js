@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { Router } from 'express'
-import verifyToken from '../middlewares/verify-token.js'
-import Address from '../models/address'
-import User from '../models/user'
+import verifyToken from '~~/server/api/middlewares/verify-token.js'
+import Address from '~~/server/api/models/address'
+import User from '~~/server/api/models/user'
 
 const router = Router()
 

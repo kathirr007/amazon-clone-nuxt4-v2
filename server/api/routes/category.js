@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import Category from '../models/category'
+import Category from '~~/server/api/models/category'
 
 const router = Router()
 

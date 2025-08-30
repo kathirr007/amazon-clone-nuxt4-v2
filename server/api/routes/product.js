@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { upload } from '../middlewares/upload-photo.js'
-import Product from '../models/product.ts'
+import { upload } from '~~/server/api/middlewares/upload-photo.js'
+import Product from '~~/server/api/models/product.ts'
 
 const router = Router()
 

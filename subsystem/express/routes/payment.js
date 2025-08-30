@@ -1,10 +1,10 @@
 import { add, format } from 'date-fns'
 import { Router } from 'express'
 import Stripe from 'stripe'
-import verifyToken from '../middlewares/verify-token.js'
-import Category from '../models/category.js'
-import Order from '../models/order.js'
-import User from '../models/user.js'
+import verifyToken from '~~/server/api/middlewares/verify-token.js'
+import Category from '~~/server/api/models/category.js'
+import Order from '~~/server/api/models/order.js'
+import User from '~~/server/api/models/user.js'
 
 const router = Router()
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY)

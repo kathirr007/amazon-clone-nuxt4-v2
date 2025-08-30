@@ -25,7 +25,7 @@ export default defineEventHandler(async (event: H3Event) => {
 // POST - Create a new product
 async function handleCreateProduct(event: H3Event) {
   try {
-    const body = await readBody(event)
+    /* const body = await readBody(event)
     const files = await readMultipartFormData(event)
 
     const prodImages = files?.map(file => ({
@@ -43,6 +43,40 @@ async function handleCreateProduct(event: H3Event) {
       stockQuantity: body.stockQuantity,
       photo: files?.length ? files[0].filename : '',
       prodImages: files?.length ? prodImages : [],
+    }) */
+
+    const formData = await readMultipartFormData(event)
+    if (!formData) {
+      throw createError({ statusCode: 400, statusMessage: 'No form data received' })
+    }
+
+    const prodImages: any[] = []
+    const payloadData: Record<string, any> = {}
+
+    for (const field of formData) {
+      if (field.filename) {
+        const uploaded = await uploadToS3(field.data, field.filename, field.type || 'application/octet-stream')
+        prodImages.push(uploaded)
+      }
+      else {
+        payloadData[field.name!] = field.data.toString()
+      }
+    }
+
+    if (prodImages.length > 0) {
+      payloadData.photo = prodImages[0].location
+      payloadData.prodImages = prodImages
+    }
+
+    const product = new Product({
+      owner: payloadData.ownerID,
+      category: payloadData.categoryID,
+      price: payloadData.price,
+      title: payloadData.title,
+      description: payloadData.description,
+      stockQuantity: payloadData.stockQuantity,
+      photo: prodImages?.length ? prodImages[0].filename : '',
+      prodImages: prodImages?.length ? prodImages : [],
     })
 
     await product.save()
@@ -50,7 +84,7 @@ async function handleCreateProduct(event: H3Event) {
     return {
       status: true,
       message: 'Product is Successfully saved..',
-      prodImages,
+      product,
     }
   }
   catch (err) {

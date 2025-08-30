@@ -141,40 +141,6 @@ function addProductToCart(product) {
                 (Author)
               </div>
               <div class="reviewGroup border-bottom pb-2">
-                <!-- <client-only>
-                  <star-rating
-                    :increment="0.5"
-                    :rating="product.averageRating"
-                    :show-rating="false"
-                    :glow="1"
-                    :border-width="1"
-                    :rounded-corners="true"
-                    :read-only="true"
-                    :star-size="18"
-                    :star-points="[
-                      23,
-                      2,
-                      14,
-                      17,
-                      0,
-                      19,
-                      10,
-                      34,
-                      7,
-                      50,
-                      23,
-                      43,
-                      38,
-                      50,
-                      36,
-                      34,
-                      46,
-                      19,
-                      31,
-                      17,
-                    ]"
-                  ></star-rating>
-                </client-only> -->
                 <NuxtRating
                   border-color="#db8403"
                   active-color="#ffa41c"

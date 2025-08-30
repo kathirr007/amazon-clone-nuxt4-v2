@@ -47,8 +47,8 @@
 //   }
 // }
 
-import type { OrchestratedToast } from 'bootstrap-vue-next'
-import { useToastController } from 'bootstrap-vue-next'
+import type { BaseColorVariant, OrchestratedToast } from 'bootstrap-vue-next'
+import { BButton, BSpinner, useToastController } from 'bootstrap-vue-next'
 import { h } from 'vue'
 
 export function useToastNotification() {
@@ -58,7 +58,7 @@ export function useToastNotification() {
     return string.replace(/\w\S*/g, w => (w.replace(/^\w/, c => c.toUpperCase())))
   }
 
-  const makeToast = (type: string, title: string, status: string): void => {
+  const makeToast = ({ type, title, status, variant = 'success' }: { type: string, title: string, status: string, variant: keyof BaseColorVariant }): void => {
     const statusUpdate = (status: string): string => {
       if (status === 'update') {
         return 'updated'
@@ -83,11 +83,22 @@ export function useToastNotification() {
       'p',
       { class: ['text-center', 'mb-2'] },
       [
-        h('b-spinner', { props: { type: 'grow', small: true } }),
+        // h('b-spinner', { props: { type: 'grow', small: true } }),
+        h(BSpinner, {
+          small: true,
+          type: 'grow',
+          class: ['me-2 d-inline-block'],
+
+        }),
         `The ${capitalize(type)} `,
         h('strong', `${title}`),
         ` ${statusUpdate(status)} successfully... `,
-        h('b-spinner', { props: { type: 'grow', small: true } }),
+        // h('b-spinner', { props: { type: 'grow', small: true } }),
+        h(BSpinner, {
+          small: true,
+          type: 'grow',
+          class: ['ms-2 d-inline-block'],
+        }),
       ],
     )
 
@@ -99,7 +110,13 @@ export function useToastNotification() {
     }) */
     toast.create({
       body: firstRef.value.body,
-      slots: { default: () => vNodesMsg },
+      slots: {
+        default: () => vNodesMsg,
+      },
+      variant,
+      progressProps: {
+        variant,
+      },
     })
   }
 

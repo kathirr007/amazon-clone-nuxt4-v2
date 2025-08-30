@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { upload } from '../middlewares/upload-photo.js'
-import verifyToken from '../middlewares/verify-token.js'
-import Product from '../models/product.js'
-import Review from '../models/review.js'
+import { upload } from '~~/server/api/middlewares/upload-photo.js'
+import verifyToken from '~~/server/api/middlewares/verify-token.js'
+import Product from '~~/server/api/models/product.js'
+import Review from '~~/server/api/models/review.js'
 
 const router = Router()
 

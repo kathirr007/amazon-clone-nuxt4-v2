@@ -1,101 +1,3 @@
-<!-- <script>
-// import { Carousel, Slide } from 'vue-carousel';
-import { mapGetters } from 'vuex'
-import deleteConfirmationMixin from '~/mixins/deleteConfirmation'
-import infoToastMixin from '~/mixins/infoToast'
-
-export default {
-  components: {
-    Carousel: () =>
-      process.browser ? import('vue-carousel').then(m => m.Carousel) : null,
-    Slide: () =>
-      process.browser ? import('vue-carousel').then(m => m.Slide) : null,
-  },
-  mixins: [infoToastMixin, deleteConfirmationMixin],
-  layout: 'admin',
-  // middleware: "loggedIn",
-  // asyncData is fetching data before nuxt page finished loading on the browser
-  // It is good for SEO because the data will be loaded first
-  async asyncData({ $axios }) {
-    // debugger
-    try {
-      let response = await $axios.$get('/api/products')
-      // console.log(response.products)
-      return {
-        products: response.products,
-      }
-    }
-    catch (err) {}
-  },
-  data() {
-    return {
-      slide: 0,
-      carouselOptions: {
-        loop: true,
-        perPage: 1,
-        // paginationEnabled: false,
-        autoplay: false,
-        paginationColor: '#ffb300',
-        // autoplayHoverPause: true
-      },
-    }
-  },
-  head: {
-    title: 'Home | Admin',
-  },
-  computed: {
-    ...mapGetters(['authUser']),
-  },
-  methods: {
-    async onDeleteProduct(id, index, title) {
-      try {
-        // let productTitle = this.products[index].title
-        // debugger
-        let response = await this.$axios.$delete(`/api/products/${id}`)
-        // console.log(response.products)
-        this.makeToast('product', title, 'delete')
-        if (response.status) {
-          this.products.splice(index, 1)
-        }
-      }
-      catch (err) {
-        console.log(err)
-      }
-    },
-    isAdmin(e, path) {
-      console.log(e)
-      const isAdmin = this.authUser.admin
-      const h = this.$createElement
-      const vNodesMsg = h('p', { class: ['text-center', 'mb-0'] }, [
-        h('b-spinner', { props: { type: 'grow', small: true } }),
-        ' Hi ',
-        h('strong', `${this.authUser.name}, `),
-        ` you need to be Admin to do this Action `,
-        h('strong', `${e.target.textContent} `),
-        h('b-spinner', { props: { type: 'grow', small: true } }),
-      ])
-      if (!isAdmin) {
-        this.$bvToast.toast([vNodesMsg], {
-          title: `Authorization Error`,
-          variant: 'danger',
-          solid: true,
-          // autoHideDelay: 15000,
-        })
-      }
-      else {
-        this.$router.push(path)
-      }
-    },
-  },
-  transition(to, from) {
-    if (!from) {
-      return 'slide-left'
-    }
-    return 'slide-right'
-  },
-}
-</script> -->
-
 <script setup>
 /* import { definePageMeta, useNuxtApp, useRouter, useStore } from 'nuxt/app'
 import { computed, createElement, onMounted, reactive, ref } from 'vue'
@@ -124,6 +26,7 @@ const carouselConfig = {
 const store = useStore() */
 
 const { confirmDeletion } = useConfirmDeletion()
+const { makeToast } = useToastNotification()
 
 // const products = ref([])
 /* const slide = ref(0)
@@ -146,49 +49,25 @@ const carouselOptions = reactive({
   }
 }) */
 
-const { data: products } = await useFetch('/api/products', {
-  transform: response => response.products,
-  onResponseError: (error) => {
+const { data: products, refresh: refreshProducts } = await useAsyncData('products', () =>
+  $fetch('/api/products').then(response => response.products), {
+  onError: (error) => {
     console.error('Error fetching products:', error)
   },
 })
 
-/* async function onDeleteProduct(id, index, title) {
+async function onDeleteProduct(id, index, title) {
   try {
-    const response = await $axios.$delete(`/api/products/${id}`)
-    makeToast('product', title, 'delete')
-    if (response.status) {
-      products.value.splice(index, 1)
+    const response = await $fetch(`/api/products/${id}`, { method: 'DELETE' })
+    makeToast({ type: 'product', title, status: 'delete', variant: 'danger' })
+    if (response.success) {
+      refreshProducts()
     }
   }
   catch (err) {
     console.log(err)
   }
 }
-
-function isAdmin(e, path) {
-  console.log(e)
-  const isAdmin = authUser.value.admin
-  const vNodesMsg = createElement('p', { class: ['text-center', 'mb-0'] }, [
-    createElement('b-spinner', { props: { type: 'grow', small: true } }),
-    ' Hi ',
-    createElement('strong', `${authUser.value.name}, `),
-    ' you need to be Admin to do this Action ',
-    createElement('strong', `${e.target.textContent} `),
-    createElement('b-spinner', { props: { type: 'grow', small: true } }),
-  ])
-
-  if (!isAdmin) {
-    useBvToast().toast([vNodesMsg], {
-      title: 'Authorization Error',
-      variant: 'danger',
-      solid: true,
-    })
-  }
-  else {
-    router.push(path)
-  }
-} */
 
 definePageMeta({
   layout: 'admin',
@@ -214,7 +93,7 @@ definePageMeta({
             <nuxt-link to="/" class="a-button-buy-again">
               Back to Client Home
             </nuxt-link>
-            <nuxt-link to="/admin/products" class="a-button-buy-again">
+            <nuxt-link to="/admin/products/add" class="a-button-buy-again">
               Add a new product
             </nuxt-link>
             <nuxt-link to="/admin/category" class="a-button-buy-again">
@@ -307,6 +186,7 @@ definePageMeta({
             </b-card> -->
             <b-card
               v-for="(product, index) in products"
+              :id="product._id"
               :key="product._id"
               tag="article"
               class="mb-2 history-box p-2"
@@ -340,7 +220,15 @@ definePageMeta({
                 {{ product.title }}
               </h3>
               <b-card-text>
-                {{ product.description }}
+                <client-only>
+                  <Vue3TextClamp :text="product.description" :max-lines="3">
+                    <template #after="{ toggle, expanded, clamped }">
+                      <BLink v-if="expanded || clamped" class="d-inline-block ps-2" @click="toggle">
+                        {{ expanded ? "Show Less" : "Show More" }}
+                      </BLink>
+                    </template>
+                  </Vue3TextClamp>
+                </client-only>
               </b-card-text>
               <b-card-text>
                 <a href="" aria-label="Product Rating" />
@@ -358,7 +246,7 @@ definePageMeta({
 
               <div class="d-flex justify-content-end gap-2">
                 <nuxt-link
-                  :to="`admin/products/${product._id}`"
+                  :to="`/admin/products/${product._id}`"
                   variant="primary"
                   class="btn btn-primary"
                 >
@@ -367,7 +255,7 @@ definePageMeta({
                 <b-button
                   variant="dark"
                   @click.prevent="
-                    confirmDeletion(product._id, index, product.title, $event)
+                    confirmDeletion({ id: product._id, index, title: product.title, e: $event, deleteCallback: onDeleteProduct })
                   "
                 >
                   Delete

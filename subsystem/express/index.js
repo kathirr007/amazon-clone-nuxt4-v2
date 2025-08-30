@@ -2,7 +2,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
-// import User from '../models/user.js';
+// import User from '~~/server/api/models/user.js';
 import { fromNodeMiddleware } from 'h3'
 import mongoose from 'mongoose'
 import morgan from 'morgan'

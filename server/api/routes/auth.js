@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import jwt from 'jsonwebtoken'
-import verifyToken from '../middlewares/verify-token.js'
-import User from '../models/user'
+import verifyToken from '~~/server/api/middlewares/verify-token.js'
+import User from '~~/server/api/models/user'
 
 const router = Router()
 
