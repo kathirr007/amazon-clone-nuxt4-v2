@@ -1,3 +1,4 @@
+import type { IUser } from '~~/server/api/models/user'
 import { useRouter } from '#app'
 import { useModalController, useToastController } from 'bootstrap-vue-next'
 import { h } from 'vue'
@@ -8,14 +9,13 @@ export function useConfirmDeletion() {
   const router = useRouter()
 
   // Replace with your store or useState
-  const isAuthenticated = useState<boolean>('isAuthenticated')
-  const authUser = useState<any>('authUser')
+  // const isAuthenticated = useState<boolean>('isAuthenticated')
+  const { user } = useUserSession()
 
   async function confirmDeletion(id: string | number, index: number, title: string, e: Event | null = null) {
-    const user = authUser.value
-    const isAdmin = user?.admin ?? false
-
-    if (!isAuthenticated.value) {
+    // const user = authUser.value
+    const isAdmin = (user.value as unknown as IUser).admin ?? false
+    if (!user.value) {
       toast.create({
         title: 'Authentication Error',
         variant: 'warning',
@@ -45,7 +45,7 @@ export function useConfirmDeletion() {
             h('p', { class: ['text-center', 'mb-0'] }, [
               h('b-spinner', { type: 'grow', small: true }),
               ' Hi ',
-              h('strong', `${user?.name}, `),
+              h('strong', `${user.value?.name}, `),
               ` you need to be Admin to do this Action `,
               h('strong', (e?.target as HTMLElement)?.textContent ?? ''),
               h('b-spinner', { type: 'grow', small: true }),
