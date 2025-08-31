@@ -162,9 +162,6 @@ async function onAddReview() {
 
               <div class="a-row a-spacing-top-medium d-flex flex-column gap-3">
                 <b-form-group label="Overall Rating:" label-for="reviewRating" class="" description="">
-                  <!-- <client-only>
-                    <star-rating v-model="rating" :increment="0.5" :star-size="25" :rounded-corners="true" :padding="1" />
-                  </client-only> -->
                   <div class="d-flex align-items-center gap-2">
                     <NuxtRating
                       :read-only="false"

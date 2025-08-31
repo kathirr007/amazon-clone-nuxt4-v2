@@ -1,7 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-// import StarRating from 'vue-star-rating'
-
 const route = useRoute()
 const products = ref([])
 
