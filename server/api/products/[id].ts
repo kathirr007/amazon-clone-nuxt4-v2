@@ -1,7 +1,6 @@
 // server/api/products/[id].ts
 
 import type { H3Event } from 'h3'
-import type { Buffer } from 'node:buffer'
 import { Product } from '~~/server/api/models/product'
 import { uploadToS3 } from '~~/server/utils/s3'
 
@@ -30,6 +29,7 @@ async function getProduct(event: H3Event) {
     const product = await Product.findOne({ _id: id })
       .populate('owner category')
       .populate('reviews', 'rating')
+      .lean({ virtuals: true })
       .exec()
 
     return {

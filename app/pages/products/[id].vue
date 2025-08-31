@@ -1,6 +1,4 @@
 <script setup>
-import { useAsyncData } from '#app'
-// import { useStore } from 'vuex'
 import ReviewSection from '~/components/ReviewSection'
 import { useCartStore } from '~/stores/useCartStore'
 
@@ -18,11 +16,14 @@ definePageMeta({
 })
 
 // Fetch data
-const { data: productData } = await useAsyncData('product', () =>
-  $fetch(`/api/products/${route.params.id}`))
-
+const { data: productData } = await useAsyncData('product', () => {
+  return $fetch(`/api/products/${route.params.id}`)
+}, {
+  immediate: true,
+  server: true,
+})
 const { data: reviewsData } = await useAsyncData('reviews', () =>
-  $fetch(`/api/reviews/${route.params.id}`))
+  $fetch(`/api/reviews/${route.params.id}`), { immediate: true, server: true })
 
 const product = computed(() => productData.value?.product)
 const reviews = computed(() => reviewsData.value?.reviews)
@@ -42,14 +43,13 @@ function addProductToCart(product) {
 
 <template>
   <main>
-    <!-- Breadcrumbs -->
     <div class="container-fluid mt-2">
       <div class="wayfinding-breadcrumbs-container">
         <ul class="a-unordered-lista a-horizontal a-size-small">
           <li>
             <span class="a-list-item">
               <a href="#" class="a-link-normal a-color-tertiary">{{
-                product.category.type
+                product?.category.type
               }}</a>
             </span>
           </li>
@@ -59,7 +59,7 @@ function addProductToCart(product) {
           <li>
             <span class="a-list-item">
               <a href="#" class="a-link-normal a-color-tertiary">{{
-                product.title
+                product?.title
               }}</a>
             </span>
           </li>
@@ -75,7 +75,7 @@ function addProductToCart(product) {
               <!-- Image -->
               <div class="imgBlock">
                 <div class="eBooksimg">
-                  <b-img fluid :src="product.photo" />
+                  <b-img fluid :src="product?.photo" />
                 </div>
               </div>
 
@@ -91,7 +91,7 @@ function addProductToCart(product) {
                     <b-col cols="3" sm="3" md="3" lg="3" xl="3">
                       <div class="smallAuthorImageContainer">
                         <a href="#">
-                          <b-img fluid :src="product.owner.photo" />
+                          <b-img fluid :src="product?.owner.photo" />
                         </a>
                       </div>
                     </b-col>
@@ -124,7 +124,7 @@ function addProductToCart(product) {
               <!-- Product Title -->
               <div class="titleDiv">
                 <h1 class="productTitle">
-                  <span class="largeTitle">{{ product.title }}</span>
+                  <span class="largeTitle">{{ product?.title }}</span>
                   <!-- <span class="smallTitle">Product title small</span> -->
                 </h1>
               </div>
@@ -460,7 +460,7 @@ function addProductToCart(product) {
           </div>
         </div>
 
-        <ReviewSection :product="product" :reviews="reviews" />
+        <ReviewSection v-if="product && reviews" :product="product" :reviews="reviews" />
       </div>
     </div>
   </main>

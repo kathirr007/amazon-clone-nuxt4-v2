@@ -1,12 +1,14 @@
-<script>
-// import StarRating from 'vue-star-rating'
-
-export default {
-  components: {
-    // StarRating
+<script setup>
+defineProps({
+  product: {
+    type: Object,
+    required: true,
   },
-  props: ['product', 'reviews'],
-}
+  reviews: {
+    type: Array,
+    required: true,
+  },
+})
 </script>
 
 <template>
@@ -23,29 +25,22 @@ export default {
             </h2>
           </a>
           <div class="cr-widget-ACR">
-            <!-- <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i> -->
             <span>
               <a href="#">
-                <client-only>
-                  <star-rating
-                    :inline="true"
-                    :increment="0.5"
-                    :rating="product.averageRating"
-                    :show-rating="false"
-                    :glow="1"
-                    :border-width="1"
-                    :rounded-corners="true"
+                <div class="d-flex align-items-center gap-2">
+                  <NuxtRating
                     :read-only="true"
-                    :star-size="18"
-                    :star-points="[23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46, 19, 31, 17]"
+                    border-color="#db8403"
+                    active-color="#ffa41c"
+                    inactive-color="#fff"
+                    :rating-step="0.5"
+                    :rounded-corners="true"
+                    :border-width="5"
+                    :rating-size="14"
+                    :rating-value="product.averageRating"
                   />
-                </client-only>
-                {{ product.averageRating }} out of 5 stars
-                <i class="a-icon a-icon-popover" />
+                  <span>{{ product.averageRating }} out of 5 stars</span>
+                </div>
               </a>
             </span>
           </div>
@@ -53,7 +48,7 @@ export default {
             <div class="row a-histogrm-row">
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap">
-                  <a href="#">
+                  <a href="#" class="d-flex align-items-center gap-2 text-decoration-none">
                     5
                     <i class="fas fa-star" />
                   </a>
@@ -62,7 +57,7 @@ export default {
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
-                  <a href="#">
+                  <a href="#" aria-label="5 star reviews">
                     <div class="a-meter 5star">
                       <div class="a-meter-bar a-meter-filled" style="width: 64%;" />
                     </div>
@@ -79,7 +74,7 @@ export default {
             <div class="row a-histogrm-row" style="margin-top: -15px;">
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap">
-                  <a href="#">
+                  <a href="#" class="d-flex align-items-center gap-2 text-decoration-none">
                     4
                     <i class="fas fa-star" />
                   </a>
@@ -88,7 +83,7 @@ export default {
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
-                  <a href="#">
+                  <a href="#" aria-label="4 star reviews">
                     <div class="a-meter 5star">
                       <div class="a-meter-bar a-meter-filled" style="width: 14%;" />
                     </div>
@@ -105,7 +100,7 @@ export default {
             <div class="row a-histogrm-row" style="margin-top: -15px;">
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap">
-                  <a href="#">
+                  <a href="#" class="d-flex align-items-center gap-2 text-decoration-none">
                     3
                     <i class="fas fa-star" />
                   </a>
@@ -114,7 +109,7 @@ export default {
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
-                  <a href="#">
+                  <a href="#" aria-label="3 star reviews">
                     <div class="a-meter 5star">
                       <div class="a-meter-bar a-meter-filled" style="width: 4%;" />
                     </div>
@@ -131,7 +126,7 @@ export default {
             <div class="row a-histogrm-row" style="margin-top: -15px;">
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap">
-                  <a href="#">
+                  <a href="#" class="d-flex align-items-center gap-2 text-decoration-none">
                     2
                     <i class="fas fa-star" />
                   </a>
@@ -140,7 +135,7 @@ export default {
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
-                  <a href="#">
+                  <a href="#" aria-label="2 star reviews">
                     <div class="a-meter 5star">
                       <div class="a-meter-bar a-meter-filled" style="width: 0%;" />
                     </div>
@@ -157,7 +152,7 @@ export default {
             <div class="row a-histogrm-row" style="margin-top: -15px;">
               <div class="col-md-2 col-sm-2 col-2 pr-0">
                 <div class="aok-nowrap">
-                  <a href="#">
+                  <a href="#" class="d-flex align-items-center gap-2 text-decoration-none">
                     1
                     <i class="fas fa-star" />
                   </a>
@@ -166,7 +161,7 @@ export default {
               </div>
               <div class="col-md-8 col-sm-8 col-8 pr-0">
                 <div>
-                  <a href="#">
+                  <a href="#" aria-label="1 star reviews">
                     <div class="a-meter 5star">
                       <div class="a-meter-bar a-meter-filled" style="width: 4%;" />
                     </div>
@@ -214,13 +209,15 @@ export default {
             <h3>Customer images</h3>
             <!-- Review Images -->
             <div class="a-spacing-small a-spacing-top-small">
-              <img
-                v-for="review in reviews"
-                :key="review._id"
-                class="img-fluid"
-                width="22.5%"
-                :src="review.photo"
-              >
+              <template v-for="review in reviews" :key="review._id">
+                <img
+                  v-if="Boolean(review.photo) && !review.photo.includes('undefined')"
+                  alt=""
+                  class="img-fluid"
+                  width="22.5%"
+                  :src="review.photo"
+                >
+              </template>
             </div>
             <div>
               <a href="#">See all customer images</a>
@@ -329,6 +326,7 @@ export default {
                   <a href="#">
                     <div class="profile-avatar">
                       <img
+                        alt=""
                         src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png"
                       >
                     </div>
@@ -338,27 +336,26 @@ export default {
                     </div>
                   </a>
                 </div>
-                <div class="a-row">
+                <div class="a-row d-flex justify-content-between">
                   <!-- Review Star -->
-                  <a href="#">
-                    <!-- <template v-if="review.rating"></template> -->
-                    <client-only>
-                      <star-rating
+                  <div class="d-flex align-items-center">
+                    <a href="#">
+                      <NuxtRating
                         :read-only="true"
-                        :inline="true"
-                        :show-rating="false"
-                        :rating="review.rating"
-                        :increment="0.5"
-                        :star-size="15"
+                        border-color="#db8403"
+                        active-color="#ffa41c"
+                        inactive-color="#fff"
+                        :rating-step="0.5"
                         :rounded-corners="true"
-                        :padding="1"
+                        :border-width="5"
+                        :rating-size="10"
+                        :rating-value="review.rating"
                       />
-                    </client-only>
-                    <!-- <i class="fas fa-star" v-for="i in review.rating" :key="i"></i> -->
-                  </a>
-                  <span class="a-letter-space" />
-                  <!-- Review Headline -->
-                  <a href="#" class="review-title">{{ review.headline }}</a>
+                    </a>
+                    <span class="a-letter-space" />
+                    <!-- Review Headline -->
+                    <a href="#" class="review-title">{{ review.headline }}</a>
+                  </div>
                   <span class="review-date float-right">June 28, 2016</span>
                 </div>
                 <div class="review-data mt-2">
@@ -409,11 +406,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style lang="scss">
-/* .vue-star-rating-inline {
-  .vue-star-rating-star {
-    margin-top: -5px;
-  }
-} */
-</style>
