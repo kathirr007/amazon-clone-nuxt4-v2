@@ -122,5 +122,6 @@ export function useToastNotification() {
 
   return {
     makeToast,
+    toast,
   }
 }

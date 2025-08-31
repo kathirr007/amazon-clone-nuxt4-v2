@@ -69,7 +69,7 @@ async function getAllCategories() {
 // Delete category by ID
 async function deletedCategoryById(event: H3Event) {
   try {
-    const id = getRouterParam(event, 'id')
+    const { id } = await readBody(event)
     const deletedCategory = await Category.findOneAndDelete({ _id: id })
 
     if (deletedCategory) {

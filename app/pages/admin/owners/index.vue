@@ -314,7 +314,7 @@ async function onDeleteOwner(id, index, title) {
                   Delete
                 </b-badge>
                 <nuxt-link
-                  class="badge text-bg-info float-right ms-2 text-dark text-decoration-none"
+                  class="badge text-bg-info float-right ms-2 text-white text-decoration-none"
                   :to="`/admin/owners/${owner._id}`"
                   variant="info"
                 >
