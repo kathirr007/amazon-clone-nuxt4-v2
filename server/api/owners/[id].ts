@@ -43,7 +43,14 @@ async function getSingleOwner(event: H3Event) {
 async function updateOwner(event: H3Event) {
   try {
     const id = getRouterParam(event, 'id')
-    const body = await readBody(event)
+    if (!id) {
+      throw createError({
+        statusCode: 400,
+        message: 'Owner id is required',
+      })
+    }
+
+    /* const body = await readBody(event)
     const formData = await readMultipartFormData(event)
     const photoFile = formData?.find(file => file.name === 'photo')
 
@@ -54,6 +61,33 @@ async function updateOwner(event: H3Event) {
 
     if (photoFile) {
       updateQuery.photo = photoFile.filename
+    } */
+
+    const formData = await readMultipartFormData(event)
+
+    if (!formData) {
+      throw createError({ statusCode: 400, statusMessage: 'No form data received' })
+    }
+
+    let photoFile: any
+    const updateQuery: Record<string, any> = {}
+
+    for (const field of formData) {
+      if (field.filename) {
+        const uploaded = await uploadToS3(field.data, field.filename, field.type || 'application/octet-stream')
+        photoFile = uploaded
+      }
+      else {
+        updateQuery[field.name!] = field.data.toString()
+      }
+    }
+
+    if (photoFile) {
+      updateQuery.photo = photoFile.location
+    }
+
+    if (!updateQuery.name) {
+      throw createError({ statusCode: 400, statusMessage: 'Name is required' })
     }
 
     const owner = await Owner.findOneAndUpdate(
@@ -79,11 +113,12 @@ async function updateOwner(event: H3Event) {
 async function deleteOwner(event: H3Event) {
   try {
     const id = getRouterParam(event, 'id')
+
     const deletedOwner = await Owner.findOneAndDelete({ _id: id })
 
     if (deletedOwner) {
       return {
-        status: true,
+        success: true,
         message: 'Owner is successfully deleted...',
       }
     }

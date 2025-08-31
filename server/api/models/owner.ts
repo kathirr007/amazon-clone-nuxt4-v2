@@ -16,4 +16,4 @@ const OwnerSchema = new Schema<IOwner>({
 const Owner = mongoose.model<IOwner>('Owner', OwnerSchema)
 
 export default Owner
-export { IOwner }
+export { IOwner, Owner, OwnerSchema }

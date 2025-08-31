@@ -23,20 +23,40 @@ export default defineEventHandler(async (event: H3Event) => {
 // POST - Create owner
 export async function createOwner(event: H3Event) {
   try {
-    const body = await readBody(event)
+    // const body = await readBody(event)
     const formData = await readMultipartFormData(event)
-    const photoFile = formData?.find(file => file.name === 'photo')
+
+    if (!formData) {
+      throw createError({ statusCode: 400, statusMessage: 'No form data received' })
+    }
+
+    let photoFile: any
+    const payloadData: Record<string, any> = {}
+
+    for (const field of formData) {
+      if (field.filename) {
+        const uploaded = await uploadToS3(field.data, field.filename, field.type || 'application/octet-stream')
+        photoFile = uploaded
+      }
+      else {
+        payloadData[field.name!] = field.data.toString()
+      }
+    }
+
+    if (!payloadData.name) {
+      throw createError({ statusCode: 400, statusMessage: 'Name is required' })
+    }
 
     const owner = new Owner({
-      name: body.name,
-      about: body.about,
-      photo: photoFile ? photoFile.filename : '',
+      name: payloadData.name,
+      about: payloadData.about,
+      photo: photoFile ? photoFile.location : '',
     })
 
     await owner.save()
 
     return {
-      status: true,
+      success: true,
       message: 'Owner is created Successfully...',
     }
   }

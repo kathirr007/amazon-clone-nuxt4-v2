@@ -1081,7 +1081,7 @@
     "@babel/helper-string-parser" "^7.27.1"
     "@babel/helper-validator-identifier" "^7.27.1"
 
-"@bootstrap-vue-next/nuxt@^0.30.4":
+"@bootstrap-vue-next/nuxt@^0.30.5":
   version "0.30.5"
   resolved "https://registry.yarnpkg.com/@bootstrap-vue-next/nuxt/-/nuxt-0.30.5.tgz#4fffe34b0431995df74e5b60f49767206cd17105"
   integrity sha512-57AOvmik51SpJ1yYKXIYow6ngHtQ5clgrFJLlzYBiYJNBXIR4tvQQCXpke7R84ezdN2R5vOR9zcWi4eEsvTerw==
@@ -4190,7 +4190,7 @@ boolbase@^1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
 
-bootstrap-vue-next@^0.30.4:
+bootstrap-vue-next@^0.30.5:
   version "0.30.5"
   resolved "https://registry.yarnpkg.com/bootstrap-vue-next/-/bootstrap-vue-next-0.30.5.tgz#5434d59f4343aa0860225cf74c57598e13e2c7f3"
   integrity sha512-0RVqejmEG9xJcaKajAlFV1EjSiSPJFJi4U9bhtg/wbqqM8Nf/ZzY5ftGrT1wvX7MjPWIlEt9EIzLLuSFZs8V8w==

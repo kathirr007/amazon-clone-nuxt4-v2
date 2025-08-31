@@ -66,6 +66,16 @@ async function onDeleteProduct(id, index, title) {
   }
   catch (err) {
     console.log(err)
+    const foundProduct = products.value.find(product => product._id === id)
+
+    toast.create({
+      title: 'Error Deleting Product',
+      body: err.data.message ? err.data.message : (err.message || `There was an error deleting the product ${foundProduct.name}. Please try again.`),
+      variant: 'danger',
+      progressProps: {
+        variant: 'danger',
+      },
+    })
   }
 }
 

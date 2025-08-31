@@ -61,9 +61,11 @@
 import { ref } from 'vue'
 
 export function useImageUpload() {
+  const selectedImage = ref<File>()
   const selectedImages = ref<File[]>([])
   const image = ref<string[]>([])
   const imagesInput = ref()
+  const toast = useToastController()
 
   const createImage = (files: File[]) => {
     files.forEach((file) => {
@@ -83,15 +85,22 @@ export function useImageUpload() {
   }
 
   const imagesAdd = (e: Event) => {
-    const files = (e.target as HTMLInputElement).files || (e as DragEvent).dataTransfer?.files
+    if (!e)
+      return
+    if (e instanceof File) {
+      selectedImages.value = [e]
+    }
+    else {
+      const files = (e.target as HTMLInputElement).files || (e as DragEvent).dataTransfer?.files
 
-    selectedImages.value = []
-    image.value = []
+      selectedImages.value = []
+      image.value = []
 
-    if (files) {
-      Array.from(files).forEach((file) => {
-        selectedImages.value.push(file)
-      })
+      if (files) {
+        Array.from(files).forEach((file) => {
+          selectedImages.value.push(file)
+        })
+      }
     }
 
     if (!selectedImages.value.length)
@@ -121,11 +130,38 @@ export function useImageUpload() {
     }
   }
 
+  const removeImageFromS3 = async (key: string) => {
+    try {
+      if (!key.includes('undefined')) {
+        await $fetch(`/api/s3/delete-file/${key}`, {
+          method: 'POST',
+        })
+      }
+      toast.create({
+        title: 'Existing owner image deleted',
+        body: 'Existing image deleted from server successfully.',
+        variant: 'success',
+        solid: true,
+      })
+    }
+    catch (error) {
+      toast.create({
+        title: 'Error deleting existing owner image',
+        body: 'Error deleting existing image from server. Please try again later.',
+        variant: 'danger',
+        solid: true,
+      })
+      throw error
+    }
+  }
+
   return {
     selectedImages,
     image,
     imagesInput,
     imagesAdd,
     removeImage,
+    removeImageFromS3,
+    selectedImage,
   }
 }
