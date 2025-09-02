@@ -92,7 +92,7 @@ watch(() => route.query.title, async () => {
                                 <a href="" class="a-link-normal a-text-normal">Hardcover</a>
                               </div>
                               <!-- Price -->
-                              <div>
+                              <div class="product-price-wrapper">
                                 <a href="#" class="a-link-normal a-text-normal">
                                   <span class="a-offscreen">${{ product.price }}</span>
                                   <span class="a-color-base sx-zero-spacing">
@@ -135,8 +135,6 @@ watch(() => route.query.title, async () => {
                                   :border-width="5"
                                   :rating-size="16"
                                   :rating-value="product.averageRating"
-                                  @rating-selected="logRating"
-                                  @rating-hovered="event => (rating = event)"
                                 />
                               </div>
                             </div>
@@ -177,6 +175,16 @@ watch(() => route.query.title, async () => {
   .prodImage {
     height: 200px;
     object-fit: contain;
+  }
+}
+.product-price-wrapper {
+  display: flex;
+  gap: 0.25rem;
+
+  .sx-price-large {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
   }
 }
 </style>
