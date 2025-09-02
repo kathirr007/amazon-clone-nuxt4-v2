@@ -20,7 +20,7 @@ defineProps({
           <!-- Total Customer reviews -->
           <a href="#" class="a-color-base">
             <h2>
-              {{ product.reviews.length }}
+              {{ product.reviews?.length }}
               customer reviews
             </h2>
           </a>
@@ -302,7 +302,7 @@ defineProps({
                 <h3>
                   <span class="a-size-base">
                     Showing 1-8 of
-                    {{ product.reviews.length }}
+                    {{ product.reviews?.length }}
                     reviews
                   </span>
                 </h3>

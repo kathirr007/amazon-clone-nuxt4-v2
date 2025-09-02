@@ -70,8 +70,8 @@ const { data: products } = await useAsyncData('products', () =>
                             <div>
                               <a href class="a-link-normal a-text-normal">Hardcover</a>
                             </div>
-                            <div>
-                              <a href="#" class="a-link-normal a-text-normal">
+                            <div class="product-price-wrapper">
+                              <a href="#" class="product-price a-link-normal a-text-normal">
                                 <span class="a-offscreen">${{ product.price }}</span>
                                 <span class="a-color-base sx-zero-spacing">
                                   <span class="sx-price sx-price-large">
@@ -129,6 +129,16 @@ const { data: products } = await useAsyncData('products', () =>
   .prodImage {
     height: 200px;
     object-fit: contain;
+  }
+}
+.product-price-wrapper {
+  display: flex;
+  gap: 0.25rem;
+
+  .product-price .sx-price-large {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
   }
 }
 </style>
