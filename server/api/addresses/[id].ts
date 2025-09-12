@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import { verifyUser } from '~~/server/api/auth/utils'
+import type { IUser } from '~~/server/api/models/user'
 import Address from '~~/server/api/models/address'
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -42,10 +42,10 @@ async function updateAddress(event: H3Event) {
     const id = event.context.params?.id
     const body = await readBody(event)
 
-    const { auth } = await verifyUser(event)
+    const { user: auth } = await requireUserSession(event) // Assuming auth middleware sets this
 
     const foundAddress = await Address.findOne({
-      user: auth._id,
+      user: (auth as IUser)._id,
       _id: id,
     })
 
@@ -86,10 +86,10 @@ async function updateAddress(event: H3Event) {
 async function deleteAddress(event: H3Event) {
   try {
     const id = event.context.params?.id
-    const { auth } = await verifyUser(event)
+    const { user: auth } = await requireUserSession(event)
 
     const deleteAddress = await Address.deleteOne({
-      user: auth._id,
+      user: (auth as IUser)._id,
       _id: id,
     })
 

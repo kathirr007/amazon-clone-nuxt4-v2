@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import { verifyUser } from '~~/server/api/auth/utils'
+import type { IUser } from '~~/server/api/models/user'
 import Address from '~~/server/api/models/address'
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -22,10 +22,10 @@ export default defineEventHandler(async (event: H3Event) => {
 async function createAddress(event: H3Event) {
   try {
     const body = await readBody(event)
-    const { auth } = await verifyUser(event)
+    const { user: auth } = await requireUserSession(event)
 
     const address = new Address({
-      user: auth._id,
+      user: (auth as IUser)._id,
       country: body.country,
       fullName: body.fullName,
       streetAddress: body.streetAddress,
@@ -52,9 +52,9 @@ async function createAddress(event: H3Event) {
 // Get all addresses
 async function getAllAddresses(event: H3Event) {
   try {
-    const { auth } = await verifyUser(event)
+    const { user } = await requireUserSession(event) // Assuming auth middleware sets this
 
-    const addresses = await Address.find({ user: auth._id })
+    const addresses = await Address.find({ user: (user as IUser)._id })
 
     return { success: true, addresses }
   }

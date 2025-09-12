@@ -5118,6 +5118,12 @@ fieldset {
   text-align: center;
   display: table-cell;
   vertical-align: middle;
+  transition: all 0.25s ease-in;
+}
+
+.a-box.first-desktop-address-tile:hover {
+  border-style: solid;
+  border-color: #0c0c0c;
 }
 
 .a-padding-extra-large {
@@ -5137,6 +5143,7 @@ fieldset {
   border-color: #c7c7c7;
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.16);
   border-style: solid;
+  position: relative;
 }
 
 .a-padding-none {

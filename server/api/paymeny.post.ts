@@ -1,7 +1,7 @@
+import type { IUser } from '~~/server/api/models/user'
 // server/api/payment.post.ts
 import { createError, defineEventHandler, readBody } from 'h3'
 import Stripe from 'stripe'
-import { verifyUser } from '~~/server/api/auth/utils'
 import { Order } from '~~/server/api/models/order'
 import { User } from '~~/server/api/models/user'
 
@@ -14,7 +14,8 @@ interface CartItem {
 }
 
 export default defineEventHandler(async (event) => {
-  const { auth: user } = await verifyUser(event)
+  const { user } = await requireUserSession(event) // Assuming auth middleware sets this
+
   if (!user) {
     throw createError({
       statusCode: 401,
@@ -25,12 +26,12 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const totalPrice = Math.round(body.totalPrice * 100)
 
-  const foundUser = await User.findOne({ _id: user._id }).populate('address') as any
+  const foundUser = await User.findOne({ _id: (user as IUser)._id }).populate('address') as any
 
   try {
     const customer = await stripe.customers.create({
-      email: user.email,
-      name: user.name,
+      email: (user as IUser).email,
+      name: (user as IUser).name,
       address: {
         country: foundUser.address.country,
         line1: foundUser.address.streetAddress,
@@ -64,7 +65,7 @@ export default defineEventHandler(async (event) => {
       })
     })
 
-    order.owner = user._id
+    order.owner = (user as IUser)._id
     order.estimatedDelivery = body.estimatedDelivery
     await order.save()
 

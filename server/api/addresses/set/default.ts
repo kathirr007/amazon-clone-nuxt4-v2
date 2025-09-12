@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import { verifyUser } from '~~/server/api/auth/utils'
+import type { IUser } from '~~/server/api/models/user'
 import User from '~~/server/api/models/user'
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -21,10 +21,10 @@ export default defineEventHandler(async (event: H3Event) => {
 async function setDefaultAddress(event: H3Event) {
   try {
     const body = await readBody(event)
-    const { auth } = await verifyUser(event)
+    const { user: auth } = await requireUserSession(event)
 
     const updatedAddressUser = await User.findOneAndUpdate(
-      { _id: auth._id },
+      { _id: (auth as IUser)._id },
       { $set: { address: body.id } },
     )
 

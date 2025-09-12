@@ -1,4 +1,9 @@
 <script setup>
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} | Amazon Clone - Nuxt V4` : 'Amazon Clone - Nuxt V4'
+  },
+})
 </script>
 
 <template>

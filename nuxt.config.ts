@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       // title: process.env.npm_package_name || "",
-      titleTemplate: 'Amazon Clone - Nuxt V4',
+      // titleTemplate: 'Amazon Clone - Nuxt V4',
       script: [{ src: 'https://js.stripe.com/v3' }],
       meta: [
         { charset: 'utf-8' },

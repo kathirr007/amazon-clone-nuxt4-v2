@@ -128,8 +128,6 @@ export default {
 </script> -->
 
 <script setup>
-import { deleteFromS3 } from '~~/server/utils/s3'
-
 const route = useRoute()
 const router = useRouter()
 

@@ -48,7 +48,7 @@
 // }
 
 import type { BaseColorVariant, OrchestratedToast } from 'bootstrap-vue-next'
-import { BButton, BSpinner, useToastController } from 'bootstrap-vue-next'
+import { BSpinner, useToastController } from 'bootstrap-vue-next'
 import { h } from 'vue'
 
 export function useToastNotification() {

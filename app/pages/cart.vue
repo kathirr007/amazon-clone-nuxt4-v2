@@ -1,10 +1,9 @@
 <script setup>
 import { storeToRefs } from 'pinia'
-import { useAuth } from '@/composables/useAuth'
 import { useCartStore } from '@/stores/useCartStore'
 
-const auth = useAuth()
 const cartStore = useCartStore()
+const auth = useUserSession()
 
 // Destructure store refs
 const { cart, cartLength, getCartTotalPrice } = storeToRefs(cartStore)
@@ -24,9 +23,8 @@ definePageMeta({
 
 // Page meta
 useHead({
-  title: computed(() =>
-    auth.user ? `${auth.user.name} | Shopping Cart` : 'Shopping Cart',
-  ),
+  title: auth.user.value ? `${auth.user.value.name} | Shopping Cart` : 'Shopping Cart',
+
 })
 
 // Methods
@@ -128,7 +126,7 @@ function checkQty(prodQty, qty) {
                               <a
                                 href="#"
                                 @click.prevent="
-                                  $store.commit('removeProduct', product)
+                                  cartStore.removeProduct(product)
                                 "
                               >Delete</a>
                             </span>
