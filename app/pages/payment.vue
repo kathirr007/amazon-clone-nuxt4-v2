@@ -1,61 +1,7 @@
-<!-- <script>
-import { mapGetters } from 'vuex'
-
-export default {
-  transition(to, from) {
-    if (!from) {
-      return 'slide-left'
-    }
-    return 'slide-right'
-  },
-  data() {
-    return {
-      error: '',
-      stripe: null,
-      card: null,
-    }
-  },
-  head() {
-    return {
-      title: `Make Payment`,
-    }
-  },
-  computed: {
-    ...mapGetters(['getCart', 'getCartTotalPriceWithShipping', 'getEstimatedDelivery']),
-  },
-  mounted() {
-    this.stripe = Stripe('pk_test_krAf3HsWv3GLs5EXlXXRpv1O00IWashr2l')
-    let elements = this.stripe.elements()
-    this.card = elements.create('card')
-    this.card.mount(this.$refs.card)
-  },
-  methods: {
-    async onPurchase() {
-      try {
-        let token = await this.stripe.createToken(this.card)
-
-        let response = await this.$axios.$post('/api/payment', {
-          token,
-          totalPrice: this.getCartTotalPriceWithShipping,
-          cart: this.getCart,
-          estimatedDelivery: this.estimatedDelivery,
-        })
-
-        if (response.success) {
-          this.$store.commit('clearCart')
-          this.$router.push('/')
-        }
-      }
-      catch (err) {
-        console.log(err)
-      }
-    },
-  },
-}
-</script> -->
-
 <script setup>
 import { useCartStore } from '~/stores/useCartStore'
+
+// const { stripe, isLoading, loadStripe } = useClientStripe()
 
 const router = useRouter()
 
@@ -65,7 +11,7 @@ const card = ref(null)
 const cardRef = ref(null)
 
 // Computed properties from store
-const { getCart, getCartTotalPriceWithShipping, getEstimatedDelivery } = storeToRefs(useCartStore)
+const { getCart, getCartTotalPriceWithShipping, getEstimatedDelivery } = storeToRefs(useCartStore())
 
 // Page transition
 definePageMeta({
@@ -81,7 +27,8 @@ useHead({
 
 onMounted(() => {
   stripe.value = Stripe('pk_test_krAf3HsWv3GLs5EXlXXRpv1O00IWashr2l')
-  debugger
+
+  // stripe.value = Stripe(`${config.public.STRIPE_PUBLIC_KEY}`)
   const elements = stripe.value.elements()
   card.value = elements.create('card')
   card.value.mount(cardRef.value)
@@ -162,7 +109,7 @@ async function onPurchase() {
               <div class="a-spacing-medium a-spacing-top-medium">
                 <div class="a-spacing-top-medium">
                   <!-- Stipe card -->
-                  <div ref="card" />
+                  <div ref="cardRef" />
                   <!-- Stipe card end -->
                 </div>
                 <div class="a-spacing-top-medium" />

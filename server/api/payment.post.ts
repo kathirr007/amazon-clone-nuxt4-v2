@@ -43,6 +43,7 @@ export default defineEventHandler(async (event) => {
 
     const source = await stripe.customers.createSource(customer.id, {
       source: 'tok_visa',
+
     })
 
     await stripe.charges.create({
@@ -51,6 +52,7 @@ export default defineEventHandler(async (event) => {
       // @ts-expect-error no type
       customer: source.customer,
       description: 'Software development services',
+
     })
 
     const order = new Order()

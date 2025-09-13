@@ -80,7 +80,6 @@ export default {
 </script> -->
 
 <script setup>
-import { computed, ref } from 'vue'
 import { useCartStore } from '@/stores/useCartStore'
 
 definePageMeta({
@@ -97,11 +96,9 @@ const addresses = ref([])
 const shippingPrice = ref(0)
 const estimatedDelivery = ref('')
 
-// Computed properties
-const authUser = computed(() => cartStore.authUser)
-const getCart = computed(() => cartStore.cart)
-const getCartTotalPrice = computed(() => cartStore.totalPrice)
-const getCartTotalPriceWithShipping = computed(() => cartStore.totalPriceWithShipping)
+const { user: authUser } = useUserSession()
+
+const { getCartTotalPrice, getCartTotalPriceWithShipping, getCart } = storeToRefs(cartStore)
 
 // Page title
 useHead({
@@ -133,19 +130,19 @@ if (addressData.value) {
 // Methods
 async function onChooseShipping(shipment) {
   try {
-    const { data } = await useFetch('/api/shipment', {
+    const data = await $fetch('/api/shipment', {
       method: 'POST',
       body: { shipment },
     })
 
-    if (data.value) {
+    if (data.success) {
       cartStore.setShipping({
-        price: data.value.shipment.price,
-        estimatedDelivery: data.value.shipment.estimated,
+        price: data.shipment.price,
+        estimatedDelivery: data.shipment.estimated,
       })
 
-      shippingPrice.value = data.value.shipment.price
-      estimatedDelivery.value = data.value.shipment.estimated
+      shippingPrice.value = data.shipment.price
+      estimatedDelivery.value = data.shipment.estimated
     }
   }
   catch (err) {

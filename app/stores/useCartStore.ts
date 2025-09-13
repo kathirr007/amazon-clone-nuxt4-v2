@@ -83,7 +83,7 @@ export const useCartStore = defineStore('cart', () => {
   })
 
   const getCartTotalPriceWithShipping = computed(() => {
-    return getCartTotalPrice.value + shippingPrice.value
+    return getCartTotalPrice.value + shippingPrice.value.price as number
   })
 
   const getEstimatedDelivery = computed(() => shippingEstimatedDelivery.value)

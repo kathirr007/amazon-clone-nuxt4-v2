@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     head: {
       // title: process.env.npm_package_name || "",
       // titleTemplate: 'Amazon Clone - Nuxt V4',
-      script: [{ src: 'https://js.stripe.com/v3' }],
+      script: [{ src: 'https://js.stripe.com/basil/stripe.js' }],
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -50,7 +50,17 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     'vue3-carousel-nuxt',
     'nuxt-rating',
+    '@unlok-co/nuxt-stripe',
   ],
+  stripe: {
+    client: {
+      key: process.env.STRIPE_PUBLIC_KEY,
+      manualClientLoad: true,
+    },
+    server: {
+      key: process.env.STRIPE_SECRET_KEY,
+    },
+  },
   /*
    ** Global CSS
    */
